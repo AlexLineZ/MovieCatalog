@@ -32,9 +32,15 @@ fun Navigation() {
         val router = LoginRouter(
             toLogin = { navController.navigate(Destinations.LOGIN_SCREEN) },
             toRegistration = { navController.navigate(Destinations.REGISTRATION_FIRST_SCREEN) },
-            toAuth = { navController.navigate(Destinations.SELECT_AUTH_SCREEN) },
+            toAuth = { navController.navigate(Destinations.SELECT_AUTH_SCREEN){
+                popUpTo(Destinations.SPLASH_SCREEN){ inclusive = true }
+            } },
             toPasswordRegistration = { navController.navigate(Destinations.REGISTRATION_SECOND_SCREEN) },
-            toMain = { navController.navigate(Destinations.MAIN_SCREEN) }
+            toMain = { navController.navigate(Destinations.MAIN_SCREEN){
+                popUpTo(Destinations.LOGIN_SCREEN){ inclusive = true }
+                popUpTo(Destinations.REGISTRATION_SECOND_SCREEN){ inclusive = true }
+            }
+            }
         )
 
         composable (Destinations.SPLASH_SCREEN){
