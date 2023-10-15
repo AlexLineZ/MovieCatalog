@@ -10,8 +10,10 @@ import com.example.moviecatalog.presentation.ui.screen.mainscreen.MainScreen
 import com.example.moviecatalog.presentation.ui.screen.registationfirstscreen.RegistrationFirstScreen
 import com.example.moviecatalog.presentation.ui.screen.registrationsecondscreen.RegistrationSecondScreen
 import com.example.moviecatalog.presentation.ui.screen.selectauthscreen.SelectAuthScreen
+import com.example.moviecatalog.presentation.ui.screen.splashscreen.SplashScreen
 
 object Destinations {
+    const val SPLASH_SCREEN = "splash"
     const val SELECT_AUTH_SCREEN = "both"
     const val REGISTRATION_FIRST_SCREEN = "registrationFirst"
     const val REGISTRATION_SECOND_SCREEN = "registrationSecond"
@@ -24,7 +26,7 @@ fun Navigation() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Destinations.SELECT_AUTH_SCREEN
+        startDestination = Destinations.SPLASH_SCREEN
     ) {
 
         val router = LoginRouter(
@@ -35,6 +37,9 @@ fun Navigation() {
             toMain = { navController.navigate(Destinations.MAIN_SCREEN) }
         )
 
+        composable (Destinations.SPLASH_SCREEN){
+            SplashScreen(router)
+        }
         composable(Destinations.SELECT_AUTH_SCREEN) {
             SelectAuthScreen(router)
         }
