@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.moviecatalog.presentation.ui.screen.LoginScreen
-import com.example.moviecatalog.presentation.ui.screen.RegistrationFirstScreen
-import com.example.moviecatalog.presentation.ui.screen.SelectAuthScreen
+import com.example.moviecatalog.presentation.ui.screen.loginscreen.LoginScreen
+import com.example.moviecatalog.presentation.ui.screen.registationfirstscreen.RegistrationFirstScreen
+import com.example.moviecatalog.presentation.ui.screen.selectauthscreen.SelectAuthScreen
 
 object Destinations {
     const val SELECT_AUTH_SCREEN = "both"
