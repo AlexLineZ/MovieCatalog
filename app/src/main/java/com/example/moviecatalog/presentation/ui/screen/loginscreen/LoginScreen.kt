@@ -42,12 +42,13 @@ import androidx.navigation.NavController
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.Descriptions
 import com.example.moviecatalog.presentation.navigation.Destinations
+import com.example.moviecatalog.presentation.router.LoginRouter
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(router: LoginRouter) {
     val focusManager = LocalFocusManager.current
     var isPasswordVisible by remember { mutableStateOf(false) }
 
@@ -83,7 +84,7 @@ fun LoginScreen(navController: NavController) {
                     .align(alignment = Alignment.CenterStart)
             ) {
                 IconButton(
-                    onClick = { navController.navigate("both") },
+                    onClick = { router.toAuth() },
                 ) {
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowLeft,
@@ -170,7 +171,7 @@ fun LoginScreen(navController: NavController) {
         }
 
         Button(
-            onClick = { },
+            onClick = { router.toMain() },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
@@ -203,7 +204,7 @@ fun LoginScreen(navController: NavController) {
             ClickableText(
                 onClick ={ offset ->
                     if (offset >= 16){
-                        navController.navigate(Destinations.REGISTRATION_FIRST_SCREEN)
+                        router.toRegistration()
                     }
                 },
                 text = highlightedText

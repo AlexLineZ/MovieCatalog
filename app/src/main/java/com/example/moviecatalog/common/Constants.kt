@@ -3,6 +3,7 @@ package com.example.moviecatalog.common
 object Constants {
     const val LOGO = "FИЛЬМУС"
     const val REGISTRATION = "Регистрация"
+    const val TO_REGISTER = "Зарегистрироваться"
     const val LOGIN = "Логин"
     const val PASSWORD = "Пароль"
     const val NAME = "Имя"

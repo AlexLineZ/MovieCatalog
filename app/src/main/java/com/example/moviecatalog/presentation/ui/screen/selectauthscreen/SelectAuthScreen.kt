@@ -26,11 +26,12 @@ import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.Descriptions
+import com.example.moviecatalog.presentation.router.LoginRouter
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
 
 @Composable
-fun SelectAuthScreen() {
+fun SelectAuthScreen(router: LoginRouter) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -88,7 +89,7 @@ fun SelectAuthScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Button(
-                    onClick = {  },
+                    onClick = { router.toRegistration() },
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -101,7 +102,7 @@ fun SelectAuthScreen() {
                 }
 
                 Button(
-                    onClick = {  },
+                    onClick = { router.toLogin() },
                     shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = SecondButtonColor,

@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -38,12 +39,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.Descriptions
+import com.example.moviecatalog.presentation.router.LoginRouter
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
 @Composable
-fun RegistrationSecondScreen() {
+fun RegistrationSecondScreen(router: LoginRouter) {
     val focusManager = LocalFocusManager.current
     var isPasswordVisible by remember { mutableStateOf(false) }
     var isConfirmPasswordVisible by remember { mutableStateOf(false) }
@@ -80,7 +82,7 @@ fun RegistrationSecondScreen() {
                     .align(alignment = Alignment.CenterStart)
             ) {
                 IconButton(
-                    onClick = {  },
+                    onClick = { router.toRegistration },
                 ) {
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowLeft,
@@ -180,6 +182,19 @@ fun RegistrationSecondScreen() {
             }
         }
 
+        Button(
+            onClick = { router.toMain() },
+            shape = RoundedCornerShape(10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp, bottom = 16.dp, start = 8.dp, end = 8.dp)
+                .height(IntrinsicSize.Min)
+        ) {
+            Text(
+                text = Constants.TO_REGISTER
+            )
+        }
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -200,7 +215,7 @@ fun RegistrationSecondScreen() {
             ClickableText(
                 onClick ={ offset ->
                     if (offset >= 16){
-
+                        router.toLogin()
                     }
                 },
                 text = highlightedText

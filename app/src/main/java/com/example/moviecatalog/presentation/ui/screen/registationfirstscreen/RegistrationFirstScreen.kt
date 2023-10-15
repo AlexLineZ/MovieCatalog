@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.Descriptions
+import com.example.moviecatalog.presentation.router.LoginRouter
 import com.example.moviecatalog.presentation.ui.screen.registationfirstscreen.components.DatePickerField
 import com.example.moviecatalog.presentation.ui.screen.registationfirstscreen.components.GenderSelectionButton
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
@@ -46,10 +47,8 @@ import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
 @Composable
-fun RegistrationFirstScreen() {
+fun RegistrationFirstScreen(router: LoginRouter) {
     val focusManager = LocalFocusManager.current
-    val context = LocalContext.current
-    var isDatePickerVisible by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -83,7 +82,7 @@ fun RegistrationFirstScreen() {
                     .align(alignment = Alignment.CenterStart)
             ) {
                 IconButton(
-                    onClick = {  },
+                    onClick = { router.toAuth() },
                 ) {
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowLeft,
@@ -220,7 +219,7 @@ fun RegistrationFirstScreen() {
         }
 
         Button(
-            onClick = { },
+            onClick = { router.toPasswordRegistration() },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
@@ -252,7 +251,7 @@ fun RegistrationFirstScreen() {
             ClickableText(
                 onClick ={ offset ->
                     if (offset >= 16){
-
+                        router.toLogin()
                     }
                 },
                 text = highlightedText
