@@ -10,8 +10,10 @@ import com.example.moviecatalog.presentation.ui.screen.mainscreen.MainScreen
 import com.example.moviecatalog.presentation.ui.screen.registationfirstscreen.RegistrationFirstScreen
 import com.example.moviecatalog.presentation.ui.screen.registrationsecondscreen.RegistrationSecondScreen
 import com.example.moviecatalog.presentation.ui.screen.selectauthscreen.SelectAuthScreen
+import com.example.moviecatalog.presentation.ui.screen.splashscreen.SplashScreen
 
 object Destinations {
+    const val SPLASH_SCREEN = "splash"
     const val SELECT_AUTH_SCREEN = "both"
     const val REGISTRATION_FIRST_SCREEN = "registrationFirst"
     const val REGISTRATION_SECOND_SCREEN = "registrationSecond"
@@ -24,17 +26,29 @@ fun Navigation() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Destinations.SELECT_AUTH_SCREEN
+        startDestination = Destinations.SPLASH_SCREEN
     ) {
 
         val router = LoginRouter(
-            toLogin = { navController.navigate(Destinations.LOGIN_SCREEN) },
-            toRegistration = { navController.navigate(Destinations.REGISTRATION_FIRST_SCREEN) },
-            toAuth = { navController.navigate(Destinations.SELECT_AUTH_SCREEN) },
+            toLogin = { navController.navigate(Destinations.LOGIN_SCREEN) {
+                popUpTo(Destinations.SELECT_AUTH_SCREEN)
+            } },
+            toRegistration = { navController.navigate(Destinations.REGISTRATION_FIRST_SCREEN) {
+                popUpTo(Destinations.SELECT_AUTH_SCREEN)
+            } },
+            toAuth = { navController.navigate(Destinations.SELECT_AUTH_SCREEN){
+                popUpTo(Destinations.SPLASH_SCREEN) { inclusive = true }
+            } },
             toPasswordRegistration = { navController.navigate(Destinations.REGISTRATION_SECOND_SCREEN) },
-            toMain = { navController.navigate(Destinations.MAIN_SCREEN) }
+            toMain = { navController.navigate(Destinations.MAIN_SCREEN){
+                popUpTo(0)
+            }
+            }
         )
 
+        composable (Destinations.SPLASH_SCREEN){
+            SplashScreen(router)
+        }
         composable(Destinations.SELECT_AUTH_SCREEN) {
             SelectAuthScreen(router)
         }
