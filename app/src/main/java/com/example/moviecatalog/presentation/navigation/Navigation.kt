@@ -1,16 +1,19 @@
 package com.example.moviecatalog.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.moviecatalog.presentation.router.LoginRouter
-import com.example.moviecatalog.presentation.ui.screen.loginscreen.LoginScreen
-import com.example.moviecatalog.presentation.ui.screen.mainscreen.MainScreen
-import com.example.moviecatalog.presentation.ui.screen.registationfirstscreen.RegistrationFirstScreen
-import com.example.moviecatalog.presentation.ui.screen.registrationsecondscreen.RegistrationSecondScreen
-import com.example.moviecatalog.presentation.ui.screen.selectauthscreen.SelectAuthScreen
-import com.example.moviecatalog.presentation.ui.screen.splashscreen.SplashScreen
+import com.example.moviecatalog.presentation.ui.loginscreen.LoginScreen
+import com.example.moviecatalog.presentation.ui.loginscreen.LoginViewModel
+import com.example.moviecatalog.presentation.ui.loginscreen.LoginViewModelFactory
+import com.example.moviecatalog.presentation.ui.mainscreen.MainScreen
+import com.example.moviecatalog.presentation.ui.registationfirstscreen.RegistrationFirstScreen
+import com.example.moviecatalog.presentation.ui.registrationsecondscreen.RegistrationSecondScreen
+import com.example.moviecatalog.presentation.ui.selectauthscreen.SelectAuthScreen
+import com.example.moviecatalog.presentation.ui.splashscreen.SplashScreen
 
 object Destinations {
     const val SPLASH_SCREEN = "splash"
@@ -22,7 +25,7 @@ object Destinations {
 }
 
 @Composable
-fun Navigation() {
+fun Navigation(viewModel: LoginViewModel) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
@@ -53,7 +56,7 @@ fun Navigation() {
             SelectAuthScreen(router)
         }
         composable(Destinations.LOGIN_SCREEN) {
-            LoginScreen(router)
+            LoginScreen(router, viewModel)
         }
         composable(Destinations.REGISTRATION_FIRST_SCREEN) {
             RegistrationFirstScreen(router)

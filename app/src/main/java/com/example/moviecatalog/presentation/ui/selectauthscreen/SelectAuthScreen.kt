@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.ui.screen.selectauthscreen
+package com.example.moviecatalog.presentation.ui.selectauthscreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box

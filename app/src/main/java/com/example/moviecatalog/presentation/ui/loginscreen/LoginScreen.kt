@@ -1,5 +1,6 @@
-package com.example.moviecatalog.presentation.ui.screen.loginscreen
+package com.example.moviecatalog.presentation.ui.loginscreen
 
+import android.util.Log
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,7 +50,9 @@ import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
 @Composable
-fun LoginScreen(router: LoginRouter) {
+fun LoginScreen(router: LoginRouter, viewModel: LoginViewModel) {
+    val loginState by viewModel.state.collectAsState()
+
     val focusManager = LocalFocusManager.current
     var isPasswordVisible by remember { mutableStateOf(false) }
 
@@ -117,8 +121,8 @@ fun LoginScreen(router: LoginRouter) {
                 )
 
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = loginState.login,
+                    onValueChange = { viewModel.updateLogin(it) },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -145,8 +149,8 @@ fun LoginScreen(router: LoginRouter) {
 
                 )
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = loginState.password,
+                    onValueChange = { viewModel.updatePassword(it) },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -171,7 +175,10 @@ fun LoginScreen(router: LoginRouter) {
         }
 
         Button(
-            onClick = { router.toMain() },
+            onClick = {
+                viewModel.processIntent(LoginIntent.Login(loginState))
+                router.toMain()
+            },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
@@ -202,7 +209,7 @@ fun LoginScreen(router: LoginRouter) {
             }
 
             ClickableText(
-                onClick ={ offset ->
+                onClick = { offset ->
                     if (offset >= 16){
                         router.toRegistration()
                     }

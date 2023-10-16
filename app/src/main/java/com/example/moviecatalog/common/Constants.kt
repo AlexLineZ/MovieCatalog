@@ -15,4 +15,6 @@ object Constants {
     const val WOMAN = "Женщина"
     const val LOGIN_TO = "Вход"
     const val LOGIN_TO_BUTTON = "Войти"
+
+    const val EMPTY_STRING = ""
 }
