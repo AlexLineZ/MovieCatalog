@@ -33,6 +33,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -123,6 +125,8 @@ fun RegistrationSecondScreen(router: LoginRouter) {
                         .padding(top = 8.dp)
                         .height(IntrinsicSize.Min),
                     shape = RoundedCornerShape(10.dp),
+                    visualTransformation = if (isPasswordVisible)
+                        VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
                         IconButton(
                             onClick = {
@@ -165,6 +169,8 @@ fun RegistrationSecondScreen(router: LoginRouter) {
                         .padding(top = 8.dp)
                         .height(IntrinsicSize.Min),
                     shape = RoundedCornerShape(10.dp),
+                    visualTransformation = if (isConfirmPasswordVisible)
+                        VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
                         IconButton(
                             onClick = {
