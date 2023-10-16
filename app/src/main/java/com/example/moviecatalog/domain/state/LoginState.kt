@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.ui.loginscreen
+package com.example.moviecatalog.domain.state
 
 data class LoginState (
     val login: String,

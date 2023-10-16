@@ -1,17 +1,15 @@
 package com.example.moviecatalog.presentation.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.moviecatalog.presentation.router.LoginRouter
 import com.example.moviecatalog.presentation.ui.loginscreen.LoginScreen
 import com.example.moviecatalog.presentation.ui.loginscreen.LoginViewModel
-import com.example.moviecatalog.presentation.ui.loginscreen.LoginViewModelFactory
 import com.example.moviecatalog.presentation.ui.mainscreen.MainScreen
-import com.example.moviecatalog.presentation.ui.registationfirstscreen.RegistrationFirstScreen
-import com.example.moviecatalog.presentation.ui.registrationsecondscreen.RegistrationSecondScreen
+import com.example.moviecatalog.presentation.ui.registrationscreen.registationfirstscreen.RegistrationFirstScreen
+import com.example.moviecatalog.presentation.ui.registrationscreen.registrationsecondscreen.RegistrationSecondScreen
 import com.example.moviecatalog.presentation.ui.selectauthscreen.SelectAuthScreen
 import com.example.moviecatalog.presentation.ui.splashscreen.SplashScreen
 

@@ -1,9 +1,9 @@
 package com.example.moviecatalog.presentation.ui.loginscreen
 
 import android.util.Log
-import androidx.compose.ui.unit.Constraints
 import androidx.lifecycle.ViewModel
 import com.example.moviecatalog.common.Constants
+import com.example.moviecatalog.domain.state.LoginState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

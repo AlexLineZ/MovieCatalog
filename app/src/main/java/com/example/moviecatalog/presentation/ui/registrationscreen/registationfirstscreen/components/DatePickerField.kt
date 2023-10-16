@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.ui.registationfirstscreen.components
+package com.example.moviecatalog.presentation.ui.registrationscreen.registationfirstscreen.components
 
 import android.icu.util.Calendar
 import androidx.compose.foundation.layout.fillMaxWidth

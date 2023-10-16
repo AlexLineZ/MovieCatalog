@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.ui.registationfirstscreen
+package com.example.moviecatalog.presentation.ui.registrationscreen.registrationsecondscreen
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
@@ -12,8 +12,9 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,11 +29,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -40,15 +42,15 @@ import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.Descriptions
 import com.example.moviecatalog.presentation.router.LoginRouter
-import com.example.moviecatalog.presentation.ui.registationfirstscreen.components.DatePickerField
-import com.example.moviecatalog.presentation.ui.registationfirstscreen.components.GenderSelectionButton
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
 @Composable
-fun RegistrationFirstScreen(router: LoginRouter) {
+fun RegistrationSecondScreen(router: LoginRouter) {
     val focusManager = LocalFocusManager.current
+    var isPasswordVisible by remember { mutableStateOf(false) }
+    var isConfirmPasswordVisible by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -82,7 +84,7 @@ fun RegistrationFirstScreen(router: LoginRouter) {
                     .align(alignment = Alignment.CenterStart)
             ) {
                 IconButton(
-                    onClick = { router.toAuth() },
+                    onClick = { router.toRegistration },
                 ) {
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowLeft,
@@ -109,64 +111,35 @@ fun RegistrationFirstScreen(router: LoginRouter) {
                     .padding(8.dp)
             ) {
                 Text(
-                    text = Constants.NAME,
+                    text = Constants.PASSWORD,
                     style = TextStyle(fontSize = 16.sp),
                     color = Color.White
-                )
 
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = {  },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                    shape = RoundedCornerShape(10.dp),
                 )
-            }
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = Constants.GENDER,
-                    style = TextStyle(fontSize = 16.sp),
-                    color = Color.White
-                )
-                GenderSelectionButton()
-            }
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = Constants.LOGIN,
-                    style = TextStyle(fontSize = 16.sp),
-                    color = Color.White
-                )
-
                 OutlinedTextField(
                     value = "",
                     onValueChange = {},
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 8.dp),
+                        .padding(top = 8.dp)
+                        .height(IntrinsicSize.Min),
                     shape = RoundedCornerShape(10.dp),
+                    visualTransformation = if (isPasswordVisible)
+                        VisualTransformation.None else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        IconButton(
+                            onClick = {
+                                isPasswordVisible = !isPasswordVisible
+                            }
+                        ) {
+                            Icon(
+                                imageVector = if (isPasswordVisible) Icons.Default.Visibility
+                                else Icons.Default.VisibilityOff,
+                                contentDescription = null
+                            )
+                        }
+                    }
                 )
             }
         }
@@ -182,44 +155,41 @@ fun RegistrationFirstScreen(router: LoginRouter) {
                     .padding(8.dp)
             ) {
                 Text(
-                    text = Constants.EMAIL,
+                    text = "Подтвердите пароль",
                     style = TextStyle(fontSize = 16.sp),
                     color = Color.White
-                )
 
+                )
                 OutlinedTextField(
                     value = "",
                     onValueChange = {},
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 8.dp),
+                        .padding(top = 8.dp)
+                        .height(IntrinsicSize.Min),
                     shape = RoundedCornerShape(10.dp),
+                    visualTransformation = if (isConfirmPasswordVisible)
+                        VisualTransformation.None else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        IconButton(
+                            onClick = {
+                                isConfirmPasswordVisible = !isConfirmPasswordVisible
+                            }
+                        ) {
+                            Icon(
+                                imageVector = if (isConfirmPasswordVisible) Icons.Default.Visibility
+                                else Icons.Default.VisibilityOff,
+                                contentDescription = null
+                            )
+                        }
+                    }
                 )
-            }
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = Constants.DATE_OF_BIRTHDAY,
-                    style = TextStyle(fontSize = 16.sp),
-                    color = Color.White
-                )
-
-                DatePickerField()
             }
         }
 
         Button(
-            onClick = { router.toPasswordRegistration() },
+            onClick = { router.toMain() },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
@@ -227,7 +197,7 @@ fun RegistrationFirstScreen(router: LoginRouter) {
                 .height(IntrinsicSize.Min)
         ) {
             Text(
-                text = Constants.CONTINUE
+                text = Constants.TO_REGISTER
             )
         }
 

@@ -1,8 +1,8 @@
-package com.example.moviecatalog.presentation.ui.loginscreen
+package com.example.moviecatalog.presentation.factory
 
-import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.moviecatalog.presentation.ui.loginscreen.LoginViewModel
 
 class LoginViewModelFactory() : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
