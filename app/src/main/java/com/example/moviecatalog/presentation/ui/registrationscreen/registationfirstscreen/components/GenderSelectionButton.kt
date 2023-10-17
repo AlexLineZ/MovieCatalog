@@ -15,50 +15,55 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.moviecatalog.common.Constants
+import com.example.moviecatalog.R
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
 import com.example.moviecatalog.presentation.ui.theme.SuperDarkGrayColor
 
 @Composable
 fun GenderSelectionButton() {
-    var selectedGender by remember { mutableStateOf(Constants.MAN) }
+    val man = stringResource(R.string.man)
+    val woman = stringResource(R.string.woman)
+
+    var selectedGender by remember { mutableStateOf(man) }
+
     Row(
         modifier = Modifier
             .padding(top = 4.dp)
     ) {
         Button(
             onClick = {
-                selectedGender = Constants.MAN
+                selectedGender = man
             },
             modifier = Modifier
                 .weight(1f)
                 .height(IntrinsicSize.Min),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = if (selectedGender == Constants.MAN)
+                containerColor = if (selectedGender == man)
                     MaterialTheme.colorScheme.tertiary else SecondButtonColor,
                 contentColor = SuperDarkGrayColor
             )
         ) {
-            Text(Constants.MAN)
+            Text(man)
         }
 
         Button(
             onClick = {
-                selectedGender = Constants.WOMAN
+                selectedGender = woman
             },
             modifier = Modifier
                 .weight(1f)
                 .height(IntrinsicSize.Min),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = if (selectedGender == Constants.WOMAN)
+                containerColor = if (selectedGender == woman)
                     MaterialTheme.colorScheme.tertiary else SecondButtonColor,
                 contentColor = SuperDarkGrayColor
             )
         ) {
-            Text(Constants.WOMAN)
+            Text(woman)
         }
     }
 }

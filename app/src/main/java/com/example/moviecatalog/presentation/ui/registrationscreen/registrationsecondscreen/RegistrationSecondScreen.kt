@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -39,7 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.moviecatalog.common.Constants
+import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Descriptions
 import com.example.moviecatalog.presentation.router.LoginRouter
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
@@ -73,7 +74,7 @@ fun RegistrationSecondScreen(router: LoginRouter) {
                     .align(alignment = Alignment.Center)
             ) {
                 Text(
-                    text = Constants.LOGO,
+                    text = stringResource(R.string.logo),
                     style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
                     color = AccentColor
                 )
@@ -88,14 +89,14 @@ fun RegistrationSecondScreen(router: LoginRouter) {
                 ) {
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowLeft,
-                        contentDescription = "Back"
+                        contentDescription = null
                     )
                 }
             }
         }
 
         Text(
-            text = Constants.REGISTRATION,
+            text = stringResource(R.string.registration),
             style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
@@ -111,7 +112,7 @@ fun RegistrationSecondScreen(router: LoginRouter) {
                     .padding(8.dp)
             ) {
                 Text(
-                    text = Constants.PASSWORD,
+                    text = stringResource(R.string.password),
                     style = TextStyle(fontSize = 16.sp),
                     color = Color.White
 
@@ -155,7 +156,7 @@ fun RegistrationSecondScreen(router: LoginRouter) {
                     .padding(8.dp)
             ) {
                 Text(
-                    text = "Подтвердите пароль",
+                    text = stringResource(R.string.confirm_password),
                     style = TextStyle(fontSize = 16.sp),
                     color = Color.White
 
@@ -197,7 +198,7 @@ fun RegistrationSecondScreen(router: LoginRouter) {
                 .height(IntrinsicSize.Min)
         ) {
             Text(
-                text = Constants.TO_REGISTER
+                text = stringResource(R.string.to_register)
             )
         }
 

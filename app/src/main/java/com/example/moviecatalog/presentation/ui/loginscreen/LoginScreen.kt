@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -23,9 +23,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,7 +39,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
 import com.example.moviecatalog.R
-import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.Descriptions
 import com.example.moviecatalog.presentation.router.LoginRouter
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
@@ -89,7 +85,7 @@ fun LoginScreen(router: LoginRouter, viewModel: LoginViewModel) {
                     onClick = { router.toAuth() },
                 ) {
                     Icon(
-                        imageVector = Icons.Default.KeyboardArrowLeft,
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                         contentDescription = null
                     )
                 }
@@ -97,7 +93,7 @@ fun LoginScreen(router: LoginRouter, viewModel: LoginViewModel) {
         }
 
         Text(
-            text = Constants.LOGIN_TO,
+            text = stringResource(R.string.login_to),
             style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
@@ -113,7 +109,7 @@ fun LoginScreen(router: LoginRouter, viewModel: LoginViewModel) {
                     .padding(8.dp)
             ) {
                 Text(
-                    text = Constants.LOGIN,
+                    text = stringResource(R.string.login),
                     style = TextStyle(fontSize = 16.sp),
                     color = Color.White
                 )
@@ -141,7 +137,7 @@ fun LoginScreen(router: LoginRouter, viewModel: LoginViewModel) {
                     .padding(8.dp)
             ) {
                 Text(
-                    text = Constants.PASSWORD,
+                    text = stringResource(R.string.password),
                     style = TextStyle(fontSize = 16.sp),
                     color = Color.White
 
@@ -186,7 +182,7 @@ fun LoginScreen(router: LoginRouter, viewModel: LoginViewModel) {
                 .height(IntrinsicSize.Min)
         ) {
             Text(
-                text = Constants.LOGIN_TO_BUTTON
+                text = stringResource(R.string.login_button)
             )
         }
 
