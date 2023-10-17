@@ -224,7 +224,7 @@ fun RegistrationFirstScreen(router: LoginRouter) {
         ){
             val highlightedText = buildAnnotatedString {
                 withStyle(style = spanStyleGray){
-                    append(stringResource(R.string.need_login))
+                    append(stringResource(R.string.need_login) + " ")
                 }
 
                 withStyle(style = spanStyleAccent) {

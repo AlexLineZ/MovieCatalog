@@ -18,10 +18,10 @@
 
 
     <string name="need_register">Еще нет аккаунта?</string>
-    <string name="need_register_clickable"> Зарегистрируйтесь</string>
+    <string name="need_register_clickable">Зарегистрируйтесь</string>
 
     <string name="need_login">Уже есть аккаунт?</string>
-    <string name="need_login_clickable"> Войдите</string>
+    <string name="need_login_clickable">Войдите</string>
 
     <string name="auth_description_first">Погрузись в мир кино</string>
     <string name="auth_description_second">Мы предлагаем удобный и легкий способ насладиться любимыми фильмами прямо с Вашего мобильного устройства.</string>

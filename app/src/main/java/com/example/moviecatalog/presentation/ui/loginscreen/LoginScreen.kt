@@ -109,14 +109,12 @@ fun LoginScreen(router: LoginRouter, viewModel: LoginViewModel) {
                     .padding(8.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.login),
-                    style = TextStyle(fontSize = 16.sp),
-                    color = Color.White
+                    text = stringResource(R.string.login)
                 )
 
                 OutlinedTextField(
                     value = loginState.login,
-                    onValueChange = { viewModel.updateLogin(it) },
+                    onValueChange = { viewModel.processIntent(LoginIntent.UpdateLogin(it)) },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -137,14 +135,12 @@ fun LoginScreen(router: LoginRouter, viewModel: LoginViewModel) {
                     .padding(8.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.password),
-                    style = TextStyle(fontSize = 16.sp),
-                    color = Color.White
+                    text = stringResource(R.string.password)
 
                 )
                 OutlinedTextField(
                     value = loginState.password,
-                    onValueChange = { viewModel.updatePassword(it) },
+                    onValueChange = { viewModel.processIntent(LoginIntent.UpdatePassword(it)) },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -196,7 +192,7 @@ fun LoginScreen(router: LoginRouter, viewModel: LoginViewModel) {
         ){
             val highlightedText = buildAnnotatedString {
                 withStyle(style = spanStyleGray){
-                    append(stringResource(R.string.need_register))
+                    append(stringResource(R.string.need_register) + " ")
                 }
 
                 withStyle(style = spanStyleAccent) {

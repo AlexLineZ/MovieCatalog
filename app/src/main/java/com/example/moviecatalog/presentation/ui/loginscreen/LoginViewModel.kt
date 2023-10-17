@@ -13,14 +13,6 @@ class LoginViewModel : ViewModel() {
     private val _state = MutableStateFlow(emptyState)
     val state: StateFlow<LoginState> get() = _state
 
-    fun updateLogin(login: String) {
-        _state.value = state.value.copy(login = login)
-    }
-
-    fun updatePassword(password: String) {
-        _state.value = state.value.copy(password = password)
-    }
-
     fun processIntent(intent: LoginIntent) {
         when (intent) {
             is LoginIntent.Login -> {
