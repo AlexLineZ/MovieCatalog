@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.ui.screen.selectauthscreen
+package com.example.moviecatalog.presentation.ui.selectauthscreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -18,13 +18,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
-import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.Descriptions
 import com.example.moviecatalog.presentation.router.LoginRouter
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
@@ -39,7 +39,7 @@ fun SelectAuthScreen(router: LoginRouter) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = Constants.LOGO,
+            text = stringResource(R.string.logo),
             style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
             color = AccentColor,
             textAlign = TextAlign.Center,
@@ -65,14 +65,14 @@ fun SelectAuthScreen(router: LoginRouter) {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = Descriptions.AUTH_DESCRIPTION_FIRST,
+                    text = stringResource(R.string.auth_description_first),
                     style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(4.dp)
                 )
 
                 Text(
-                    text = Descriptions.AUTH_DESCRIPTION_SECOND,
+                    text = stringResource(R.string.auth_description_second),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(8.dp)
                 )
@@ -97,7 +97,7 @@ fun SelectAuthScreen(router: LoginRouter) {
                         .padding(8.dp)
                 ) {
                     Text(
-                        text = Constants.REGISTRATION
+                        text = stringResource(R.string.registration)
                     )
                 }
 
@@ -114,7 +114,7 @@ fun SelectAuthScreen(router: LoginRouter) {
                         .padding(8.dp)
                 ) {
                     Text(
-                        text = Constants.LOGIN_TO_BUTTON
+                        text = stringResource(R.string.login_button)
                     )
                 }
             }

@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.ui.screen.registationfirstscreen.components
+package com.example.moviecatalog.presentation.ui.registrationscreen.components
 
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -15,50 +15,59 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.moviecatalog.common.Constants
+import com.example.moviecatalog.R
+import com.example.moviecatalog.domain.state.RegistrationState
+import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationIntent
+import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationViewModel
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
 import com.example.moviecatalog.presentation.ui.theme.SuperDarkGrayColor
 
 @Composable
-fun GenderSelectionButton() {
-    var selectedGender by remember { mutableStateOf(Constants.MAN) }
+fun GenderSelectionButton(
+    viewModel: RegistrationViewModel,
+    state: RegistrationState
+) {
+    val man = stringResource(R.string.man)
+    val woman = stringResource(R.string.woman)
+
     Row(
         modifier = Modifier
             .padding(top = 4.dp)
     ) {
         Button(
             onClick = {
-                selectedGender = Constants.MAN
+                viewModel.processIntent(RegistrationIntent.UpdateGender(0))
             },
             modifier = Modifier
                 .weight(1f)
                 .height(IntrinsicSize.Min),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = if (selectedGender == Constants.MAN)
+                containerColor = if (state.gender == 0)
                     MaterialTheme.colorScheme.tertiary else SecondButtonColor,
                 contentColor = SuperDarkGrayColor
             )
         ) {
-            Text(Constants.MAN)
+            Text(man)
         }
 
         Button(
             onClick = {
-                selectedGender = Constants.WOMAN
+                viewModel.processIntent(RegistrationIntent.UpdateGender(1))
             },
             modifier = Modifier
                 .weight(1f)
                 .height(IntrinsicSize.Min),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = if (selectedGender == Constants.WOMAN)
+                containerColor = if (state.gender == 1)
                     MaterialTheme.colorScheme.tertiary else SecondButtonColor,
                 contentColor = SuperDarkGrayColor
             )
         ) {
-            Text(Constants.WOMAN)
+            Text(woman)
         }
     }
 }

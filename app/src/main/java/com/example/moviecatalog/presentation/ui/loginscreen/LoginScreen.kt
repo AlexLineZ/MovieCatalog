@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.ui.screen.registrationsecondscreen
+package com.example.moviecatalog.presentation.ui.loginscreen
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -21,10 +21,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,11 +31,14 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.moviecatalog.common.Constants
+import androidx.compose.ui.res.stringResource
+import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Descriptions
 import com.example.moviecatalog.presentation.router.LoginRouter
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
@@ -45,10 +46,9 @@ import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
 @Composable
-fun RegistrationSecondScreen(router: LoginRouter) {
+fun LoginScreen(router: LoginRouter, viewModel: LoginViewModel) {
+    val loginState by viewModel.state.collectAsState()
     val focusManager = LocalFocusManager.current
-    var isPasswordVisible by remember { mutableStateOf(false) }
-    var isConfirmPasswordVisible by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -71,7 +71,7 @@ fun RegistrationSecondScreen(router: LoginRouter) {
                     .align(alignment = Alignment.Center)
             ) {
                 Text(
-                    text = Constants.LOGO,
+                    text = stringResource(R.string.logo),
                     style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
                     color = AccentColor
                 )
@@ -82,18 +82,18 @@ fun RegistrationSecondScreen(router: LoginRouter) {
                     .align(alignment = Alignment.CenterStart)
             ) {
                 IconButton(
-                    onClick = { router.toRegistration },
+                    onClick = { router.toAuth() },
                 ) {
                     Icon(
-                        imageVector = Icons.Default.KeyboardArrowLeft,
-                        contentDescription = "Back"
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                        contentDescription = null
                     )
                 }
             }
         }
 
         Text(
-            text = Constants.REGISTRATION,
+            text = stringResource(R.string.login_to),
             style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
@@ -109,37 +109,21 @@ fun RegistrationSecondScreen(router: LoginRouter) {
                     .padding(8.dp)
             ) {
                 Text(
-                    text = Constants.PASSWORD,
-                    style = TextStyle(fontSize = 16.sp),
-                    color = Color.White
-
+                    text = stringResource(R.string.login)
                 )
+
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = loginState.login,
+                    onValueChange = { viewModel.processIntent(LoginIntent.UpdateLogin(it)) },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 8.dp)
                         .height(IntrinsicSize.Min),
                     shape = RoundedCornerShape(10.dp),
-                    trailingIcon = {
-                        IconButton(
-                            onClick = {
-                                isPasswordVisible = !isPasswordVisible
-                            }
-                        ) {
-                            Icon(
-                                imageVector = if (isPasswordVisible) Icons.Default.Visibility
-                                else Icons.Default.VisibilityOff,
-                                contentDescription = null
-                            )
-                        }
-                    }
                 )
             }
         }
-
 
         Box(
             modifier = Modifier
@@ -151,28 +135,28 @@ fun RegistrationSecondScreen(router: LoginRouter) {
                     .padding(8.dp)
             ) {
                 Text(
-                    text = "Подтвердите пароль",
-                    style = TextStyle(fontSize = 16.sp),
-                    color = Color.White
+                    text = stringResource(R.string.password)
 
                 )
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = loginState.password,
+                    onValueChange = { viewModel.processIntent(LoginIntent.UpdatePassword(it)) },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 8.dp)
                         .height(IntrinsicSize.Min),
                     shape = RoundedCornerShape(10.dp),
+                    visualTransformation = if (loginState.isPasswordHide)
+                        VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
                         IconButton(
                             onClick = {
-                                isConfirmPasswordVisible = !isConfirmPasswordVisible
+                                viewModel.processIntent(LoginIntent.UpdatePasswordVisibility)
                             }
                         ) {
                             Icon(
-                                imageVector = if (isConfirmPasswordVisible) Icons.Default.Visibility
+                                imageVector = if (loginState.isPasswordHide) Icons.Default.Visibility
                                 else Icons.Default.VisibilityOff,
                                 contentDescription = null
                             )
@@ -183,7 +167,10 @@ fun RegistrationSecondScreen(router: LoginRouter) {
         }
 
         Button(
-            onClick = { router.toMain() },
+            onClick = {
+                viewModel.processIntent(LoginIntent.Login(loginState))
+                router.toMain()
+            },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
@@ -191,9 +178,10 @@ fun RegistrationSecondScreen(router: LoginRouter) {
                 .height(IntrinsicSize.Min)
         ) {
             Text(
-                text = Constants.TO_REGISTER
+                text = stringResource(R.string.login_button)
             )
         }
+
 
         Box(
             modifier = Modifier
@@ -204,18 +192,18 @@ fun RegistrationSecondScreen(router: LoginRouter) {
         ){
             val highlightedText = buildAnnotatedString {
                 withStyle(style = spanStyleGray){
-                    append(Descriptions.NEED_LOGIN)
+                    append(stringResource(R.string.need_register) + " ")
                 }
 
                 withStyle(style = spanStyleAccent) {
-                    append(Descriptions.NEED_LOGIN_CLICKABLE)
+                    append(stringResource(R.string.need_register_clickable))
                 }
             }
 
             ClickableText(
-                onClick ={ offset ->
+                onClick = { offset ->
                     if (offset >= 16){
-                        router.toLogin()
+                        router.toRegistration()
                     }
                 },
                 text = highlightedText

@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.ui.screen.mainscreen
+package com.example.moviecatalog.presentation.ui.mainscreen
 
 import androidx.compose.runtime.Composable
 

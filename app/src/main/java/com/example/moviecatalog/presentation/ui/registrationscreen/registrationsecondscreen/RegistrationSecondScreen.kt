@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.ui.screen.loginscreen
+package com.example.moviecatalog.presentation.ui.registrationscreen.registrationsecondscreen
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
@@ -16,12 +16,12 @@ import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,26 +31,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.example.moviecatalog.common.Constants
+import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Descriptions
-import com.example.moviecatalog.presentation.navigation.Destinations
 import com.example.moviecatalog.presentation.router.LoginRouter
+import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationIntent
+import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationViewModel
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
 @Composable
-fun LoginScreen(router: LoginRouter) {
+fun RegistrationSecondScreen (
+    router: LoginRouter,
+    viewModel: RegistrationViewModel
+) {
     val focusManager = LocalFocusManager.current
-    var isPasswordVisible by remember { mutableStateOf(false) }
+    val state by viewModel.state.collectAsState()
 
     Column(
         modifier = Modifier
@@ -73,7 +79,7 @@ fun LoginScreen(router: LoginRouter) {
                     .align(alignment = Alignment.Center)
             ) {
                 Text(
-                    text = Constants.LOGO,
+                    text = stringResource(R.string.logo),
                     style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
                     color = AccentColor
                 )
@@ -84,7 +90,7 @@ fun LoginScreen(router: LoginRouter) {
                     .align(alignment = Alignment.CenterStart)
             ) {
                 IconButton(
-                    onClick = { router.toAuth() },
+                    onClick = { router.toRegistration() },
                 ) {
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowLeft,
@@ -95,7 +101,7 @@ fun LoginScreen(router: LoginRouter) {
         }
 
         Text(
-            text = Constants.LOGIN_TO,
+            text = stringResource(R.string.registration),
             style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
@@ -111,23 +117,44 @@ fun LoginScreen(router: LoginRouter) {
                     .padding(8.dp)
             ) {
                 Text(
-                    text = Constants.LOGIN,
+                    text = stringResource(R.string.password),
                     style = TextStyle(fontSize = 16.sp),
                     color = Color.White
-                )
 
+                )
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = state.password,
+                    onValueChange = {
+                        viewModel.processIntent(RegistrationIntent.UpdatePassword(it))
+                    },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 8.dp)
                         .height(IntrinsicSize.Min),
                     shape = RoundedCornerShape(10.dp),
+                    visualTransformation = if (state.isPasswordHide)
+                        VisualTransformation.None else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        IconButton(
+                            onClick = {
+                                viewModel.processIntent(RegistrationIntent.UpdatePasswordVisibility)
+                            }
+                        ) {
+                            Icon(
+                                imageVector =
+                                    if (state.isPasswordHide)
+                                        Icons.Default.Visibility
+                                    else
+                                        Icons.Default.VisibilityOff,
+                                contentDescription = null
+                            )
+                        }
+                    }
                 )
             }
         }
+
 
         Box(
             modifier = Modifier
@@ -139,29 +166,38 @@ fun LoginScreen(router: LoginRouter) {
                     .padding(8.dp)
             ) {
                 Text(
-                    text = Constants.PASSWORD,
+                    text = stringResource(R.string.confirm_password),
                     style = TextStyle(fontSize = 16.sp),
                     color = Color.White
 
                 )
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = state.confirmPassword,
+                    onValueChange = {
+                        viewModel.processIntent(RegistrationIntent.UpdateConfirmPassword(it))
+                    },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 8.dp)
                         .height(IntrinsicSize.Min),
                     shape = RoundedCornerShape(10.dp),
+                    visualTransformation = if (state.isConfirmPasswordHide)
+                        VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
                         IconButton(
                             onClick = {
-                                isPasswordVisible = !isPasswordVisible
+                                viewModel.processIntent(
+                                    RegistrationIntent.UpdateConfirmPasswordVisibility
+                                )
                             }
                         ) {
                             Icon(
-                                imageVector = if (isPasswordVisible) Icons.Default.Visibility
-                                else Icons.Default.VisibilityOff,
+                                imageVector =
+                                    if (state.isConfirmPasswordHide)
+                                        Icons.Default.Visibility
+                                    else
+                                        Icons.Default.VisibilityOff,
                                 contentDescription = null
                             )
                         }
@@ -179,10 +215,9 @@ fun LoginScreen(router: LoginRouter) {
                 .height(IntrinsicSize.Min)
         ) {
             Text(
-                text = Constants.LOGIN_TO_BUTTON
+                text = stringResource(R.string.to_register)
             )
         }
-
 
         Box(
             modifier = Modifier
@@ -193,18 +228,18 @@ fun LoginScreen(router: LoginRouter) {
         ){
             val highlightedText = buildAnnotatedString {
                 withStyle(style = spanStyleGray){
-                    append(Descriptions.NEED_REGISTER)
+                    append(stringResource(R.string.need_login) + " ")
                 }
 
                 withStyle(style = spanStyleAccent) {
-                    append(Descriptions.NEED_REGISTER_CLICKABLE)
+                    append(stringResource(R.string.need_login_clickable))
                 }
             }
 
             ClickableText(
                 onClick ={ offset ->
                     if (offset >= 16){
-                        router.toRegistration()
+                        router.toLogin()
                     }
                 },
                 text = highlightedText

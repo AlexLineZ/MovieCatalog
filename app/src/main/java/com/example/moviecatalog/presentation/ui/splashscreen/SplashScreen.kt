@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.ui.screen.splashscreen
+package com.example.moviecatalog.presentation.ui.splashscreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
