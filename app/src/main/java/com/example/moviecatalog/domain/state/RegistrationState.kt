@@ -11,5 +11,8 @@ data class RegistrationState (
     val isSecondScreenAvailable: Boolean,
 
     val password: String,
-    val confirmPassword: String
+    val confirmPassword: String,
+
+    val isPasswordHide: Boolean,
+    val isConfirmPasswordHide: Boolean
 )

@@ -10,4 +10,10 @@ sealed class RegistrationIntent {
     data class UpdateEmail(val email: String) : RegistrationIntent()
     data class UpdateBirthday(val birthday: String) : RegistrationIntent()
     object UpdateDatePickerVisibility : RegistrationIntent()
+
+    data class UpdatePassword(val password: String) : RegistrationIntent()
+    data class UpdateConfirmPassword(val confirmPassword: String) : RegistrationIntent()
+    object UpdatePasswordVisibility : RegistrationIntent()
+    object UpdateConfirmPasswordVisibility : RegistrationIntent()
+
 }

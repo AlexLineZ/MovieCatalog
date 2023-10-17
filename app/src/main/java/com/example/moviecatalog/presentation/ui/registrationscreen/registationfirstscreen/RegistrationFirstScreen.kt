@@ -19,6 +19,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -34,6 +36,8 @@ import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Descriptions
 import com.example.moviecatalog.presentation.router.LoginRouter
+import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationIntent
+import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationViewModel
 import com.example.moviecatalog.presentation.ui.registrationscreen.components.DatePickerField
 import com.example.moviecatalog.presentation.ui.registrationscreen.components.GenderSelectionButton
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
@@ -41,8 +45,9 @@ import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
 @Composable
-fun RegistrationFirstScreen(router: LoginRouter) {
+fun RegistrationFirstScreen(router: LoginRouter, viewModel: RegistrationViewModel) {
     val focusManager = LocalFocusManager.current
+    val registrationState by viewModel.state.collectAsState()
 
     Column(
         modifier = Modifier
@@ -107,8 +112,8 @@ fun RegistrationFirstScreen(router: LoginRouter) {
                 )
 
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {  },
+                    value = registrationState.name,
+                    onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateName(it)) },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -130,7 +135,7 @@ fun RegistrationFirstScreen(router: LoginRouter) {
                 Text(
                     text = stringResource(R.string.gender)
                 )
-                GenderSelectionButton()
+                GenderSelectionButton(viewModel, registrationState)
             }
         }
 
@@ -148,8 +153,8 @@ fun RegistrationFirstScreen(router: LoginRouter) {
                 )
 
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = registrationState.login,
+                    onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateLogin(it)) },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -174,8 +179,8 @@ fun RegistrationFirstScreen(router: LoginRouter) {
                 )
 
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = registrationState.email,
+                    onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateEmail(it)) },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -198,7 +203,7 @@ fun RegistrationFirstScreen(router: LoginRouter) {
                     text = stringResource(R.string.date_of_birthday)
                 )
 
-                DatePickerField()
+                DatePickerField(viewModel, registrationState)
             }
         }
 

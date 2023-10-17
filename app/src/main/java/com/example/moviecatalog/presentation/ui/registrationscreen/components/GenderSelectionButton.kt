@@ -18,15 +18,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.moviecatalog.R
+import com.example.moviecatalog.domain.state.RegistrationState
+import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationIntent
+import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationViewModel
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
 import com.example.moviecatalog.presentation.ui.theme.SuperDarkGrayColor
 
 @Composable
-fun GenderSelectionButton() {
+fun GenderSelectionButton(
+    viewModel: RegistrationViewModel,
+    state: RegistrationState
+) {
     val man = stringResource(R.string.man)
     val woman = stringResource(R.string.woman)
-
-    var selectedGender by remember { mutableStateOf(man) }
 
     Row(
         modifier = Modifier
@@ -34,14 +38,14 @@ fun GenderSelectionButton() {
     ) {
         Button(
             onClick = {
-                selectedGender = man
+                viewModel.processIntent(RegistrationIntent.UpdateGender(0))
             },
             modifier = Modifier
                 .weight(1f)
                 .height(IntrinsicSize.Min),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = if (selectedGender == man)
+                containerColor = if (state.gender == 0)
                     MaterialTheme.colorScheme.tertiary else SecondButtonColor,
                 contentColor = SuperDarkGrayColor
             )
@@ -51,14 +55,14 @@ fun GenderSelectionButton() {
 
         Button(
             onClick = {
-                selectedGender = woman
+                viewModel.processIntent(RegistrationIntent.UpdateGender(1))
             },
             modifier = Modifier
                 .weight(1f)
                 .height(IntrinsicSize.Min),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = if (selectedGender == woman)
+                containerColor = if (state.gender == 1)
                     MaterialTheme.colorScheme.tertiary else SecondButtonColor,
                 contentColor = SuperDarkGrayColor
             )

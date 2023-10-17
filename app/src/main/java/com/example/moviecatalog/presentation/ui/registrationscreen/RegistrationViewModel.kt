@@ -16,7 +16,9 @@ class RegistrationViewModel : ViewModel() {
         false,
         false,
         "",
-        ""
+        "",
+        false,
+        false
     )
 
     private val _state = MutableStateFlow(emptyState)
@@ -29,6 +31,7 @@ class RegistrationViewModel : ViewModel() {
             }
             is RegistrationIntent.UpdateBirthday -> {
                 _state.value = state.value.copy(birthday = intent.birthday)
+                Log.d("s", intent.birthday)
             }
             is RegistrationIntent.UpdateDatePickerVisibility -> {
                 _state.value = state.value.copy(
@@ -47,6 +50,26 @@ class RegistrationViewModel : ViewModel() {
             is RegistrationIntent.UpdateName -> {
                 _state.value = state.value.copy(name = intent.name)
             }
+            is RegistrationIntent.UpdateConfirmPassword -> {
+                _state.value = state.value.copy(confirmPassword = intent.confirmPassword)
+            }
+            is RegistrationIntent.UpdateConfirmPasswordVisibility -> {
+                _state.value = state.value.copy(
+                    isConfirmPasswordHide = !_state.value.isConfirmPasswordHide
+                )
+            }
+            is RegistrationIntent.UpdatePassword -> {
+                _state.value = state.value.copy(password = intent.password)
+            }
+            is RegistrationIntent.UpdatePasswordVisibility -> {
+                _state.value = state.value.copy(
+                    isPasswordHide = !_state.value.isPasswordHide
+                )
+            }
         }
+    }
+
+    fun isDatePickerOpen() : Boolean {
+        return state.value.isDatePickerOpened
     }
 }

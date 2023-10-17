@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.moviecatalog.presentation.navigation.Navigation
 import com.example.moviecatalog.presentation.ui.loginscreen.LoginViewModel
 import com.example.moviecatalog.presentation.factory.LoginViewModelFactory
+import com.example.moviecatalog.presentation.factory.RegistrationViewModelFactory
+import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationViewModel
 import com.example.moviecatalog.presentation.ui.theme.MovieCatalogTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,11 +24,18 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val viewModel = ViewModelProvider(
+                    val loginViewModel = ViewModelProvider(
                         this, LoginViewModelFactory()
                     )[LoginViewModel::class.java]
 
-                    Navigation(viewModel)
+                    val regViewModel = ViewModelProvider(
+                        this, RegistrationViewModelFactory()
+                    )[RegistrationViewModel::class.java]
+
+                    Navigation(
+                        loginViewModel = loginViewModel,
+                        registrationViewModel = regViewModel
+                    )
                 }
             }
         }

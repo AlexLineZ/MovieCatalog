@@ -8,6 +8,7 @@ import com.example.moviecatalog.presentation.router.LoginRouter
 import com.example.moviecatalog.presentation.ui.loginscreen.LoginScreen
 import com.example.moviecatalog.presentation.ui.loginscreen.LoginViewModel
 import com.example.moviecatalog.presentation.ui.mainscreen.MainScreen
+import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationViewModel
 import com.example.moviecatalog.presentation.ui.registrationscreen.registationfirstscreen.RegistrationFirstScreen
 import com.example.moviecatalog.presentation.ui.registrationscreen.registrationsecondscreen.RegistrationSecondScreen
 import com.example.moviecatalog.presentation.ui.selectauthscreen.SelectAuthScreen
@@ -23,7 +24,10 @@ object Destinations {
 }
 
 @Composable
-fun Navigation(viewModel: LoginViewModel) {
+fun Navigation(
+    loginViewModel: LoginViewModel,
+    registrationViewModel: RegistrationViewModel
+) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
@@ -36,13 +40,13 @@ fun Navigation(viewModel: LoginViewModel) {
             SelectAuthScreen(LoginRouter(navController))
         }
         composable(Destinations.LOGIN_SCREEN) {
-            LoginScreen(LoginRouter(navController), viewModel)
+            LoginScreen(LoginRouter(navController), loginViewModel)
         }
         composable(Destinations.REGISTRATION_FIRST_SCREEN) {
-            RegistrationFirstScreen(LoginRouter(navController))
+            RegistrationFirstScreen(LoginRouter(navController), registrationViewModel)
         }
         composable(Destinations.REGISTRATION_SECOND_SCREEN) {
-            RegistrationSecondScreen(LoginRouter(navController))
+            RegistrationSecondScreen(LoginRouter(navController), registrationViewModel)
         }
         composable(Destinations.MAIN_SCREEN) {
             MainScreen()

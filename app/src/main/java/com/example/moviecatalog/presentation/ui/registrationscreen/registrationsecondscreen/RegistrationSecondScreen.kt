@@ -21,6 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,15 +44,19 @@ import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Descriptions
 import com.example.moviecatalog.presentation.router.LoginRouter
+import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationIntent
+import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationViewModel
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
 @Composable
-fun RegistrationSecondScreen(router: LoginRouter) {
+fun RegistrationSecondScreen (
+    router: LoginRouter,
+    viewModel: RegistrationViewModel
+) {
     val focusManager = LocalFocusManager.current
-    var isPasswordVisible by remember { mutableStateOf(false) }
-    var isConfirmPasswordVisible by remember { mutableStateOf(false) }
+    val state by viewModel.state.collectAsState()
 
     Column(
         modifier = Modifier
@@ -118,25 +123,30 @@ fun RegistrationSecondScreen(router: LoginRouter) {
 
                 )
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = state.password,
+                    onValueChange = {
+                        viewModel.processIntent(RegistrationIntent.UpdatePassword(it))
+                    },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 8.dp)
                         .height(IntrinsicSize.Min),
                     shape = RoundedCornerShape(10.dp),
-                    visualTransformation = if (isPasswordVisible)
+                    visualTransformation = if (state.isPasswordHide)
                         VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
                         IconButton(
                             onClick = {
-                                isPasswordVisible = !isPasswordVisible
+                                viewModel.processIntent(RegistrationIntent.UpdatePasswordVisibility)
                             }
                         ) {
                             Icon(
-                                imageVector = if (isPasswordVisible) Icons.Default.Visibility
-                                else Icons.Default.VisibilityOff,
+                                imageVector =
+                                    if (state.isPasswordHide)
+                                        Icons.Default.Visibility
+                                    else
+                                        Icons.Default.VisibilityOff,
                                 contentDescription = null
                             )
                         }
@@ -162,25 +172,32 @@ fun RegistrationSecondScreen(router: LoginRouter) {
 
                 )
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = state.confirmPassword,
+                    onValueChange = {
+                        viewModel.processIntent(RegistrationIntent.UpdateConfirmPassword(it))
+                    },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 8.dp)
                         .height(IntrinsicSize.Min),
                     shape = RoundedCornerShape(10.dp),
-                    visualTransformation = if (isConfirmPasswordVisible)
+                    visualTransformation = if (state.isConfirmPasswordHide)
                         VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
                         IconButton(
                             onClick = {
-                                isConfirmPasswordVisible = !isConfirmPasswordVisible
+                                viewModel.processIntent(
+                                    RegistrationIntent.UpdateConfirmPasswordVisibility
+                                )
                             }
                         ) {
                             Icon(
-                                imageVector = if (isConfirmPasswordVisible) Icons.Default.Visibility
-                                else Icons.Default.VisibilityOff,
+                                imageVector =
+                                    if (state.isConfirmPasswordHide)
+                                        Icons.Default.Visibility
+                                    else
+                                        Icons.Default.VisibilityOff,
                                 contentDescription = null
                             )
                         }

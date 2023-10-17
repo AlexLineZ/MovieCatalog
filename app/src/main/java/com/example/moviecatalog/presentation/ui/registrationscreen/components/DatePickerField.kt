@@ -1,6 +1,5 @@
 package com.example.moviecatalog.presentation.ui.registrationscreen.components
 
-import android.icu.util.Calendar
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,22 +15,24 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.moviecatalog.domain.state.RegistrationState
+import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationIntent
+import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationViewModel
+import com.example.moviecatalog.common.formatDate
+import java.time.LocalDate
+import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DatePickerField() {
-    var datePickerOpened by remember { mutableStateOf(false) }
-    val currentDate = Calendar.getInstance().timeInMillis
+fun DatePickerField(viewModel: RegistrationViewModel, state: RegistrationState) {
+    val currentDate = LocalDate.now()
 
     OutlinedTextField(
-        value = "",
-        onValueChange = { },
+        value = state.birthday,
+        readOnly = true,
+        onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateBirthday(it))},
         singleLine = true,
         modifier = Modifier
             .fillMaxWidth()
@@ -39,7 +40,7 @@ fun DatePickerField() {
         shape = RoundedCornerShape(10.dp),
         trailingIcon = {
             IconButton(
-                onClick = { datePickerOpened = true }
+                onClick = { viewModel.processIntent(RegistrationIntent.UpdateDatePickerVisibility) }
             ) {
                 Icon(
                     imageVector = Icons.Default.DateRange,
@@ -49,17 +50,19 @@ fun DatePickerField() {
         },
     )
 
-    if (datePickerOpened) {
+    if (viewModel.isDatePickerOpen()) {
         val datePickerState = rememberDatePickerState()
 
         DatePickerDialog(
             onDismissRequest = {
-                datePickerOpened = false
+                viewModel.processIntent(RegistrationIntent.UpdateDatePickerVisibility)
             },
             confirmButton = {
                 TextButton(
                     onClick = {
-                        datePickerOpened = false
+                        val date = datePickerState.selectedDateMillis?.let { Date(it) }
+                        viewModel.processIntent(RegistrationIntent.UpdateBirthday(formatDate(date)))
+                        viewModel.processIntent(RegistrationIntent.UpdateDatePickerVisibility)
                     }
                 ) {
                     Text(
@@ -70,7 +73,7 @@ fun DatePickerField() {
             dismissButton = {
                 TextButton(
                     onClick = {
-                        datePickerOpened = false
+                        viewModel.processIntent(RegistrationIntent.UpdateDatePickerVisibility)
                     }
                 ) {
                     Text(
