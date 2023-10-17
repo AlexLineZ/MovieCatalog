@@ -1,6 +1,5 @@
 package com.example.moviecatalog.presentation.ui.loginscreen
 
-import android.util.Log
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,7 +16,6 @@ import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -42,10 +40,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import androidx.compose.ui.res.stringResource
+import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.Descriptions
-import com.example.moviecatalog.presentation.navigation.Destinations
 import com.example.moviecatalog.presentation.router.LoginRouter
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
@@ -54,9 +52,7 @@ import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 @Composable
 fun LoginScreen(router: LoginRouter, viewModel: LoginViewModel) {
     val loginState by viewModel.state.collectAsState()
-
     val focusManager = LocalFocusManager.current
-    var isPasswordVisible by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -79,7 +75,7 @@ fun LoginScreen(router: LoginRouter, viewModel: LoginViewModel) {
                     .align(alignment = Alignment.Center)
             ) {
                 Text(
-                    text = Constants.LOGO,
+                    text = stringResource(R.string.logo),
                     style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
                     color = AccentColor
                 )
@@ -159,16 +155,16 @@ fun LoginScreen(router: LoginRouter, viewModel: LoginViewModel) {
                         .padding(top = 8.dp)
                         .height(IntrinsicSize.Min),
                     shape = RoundedCornerShape(10.dp),
-                    visualTransformation = if (isPasswordVisible)
+                    visualTransformation = if (loginState.isPasswordHide)
                         VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
                         IconButton(
                             onClick = {
-                                isPasswordVisible = !isPasswordVisible
+                                viewModel.processIntent(LoginIntent.UpdatePasswordVisibility)
                             }
                         ) {
                             Icon(
-                                imageVector = if (isPasswordVisible) Icons.Default.Visibility
+                                imageVector = if (loginState.isPasswordHide) Icons.Default.Visibility
                                 else Icons.Default.VisibilityOff,
                                 contentDescription = null
                             )

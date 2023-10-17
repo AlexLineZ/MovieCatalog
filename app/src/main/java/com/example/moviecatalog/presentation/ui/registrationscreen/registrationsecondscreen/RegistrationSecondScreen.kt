@@ -84,7 +84,7 @@ fun RegistrationSecondScreen(router: LoginRouter) {
                     .align(alignment = Alignment.CenterStart)
             ) {
                 IconButton(
-                    onClick = { router.toRegistration },
+                    onClick = { router.toRegistration() },
                 ) {
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowLeft,

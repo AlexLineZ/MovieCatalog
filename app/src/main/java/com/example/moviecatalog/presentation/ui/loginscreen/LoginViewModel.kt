@@ -7,8 +7,11 @@ import com.example.moviecatalog.domain.state.LoginState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
+
 class LoginViewModel : ViewModel() {
-    private val _state = MutableStateFlow(LoginState(Constants.EMPTY_STRING, Constants.EMPTY_STRING))
+    private val emptyState = LoginState("", "", false)
+
+    private val _state = MutableStateFlow(emptyState)
     val state: StateFlow<LoginState> get() = _state
 
     fun updateLogin(login: String) {
@@ -23,6 +26,15 @@ class LoginViewModel : ViewModel() {
         when (intent) {
             is LoginIntent.Login -> {
                 Log.d(state.value.login, state.value.password)
+            }
+            is LoginIntent.UpdateLogin -> {
+                _state.value = state.value.copy(login = intent.login)
+            }
+            is LoginIntent.UpdatePassword -> {
+                _state.value = state.value.copy(password = intent.password)
+            }
+            LoginIntent.UpdatePasswordVisibility -> {
+                _state.value = state.value.copy(isPasswordHide = !_state.value.isPasswordHide)
             }
         }
     }

@@ -29,38 +29,20 @@ fun Navigation(viewModel: LoginViewModel) {
         navController = navController,
         startDestination = Destinations.SPLASH_SCREEN
     ) {
-
-        val router = LoginRouter(
-            toLogin = { navController.navigate(Destinations.LOGIN_SCREEN) {
-                popUpTo(Destinations.SELECT_AUTH_SCREEN)
-            } },
-            toRegistration = { navController.navigate(Destinations.REGISTRATION_FIRST_SCREEN) {
-                popUpTo(Destinations.SELECT_AUTH_SCREEN)
-            } },
-            toAuth = { navController.navigate(Destinations.SELECT_AUTH_SCREEN){
-                popUpTo(Destinations.SPLASH_SCREEN) { inclusive = true }
-            } },
-            toPasswordRegistration = { navController.navigate(Destinations.REGISTRATION_SECOND_SCREEN) },
-            toMain = { navController.navigate(Destinations.MAIN_SCREEN){
-                popUpTo(0)
-            }
-            }
-        )
-
         composable (Destinations.SPLASH_SCREEN){
-            SplashScreen(router)
+            SplashScreen(LoginRouter(navController))
         }
         composable(Destinations.SELECT_AUTH_SCREEN) {
-            SelectAuthScreen(router)
+            SelectAuthScreen(LoginRouter(navController))
         }
         composable(Destinations.LOGIN_SCREEN) {
-            LoginScreen(router, viewModel)
+            LoginScreen(LoginRouter(navController), viewModel)
         }
         composable(Destinations.REGISTRATION_FIRST_SCREEN) {
-            RegistrationFirstScreen(router)
+            RegistrationFirstScreen(LoginRouter(navController))
         }
         composable(Destinations.REGISTRATION_SECOND_SCREEN) {
-            RegistrationSecondScreen(router)
+            RegistrationSecondScreen(LoginRouter(navController))
         }
         composable(Destinations.MAIN_SCREEN) {
             MainScreen()
