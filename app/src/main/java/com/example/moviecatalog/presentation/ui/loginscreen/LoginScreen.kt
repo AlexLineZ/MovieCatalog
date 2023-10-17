@@ -196,14 +196,14 @@ fun LoginScreen(router: LoginRouter, viewModel: LoginViewModel) {
         ){
             val highlightedText = buildAnnotatedString {
                 withStyle(style = spanStyleGray){
-                    append(Descriptions.NEED_REGISTER)
+                    append(stringResource(R.string.need_register))
                 }
 
                 withStyle(style = spanStyleAccent) {
-                    append(Descriptions.NEED_REGISTER_CLICKABLE)
+                    append(stringResource(R.string.need_register_clickable))
                 }
             }
-
+s
             ClickableText(
                 onClick = { offset ->
                     if (offset >= 16){

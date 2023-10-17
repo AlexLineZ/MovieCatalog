@@ -65,14 +65,14 @@ fun SelectAuthScreen(router: LoginRouter) {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = Descriptions.AUTH_DESCRIPTION_FIRST,
+                    text = stringResource(R.string.auth_description_first),
                     style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(4.dp)
                 )
 
                 Text(
-                    text = Descriptions.AUTH_DESCRIPTION_SECOND,
+                    text = stringResource(R.string.auth_description_second),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(8.dp)
                 )

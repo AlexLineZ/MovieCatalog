@@ -34,8 +34,8 @@ import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Descriptions
 import com.example.moviecatalog.presentation.router.LoginRouter
-import com.example.moviecatalog.presentation.ui.registrationscreen.registationfirstscreen.components.DatePickerField
-import com.example.moviecatalog.presentation.ui.registrationscreen.registationfirstscreen.components.GenderSelectionButton
+import com.example.moviecatalog.presentation.ui.registrationscreen.components.DatePickerField
+import com.example.moviecatalog.presentation.ui.registrationscreen.components.GenderSelectionButton
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
@@ -224,11 +224,11 @@ fun RegistrationFirstScreen(router: LoginRouter) {
         ){
             val highlightedText = buildAnnotatedString {
                 withStyle(style = spanStyleGray){
-                    append(Descriptions.NEED_LOGIN)
+                    append(stringResource(R.string.need_login))
                 }
 
                 withStyle(style = spanStyleAccent) {
-                    append(Descriptions.NEED_LOGIN_CLICKABLE)
+                    append(stringResource(R.string.need_login_clickable))
                 }
             }
 

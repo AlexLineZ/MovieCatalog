@@ -211,11 +211,11 @@ fun RegistrationSecondScreen(router: LoginRouter) {
         ){
             val highlightedText = buildAnnotatedString {
                 withStyle(style = spanStyleGray){
-                    append(Descriptions.NEED_LOGIN)
+                    append(stringResource(R.string.need_login))
                 }
 
                 withStyle(style = spanStyleAccent) {
-                    append(Descriptions.NEED_LOGIN_CLICKABLE)
+                    append(stringResource(R.string.need_login_clickable))
                 }
             }
 

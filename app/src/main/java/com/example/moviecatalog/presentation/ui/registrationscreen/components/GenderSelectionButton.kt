@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.ui.registrationscreen.registationfirstscreen.components
+package com.example.moviecatalog.presentation.ui.registrationscreen.components
 
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
