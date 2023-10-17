@@ -203,7 +203,7 @@ fun LoginScreen(router: LoginRouter, viewModel: LoginViewModel) {
                     append(stringResource(R.string.need_register_clickable))
                 }
             }
-s
+
             ClickableText(
                 onClick = { offset ->
                     if (offset >= 16){
