@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val loginViewModel = ViewModelProvider(
-                        this, LoginViewModelFactory()
+                        this, LoginViewModelFactory(application)
                     )[LoginViewModel::class.java]
 
                     val regViewModel = ViewModelProvider(
