@@ -2,23 +2,24 @@ package com.example.moviecatalog.presentation.ui.registrationscreen
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.domain.state.RegistrationState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class RegistrationViewModel : ViewModel() {
     private val emptyState = RegistrationState(
-        "",
-        0,
-        "",
-        "",
-        "",
-        false,
-        false,
-        "",
-        "",
-        false,
-        false
+        Constants.EMPTY_STRING,
+        Constants.ZERO,
+        Constants.EMPTY_STRING,
+        Constants.EMPTY_STRING,
+        Constants.EMPTY_STRING,
+        Constants.FALSE,
+        Constants.FALSE,
+        Constants.EMPTY_STRING,
+        Constants.EMPTY_STRING,
+        Constants.FALSE,
+        Constants.FALSE
     )
 
     private val _state = MutableStateFlow(emptyState)
