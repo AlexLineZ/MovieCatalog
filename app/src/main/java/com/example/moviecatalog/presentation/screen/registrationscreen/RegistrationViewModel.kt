@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.ui.registrationscreen
+package com.example.moviecatalog.presentation.screen.registrationscreen
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

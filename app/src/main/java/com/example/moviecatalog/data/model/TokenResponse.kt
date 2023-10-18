@@ -1,5 +1,5 @@
 package com.example.moviecatalog.data.model
 
-data class Token(
+data class TokenResponse(
     val token: String
 )

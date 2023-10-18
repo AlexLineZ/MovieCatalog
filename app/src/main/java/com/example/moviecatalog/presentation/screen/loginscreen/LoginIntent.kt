@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.ui.loginscreen
+package com.example.moviecatalog.presentation.screen.loginscreen
 
 import com.example.moviecatalog.domain.state.LoginState
 

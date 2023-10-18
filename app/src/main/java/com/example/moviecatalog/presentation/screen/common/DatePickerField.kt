@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.ui.registrationscreen.components
+package com.example.moviecatalog.presentation.screen.common
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,8 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.moviecatalog.domain.state.RegistrationState
-import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationIntent
-import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationViewModel
+import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationIntent
+import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel
 import com.example.moviecatalog.common.formatDate
 import java.time.LocalDate
 import java.util.Date

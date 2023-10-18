@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.ui.registrationscreen
+package com.example.moviecatalog.presentation.screen.registrationscreen
 
 import com.example.moviecatalog.domain.state.RegistrationState
 

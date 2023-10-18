@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.ui.registrationscreen.components
+package com.example.moviecatalog.presentation.screen.common
 
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -10,17 +10,13 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.domain.state.RegistrationState
-import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationIntent
-import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationViewModel
+import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationIntent
+import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
 import com.example.moviecatalog.presentation.ui.theme.SuperDarkGrayColor
 

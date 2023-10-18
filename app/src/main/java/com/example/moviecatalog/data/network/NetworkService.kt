@@ -5,7 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-object NetworkObject {
+object NetworkService {
 
     private const val BASE_URL = "https://react-midterm.kreosoft.space/"
 
@@ -21,4 +21,8 @@ object NetworkObject {
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+
+
+    val authenticationApiService: AuthenticationApiService =
+        retrofit.create(AuthenticationApiService::class.java)
 }

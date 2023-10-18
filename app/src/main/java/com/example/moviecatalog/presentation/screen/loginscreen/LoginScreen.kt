@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.ui.registrationscreen.registationfirstscreen
+package com.example.moviecatalog.presentation.screen.loginscreen
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
@@ -13,6 +13,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,28 +27,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import com.example.moviecatalog.R
 import com.example.moviecatalog.presentation.router.LoginRouter
-import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationIntent
-import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationViewModel
-import com.example.moviecatalog.presentation.ui.registrationscreen.components.DatePickerField
-import com.example.moviecatalog.presentation.ui.registrationscreen.components.GenderSelectionButton
+import com.example.moviecatalog.presentation.screen.common.AppBar
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
 @Composable
-fun RegistrationFirstScreen(router: LoginRouter, viewModel: RegistrationViewModel) {
+fun LoginScreen(router: LoginRouter, viewModel: LoginViewModel) {
+    val loginState by viewModel.state.collectAsState()
     val focusManager = LocalFocusManager.current
-    val registrationState by viewModel.state.collectAsState()
 
     Column(
         modifier = Modifier
@@ -59,39 +60,12 @@ fun RegistrationFirstScreen(router: LoginRouter, viewModel: RegistrationViewMode
             },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Box(
-                modifier = Modifier
-                    .wrapContentSize(Alignment.Center)
-                    .align(alignment = Alignment.Center)
-            ) {
-                Text(
-                    text = stringResource(R.string.logo),
-                    style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
-                    color = AccentColor
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .wrapContentSize(Alignment.CenterStart)
-                    .align(alignment = Alignment.CenterStart)
-            ) {
-                IconButton(
-                    onClick = { router.toAuth() },
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                        contentDescription = null
-                    )
-                }
-            }
+        AppBar {
+            router.toAuth()
         }
 
         Text(
-            text = stringResource(R.string.registration),
+            text = stringResource(R.string.login_to),
             style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
@@ -107,62 +81,21 @@ fun RegistrationFirstScreen(router: LoginRouter, viewModel: RegistrationViewMode
                     .padding(8.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.name)
-                )
-
-                OutlinedTextField(
-                    value = registrationState.name,
-                    onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateName(it)) },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                    shape = RoundedCornerShape(10.dp),
-                )
-            }
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.gender)
-                )
-                GenderSelectionButton(viewModel, registrationState)
-            }
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Text(
                     text = stringResource(R.string.login)
                 )
 
                 OutlinedTextField(
-                    value = registrationState.login,
-                    onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateLogin(it)) },
+                    value = loginState.login,
+                    onValueChange = { viewModel.processIntent(LoginIntent.UpdateLogin(it)) },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 8.dp),
+                        .padding(top = 8.dp)
+                        .height(IntrinsicSize.Min),
                     shape = RoundedCornerShape(10.dp),
                 )
             }
         }
-
 
         Box(
             modifier = Modifier
@@ -174,40 +107,42 @@ fun RegistrationFirstScreen(router: LoginRouter, viewModel: RegistrationViewMode
                     .padding(8.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.email)
-                )
+                    text = stringResource(R.string.password)
 
+                )
                 OutlinedTextField(
-                    value = registrationState.email,
-                    onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateEmail(it)) },
+                    value = loginState.password,
+                    onValueChange = { viewModel.processIntent(LoginIntent.UpdatePassword(it)) },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 8.dp),
+                        .padding(top = 8.dp)
+                        .height(IntrinsicSize.Min),
                     shape = RoundedCornerShape(10.dp),
+                    visualTransformation = if (loginState.isPasswordHide)
+                        VisualTransformation.None else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        IconButton(
+                            onClick = {
+                                viewModel.processIntent(LoginIntent.UpdatePasswordVisibility)
+                            }
+                        ) {
+                            Icon(
+                                imageVector = if (loginState.isPasswordHide) Icons.Default.Visibility
+                                else Icons.Default.VisibilityOff,
+                                contentDescription = null
+                            )
+                        }
+                    }
                 )
-            }
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.date_of_birthday)
-                )
-
-                DatePickerField(viewModel, registrationState)
             }
         }
 
         Button(
-            onClick = { router.toPasswordRegistration() },
+            onClick = {
+                viewModel.processIntent(LoginIntent.Login(loginState))
+                router.toMain()
+            },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
@@ -215,9 +150,10 @@ fun RegistrationFirstScreen(router: LoginRouter, viewModel: RegistrationViewMode
                 .height(IntrinsicSize.Min)
         ) {
             Text(
-                text = stringResource(R.string.continue_)
+                text = stringResource(R.string.login_button)
             )
         }
+
 
         Box(
             modifier = Modifier
@@ -228,18 +164,18 @@ fun RegistrationFirstScreen(router: LoginRouter, viewModel: RegistrationViewMode
         ){
             val highlightedText = buildAnnotatedString {
                 withStyle(style = spanStyleGray){
-                    append(stringResource(R.string.need_login) + " ")
+                    append(stringResource(R.string.need_register) + " ")
                 }
 
                 withStyle(style = spanStyleAccent) {
-                    append(stringResource(R.string.need_login_clickable))
+                    append(stringResource(R.string.need_register_clickable))
                 }
             }
 
             ClickableText(
-                onClick ={ offset ->
+                onClick = { offset ->
                     if (offset >= 16){
-                        router.toLogin()
+                        router.toRegistration()
                     }
                 },
                 text = highlightedText
