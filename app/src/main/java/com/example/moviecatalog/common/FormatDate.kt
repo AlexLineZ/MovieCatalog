@@ -11,6 +11,6 @@ fun formatDate(date: Date?): String {
         val utilDate = Date.from(date.toInstant().atZone(ZoneId.systemDefault()).toInstant())
         formatter.format(utilDate)
     } else {
-        ""
+        Constants.EMPTY_STRING
     }
 }
