@@ -178,7 +178,10 @@ fun RegistrationSecondScreen (
         }
 
         Button(
-            onClick = { router.toMain() },
+            onClick = {
+                viewModel.processIntent(RegistrationIntent.Registration(state))
+                router.toMain()
+            },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()

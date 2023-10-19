@@ -1,13 +1,20 @@
 package com.example.moviecatalog.presentation.screen.registrationscreen
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.common.Constants
+import com.example.moviecatalog.data.localstorage.LocalStorage
+import com.example.moviecatalog.domain.authorization.model.LoginData
+import com.example.moviecatalog.domain.authorization.model.RegistrationData
 import com.example.moviecatalog.domain.state.RegistrationState
+import com.example.moviecatalog.domain.usecase.PostRegistrationDataUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
-class RegistrationViewModel : ViewModel() {
+class RegistrationViewModel (private val context: Context) : ViewModel() {
     private val emptyState = RegistrationState(
         Constants.EMPTY_STRING,
         Constants.ZERO,
@@ -24,6 +31,8 @@ class RegistrationViewModel : ViewModel() {
 
     private val _state = MutableStateFlow(emptyState)
     val state: StateFlow<RegistrationState> get() = _state
+
+    private val postRegistrationDataUseCase = PostRegistrationDataUseCase()
 
     fun processIntent(intent: RegistrationIntent) {
         when (intent) {
@@ -67,8 +76,40 @@ class RegistrationViewModel : ViewModel() {
                     isPasswordHide = !_state.value.isPasswordHide
                 )
             }
+            is RegistrationIntent.Registration -> {
+                performRegistration(state.value)
+            }
         }
     }
+
+    private fun performRegistration(registrationState: RegistrationState) {
+        val registrationData = RegistrationData(
+            userName = registrationState.login,
+            name = registrationState.name,
+            password = registrationState.password,
+            email = registrationState.email,
+            birthDate = registrationState.birthday,
+            gender = registrationState.gender
+        )
+
+        viewModelScope.launch {
+            try {
+                val result = postRegistrationDataUseCase.invoke(registrationData)
+                if (result.isSuccess) {
+                    val tokenResponse = result.getOrNull()
+                    if (tokenResponse != null) {
+                        Log.d("OMG", tokenResponse.token)
+                    }
+                    LocalStorage(context).saveToken(tokenResponse!!)
+                } else {
+                    Log.d("Mem", "hahaha")
+                }
+            } catch (e: Exception) {
+                Log.d("ERROR", e.message.toString())
+            }
+        }
+    }
+
 
     fun isDatePickerOpen() : Boolean {
         return state.value.isDatePickerOpened

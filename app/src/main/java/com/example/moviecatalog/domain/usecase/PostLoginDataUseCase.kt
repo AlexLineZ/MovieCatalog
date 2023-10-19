@@ -9,10 +9,15 @@ class PostLoginDataUseCase {
 
     suspend fun invoke(loginData: LoginData) : Result<TokenResponse?> {
         val response = authenticationRepository.postLoginData(loginData)
-        return if (response.isSuccessful) {
-            Result.success(response.body())
-        } else {
-            Result.success(null)
+
+        return try {
+            if (response.isSuccessful) {
+                Result.success(response.body())
+            } else {
+                Result.failure(Exception("Error: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
         }
     }
 }

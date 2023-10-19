@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
                     )[LoginViewModel::class.java]
 
                     val regViewModel = ViewModelProvider(
-                        this, RegistrationViewModelFactory()
+                        this, RegistrationViewModelFactory(application)
                     )[RegistrationViewModel::class.java]
 
                     Navigation(
