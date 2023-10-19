@@ -21,6 +21,7 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
         Constants.EMPTY_STRING,
         Constants.EMPTY_STRING,
         Constants.EMPTY_STRING,
+        Constants.EMPTY_STRING,
         Constants.FALSE,
         Constants.FALSE,
         Constants.EMPTY_STRING,
@@ -41,6 +42,7 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
             }
             is RegistrationIntent.UpdateBirthday -> {
                 _state.value = state.value.copy(birthday = intent.birthday)
+                _state.value = state.value.copy(date = intent.date)
                 Log.d("s", intent.birthday)
             }
             is RegistrationIntent.UpdateDatePickerVisibility -> {

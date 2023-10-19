@@ -54,10 +54,10 @@ class LoginViewModel (private val context: Context) : ViewModel() {
                     }
                     LocalStorage(context).saveToken(tokenResponse!!)
                 } else {
-
+                    Log.d("Mem", "hahaha")
                 }
             } catch (e: Exception) {
-
+                Log.d("ERROR", e.message.toString())
             }
         }
     }

@@ -9,7 +9,7 @@ sealed class RegistrationIntent {
     data class UpdateGender(val gender: Int) : RegistrationIntent()
     data class UpdateLogin(val login: String) : RegistrationIntent()
     data class UpdateEmail(val email: String) : RegistrationIntent()
-    data class UpdateBirthday(val birthday: String) : RegistrationIntent()
+    data class UpdateBirthday(val birthday: String, val date: String) : RegistrationIntent()
     object UpdateDatePickerVisibility : RegistrationIntent()
 
     data class UpdatePassword(val password: String) : RegistrationIntent()

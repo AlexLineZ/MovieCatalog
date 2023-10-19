@@ -6,6 +6,7 @@ data class RegistrationState (
     val login: String,
     val email: String,
     val birthday: String,
+    val date: String,
 
     val isDatePickerOpened: Boolean,
     val isSecondScreenAvailable: Boolean,

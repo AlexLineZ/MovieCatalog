@@ -21,18 +21,22 @@ import com.example.moviecatalog.domain.state.RegistrationState
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationIntent
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel
 import com.example.moviecatalog.common.formatDate
+import com.example.moviecatalog.common.formatDateToISO8601
 import java.time.LocalDate
 import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DatePickerField(viewModel: RegistrationViewModel, state: RegistrationState) {
+fun DatePickerField(
+    viewModel: RegistrationViewModel,
+    state: RegistrationState
+) {
     val currentDate = LocalDate.now()
 
     OutlinedTextField(
-        value = state.birthday,
+        value = state.date,
         readOnly = true,
-        onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateBirthday(it))},
+        onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateBirthday(state.birthday, it))},
         singleLine = true,
         modifier = Modifier
             .fillMaxWidth()
@@ -61,7 +65,10 @@ fun DatePickerField(viewModel: RegistrationViewModel, state: RegistrationState) 
                 TextButton(
                     onClick = {
                         val date = datePickerState.selectedDateMillis?.let { Date(it) }
-                        viewModel.processIntent(RegistrationIntent.UpdateBirthday(formatDate(date)))
+                        viewModel.processIntent(RegistrationIntent.UpdateBirthday(
+                            formatDateToISO8601(date),
+                            formatDate(date)
+                        ))
                         viewModel.processIntent(RegistrationIntent.UpdateDatePickerVisibility)
                     }
                 ) {
