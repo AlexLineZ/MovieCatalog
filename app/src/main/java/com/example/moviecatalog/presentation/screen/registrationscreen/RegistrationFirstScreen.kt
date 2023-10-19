@@ -40,7 +40,10 @@ import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
 @Composable
-fun RegistrationFirstScreen(router: LoginRouter, viewModel: RegistrationViewModel) {
+fun RegistrationFirstScreen(
+    router: LoginRouter,
+    viewModel: RegistrationViewModel
+) {
     val focusManager = LocalFocusManager.current
     val registrationState by viewModel.state.collectAsState()
 
@@ -61,7 +64,10 @@ fun RegistrationFirstScreen(router: LoginRouter, viewModel: RegistrationViewMode
 
         Text(
             text = stringResource(R.string.registration),
-            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
+            style = TextStyle(
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold
+            ),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
         )

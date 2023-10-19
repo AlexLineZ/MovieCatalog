@@ -16,7 +16,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.moviecatalog.R
 import com.example.moviecatalog.domain.state.RegistrationState
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationIntent
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel
@@ -31,12 +33,12 @@ fun DatePickerField(
     viewModel: RegistrationViewModel,
     state: RegistrationState
 ) {
-    val currentDate = LocalDate.now()
-
     OutlinedTextField(
         value = state.date,
         readOnly = true,
-        onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateBirthday(state.birthday, it))},
+        onValueChange = {
+            viewModel.processIntent(RegistrationIntent.UpdateBirthday(state.birthday, it))
+        },
         singleLine = true,
         modifier = Modifier
             .fillMaxWidth()
@@ -44,9 +46,11 @@ fun DatePickerField(
         shape = RoundedCornerShape(10.dp),
         trailingIcon = {
             IconButton(
-                onClick = { viewModel.processIntent(RegistrationIntent.UpdateDatePickerVisibility) }
+                onClick = {
+                    viewModel.processIntent(RegistrationIntent.UpdateDatePickerVisibility)
+                }
             ) {
-                Icon(
+                Icon (
                     imageVector = Icons.Default.DateRange,
                     contentDescription = null
                 )
@@ -73,7 +77,7 @@ fun DatePickerField(
                     }
                 ) {
                     Text(
-                        text = "OK"
+                        text = stringResource(R.string.ok),
                     )
                 }
             },
@@ -84,7 +88,7 @@ fun DatePickerField(
                     }
                 ) {
                     Text(
-                        text = "Отмена"
+                        text = stringResource(R.string.cancel),
                     )
                 }
             }
