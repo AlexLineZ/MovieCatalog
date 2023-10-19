@@ -5,14 +5,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.moviecatalog.presentation.router.LoginRouter
-import com.example.moviecatalog.presentation.ui.loginscreen.LoginScreen
-import com.example.moviecatalog.presentation.ui.loginscreen.LoginViewModel
-import com.example.moviecatalog.presentation.ui.mainscreen.MainScreen
-import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationViewModel
-import com.example.moviecatalog.presentation.ui.registrationscreen.registationfirstscreen.RegistrationFirstScreen
-import com.example.moviecatalog.presentation.ui.registrationscreen.registrationsecondscreen.RegistrationSecondScreen
-import com.example.moviecatalog.presentation.ui.selectauthscreen.SelectAuthScreen
-import com.example.moviecatalog.presentation.ui.splashscreen.SplashScreen
+import com.example.moviecatalog.presentation.screen.loginscreen.LoginScreen
+import com.example.moviecatalog.presentation.screen.loginscreen.LoginViewModel
+import com.example.moviecatalog.presentation.screen.mainscreen.MainScreen
+import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel
+import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationFirstScreen
+import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationSecondScreen
+import com.example.moviecatalog.presentation.screen.selectauthscreen.SelectAuthScreen
+import com.example.moviecatalog.presentation.screen.splashscreen.SplashScreen
 
 object Destinations {
     const val SPLASH_SCREEN = "splash"

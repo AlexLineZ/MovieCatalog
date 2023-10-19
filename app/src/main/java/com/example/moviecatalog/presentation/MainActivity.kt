@@ -9,10 +9,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
 import com.example.moviecatalog.presentation.navigation.Navigation
-import com.example.moviecatalog.presentation.ui.loginscreen.LoginViewModel
+import com.example.moviecatalog.presentation.screen.loginscreen.LoginViewModel
 import com.example.moviecatalog.presentation.factory.LoginViewModelFactory
 import com.example.moviecatalog.presentation.factory.RegistrationViewModelFactory
-import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationViewModel
+import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel
 import com.example.moviecatalog.presentation.ui.theme.MovieCatalogTheme
 
 class MainActivity : ComponentActivity() {
@@ -25,11 +25,11 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val loginViewModel = ViewModelProvider(
-                        this, LoginViewModelFactory()
+                        this, LoginViewModelFactory(application)
                     )[LoginViewModel::class.java]
 
                     val regViewModel = ViewModelProvider(
-                        this, RegistrationViewModelFactory()
+                        this, RegistrationViewModelFactory(application)
                     )[RegistrationViewModel::class.java]
 
                     Navigation(

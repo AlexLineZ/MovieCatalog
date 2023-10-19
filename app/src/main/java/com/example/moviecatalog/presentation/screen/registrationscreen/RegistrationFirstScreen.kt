@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.ui.registrationscreen.registationfirstscreen
+package com.example.moviecatalog.presentation.screen.registrationscreen
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
@@ -11,11 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,18 +30,20 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
-import com.example.moviecatalog.common.Descriptions
 import com.example.moviecatalog.presentation.router.LoginRouter
-import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationIntent
-import com.example.moviecatalog.presentation.ui.registrationscreen.RegistrationViewModel
-import com.example.moviecatalog.presentation.ui.registrationscreen.components.DatePickerField
-import com.example.moviecatalog.presentation.ui.registrationscreen.components.GenderSelectionButton
-import com.example.moviecatalog.presentation.ui.theme.AccentColor
+import com.example.moviecatalog.presentation.screen.common.AppBar
+import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationIntent
+import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel
+import com.example.moviecatalog.presentation.screen.common.DatePickerField
+import com.example.moviecatalog.presentation.screen.common.GenderSelectionButton
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
 @Composable
-fun RegistrationFirstScreen(router: LoginRouter, viewModel: RegistrationViewModel) {
+fun RegistrationFirstScreen(
+    router: LoginRouter,
+    viewModel: RegistrationViewModel
+) {
     val focusManager = LocalFocusManager.current
     val registrationState by viewModel.state.collectAsState()
 
@@ -60,40 +58,16 @@ fun RegistrationFirstScreen(router: LoginRouter, viewModel: RegistrationViewMode
             },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Box(
-                modifier = Modifier
-                    .wrapContentSize(Alignment.Center)
-                    .align(alignment = Alignment.Center)
-            ) {
-                Text(
-                    text = stringResource(R.string.logo),
-                    style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
-                    color = AccentColor
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .wrapContentSize(Alignment.CenterStart)
-                    .align(alignment = Alignment.CenterStart)
-            ) {
-                IconButton(
-                    onClick = { router.toAuth() },
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                        contentDescription = null
-                    )
-                }
-            }
+        AppBar{
+            router.toAuth()
         }
 
         Text(
             text = stringResource(R.string.registration),
-            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
+            style = TextStyle(
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold
+            ),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
         )
@@ -138,6 +112,7 @@ fun RegistrationFirstScreen(router: LoginRouter, viewModel: RegistrationViewMode
                 GenderSelectionButton(viewModel, registrationState)
             }
         }
+
 
         Box(
             modifier = Modifier
