@@ -43,36 +43,7 @@ fun SelectAuthScreen(router: LoginRouter) {
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Box(
-                modifier = Modifier
-                    .wrapContentSize(Alignment.Center)
-                    .align(alignment = Alignment.Center)
-            ) {
-                Text(
-                    text = stringResource(R.string.logo),
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
-                    ),
-                    color = AccentColor
-                )
-            }
 
-            Box(
-                modifier = Modifier
-                    .wrapContentSize(Alignment.CenterStart)
-                    .align(alignment = Alignment.CenterStart)
-            ) {
-                IconButton(
-                    onClick = {  },
-                    enabled = false
-                ){}
-            }
-        }
         Image(
             painter = painterResource(id = R.drawable.amico),
             contentDescription = null,
