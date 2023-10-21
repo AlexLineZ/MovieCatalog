@@ -18,7 +18,10 @@ class LoginViewModel (private val context: Context) : ViewModel() {
     private val emptyState = LoginState(
         Constants.EMPTY_STRING,
         Constants.EMPTY_STRING,
-        Constants.FALSE)
+        Constants.FALSE,
+        Constants.FALSE,
+        null
+    )
 
     private val _state = MutableStateFlow(emptyState)
     val state: StateFlow<LoginState> get() = _state
@@ -38,6 +41,12 @@ class LoginViewModel (private val context: Context) : ViewModel() {
             }
             is LoginIntent.UpdatePasswordVisibility -> {
                 _state.value = state.value.copy(isPasswordHide = !_state.value.isPasswordHide)
+            }
+            LoginIntent.UpdateError -> {
+                _state.value = state.value.copy(isError = !_state.value.isError)
+            }
+            is LoginIntent.UpdateErrorText -> {
+                _state.value = state.value.copy(isErrorText = intent.errorText)
             }
         }
     }
