@@ -188,7 +188,8 @@ fun RegistrationFirstScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp, bottom = 16.dp, start = 8.dp, end = 8.dp)
-                .height(IntrinsicSize.Min)
+                .height(IntrinsicSize.Min),
+            enabled = viewModel.isContinueButtonAvailable()
         ) {
             Text(
                 text = stringResource(R.string.continue_)

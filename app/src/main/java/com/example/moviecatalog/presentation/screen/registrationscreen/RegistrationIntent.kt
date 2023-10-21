@@ -2,6 +2,7 @@ package com.example.moviecatalog.presentation.screen.registrationscreen
 
 import com.example.moviecatalog.domain.authorization.model.RegistrationData
 import com.example.moviecatalog.domain.state.RegistrationState
+import com.example.moviecatalog.presentation.screen.loginscreen.LoginIntent
 
 sealed class RegistrationIntent {
     data class Continue(val loginState: RegistrationState) : RegistrationIntent()
@@ -18,4 +19,7 @@ sealed class RegistrationIntent {
     object UpdateConfirmPasswordVisibility : RegistrationIntent()
 
     data class Registration(val registrationState: RegistrationState) : RegistrationIntent()
+
+    object UpdateError : RegistrationIntent()
+    data class UpdateErrorText(val errorText: String?) : RegistrationIntent()
 }

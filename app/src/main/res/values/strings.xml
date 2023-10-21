@@ -27,4 +27,11 @@
 
     <string name="auth_description_first">Погрузись в мир кино</string>
     <string name="auth_description_second">Мы предлагаем удобный и легкий способ насладиться любимыми фильмами прямо с Вашего мобильного устройства.</string>
+
+    <string name="login_error">Неверный логин или пароль</string>
+
+    <string name="email_error">Некорректный адрес электронной почты</string>
+    <string name="password_result1">• Пароль должен быть не менее 8-ми символов</string>
+    <string name="password_result2">• Пароль должен содержать хотя-бы 1 цифру и 1 большую букву</string>
+    <string name="password_result3">• Пароли не совпадают</string>
 </resources>

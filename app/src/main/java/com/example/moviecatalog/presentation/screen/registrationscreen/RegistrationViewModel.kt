@@ -9,6 +9,7 @@ import com.example.moviecatalog.data.localstorage.LocalStorage
 import com.example.moviecatalog.domain.authorization.model.LoginData
 import com.example.moviecatalog.domain.authorization.model.RegistrationData
 import com.example.moviecatalog.domain.state.RegistrationState
+import com.example.moviecatalog.domain.usecase.DataValidateUseCase
 import com.example.moviecatalog.domain.usecase.PostRegistrationDataUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,13 +28,16 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
         Constants.EMPTY_STRING,
         Constants.EMPTY_STRING,
         Constants.FALSE,
-        Constants.FALSE
+        Constants.FALSE,
+        Constants.FALSE,
+        null
     )
 
     private val _state = MutableStateFlow(emptyState)
     val state: StateFlow<RegistrationState> get() = _state
 
     private val postRegistrationDataUseCase = PostRegistrationDataUseCase()
+    private val dataValidateUseCase = DataValidateUseCase()
 
     fun processIntent(intent: RegistrationIntent) {
         when (intent) {
@@ -80,7 +84,28 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
             is RegistrationIntent.Registration -> {
                 performRegistration(state.value)
             }
+
+            RegistrationIntent.UpdateError -> {
+                _state.value = state.value.copy(
+                    isError = !_state.value.isError && !isContinueButtonAvailable()
+                )
+            }
+            is RegistrationIntent.UpdateErrorText -> {
+                _state.value = state.value.copy(isErrorText = intent.errorText)
+            }
         }
+    }
+
+    fun isDatePickerOpen() : Boolean {
+        return state.value.isDatePickerOpened
+    }
+
+    fun isContinueButtonAvailable() : Boolean {
+        return  state.value.name.isNotEmpty() &&
+                state.value.login.isNotEmpty() &&
+                state.value.email.isNotEmpty() &&
+                state.value.date.isNotEmpty() &&
+                !state.value.isError
     }
 
     private fun performRegistration(registrationState: RegistrationState) {
@@ -109,10 +134,5 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                 Log.d("ERROR", e.message.toString())
             }
         }
-    }
-
-
-    fun isDatePickerOpen() : Boolean {
-        return state.value.isDatePickerOpened
     }
 }
