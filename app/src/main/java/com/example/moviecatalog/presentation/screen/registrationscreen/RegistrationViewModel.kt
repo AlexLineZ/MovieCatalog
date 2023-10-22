@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.data.localstorage.LocalStorage
-import com.example.moviecatalog.domain.authorization.model.LoginData
 import com.example.moviecatalog.domain.authorization.model.RegistrationData
 import com.example.moviecatalog.domain.state.RegistrationState
 import com.example.moviecatalog.domain.usecase.DataValidateUseCase
@@ -14,7 +13,6 @@ import com.example.moviecatalog.domain.usecase.PostRegistrationDataUseCase
 import com.example.moviecatalog.domain.validator.ConfirmPasswordValidator
 import com.example.moviecatalog.domain.validator.EmailValidator
 import com.example.moviecatalog.domain.validator.PasswordValidator
-import com.example.moviecatalog.domain.validator.Validator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -96,16 +94,12 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
             is RegistrationIntent.UpdateErrorText -> {
                 var result = dataValidateUseCase.invoke(intent.validator, intent.data, intent.secondData)
                 when (intent.validator) {
-                    is EmailValidator -> {
-                        _state.value = state.value.copy (
-                            isErrorEmailText = result?.let { context.getString(it) }
-                        )
-                        Log.d("debug", _state.value.email.toString())
-                    }
+                    is EmailValidator -> _state.value = state.value.copy (
+                        isErrorEmailText = result?.let { context.getString(it) }
+                    )
                     is PasswordValidator -> _state.value = state.value.copy (
                         isErrorPasswordText = result?.let { context.getString(it) }
                     )
-
                     is ConfirmPasswordValidator -> _state.value = state.value.copy (
                         isErrorConfirmPasswordText = result?.let { context.getString(it) }
                     )
@@ -123,7 +117,12 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                 state.value.login.isNotEmpty() &&
                 state.value.email.isNotEmpty() &&
                 state.value.date.isNotEmpty() &&
-                state.value.isErrorEmailText == null &&
+                state.value.isErrorEmailText == null
+    }
+
+    fun isRegisterButtonAvailable() : Boolean {
+        return  state.value.password.isNotEmpty() &&
+                state.value.confirmPassword.isNotEmpty() &&
                 state.value.isErrorPasswordText == null &&
                 state.value.isErrorConfirmPasswordText == null
     }

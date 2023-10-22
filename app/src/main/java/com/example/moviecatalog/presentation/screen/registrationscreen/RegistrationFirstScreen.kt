@@ -187,8 +187,9 @@ fun RegistrationFirstScreen(
                     Text (
                         text = it,
                         modifier = Modifier
-                            .padding(8.dp),
-                        color = ErrorAccentColor
+                            .padding(top = 4.dp),
+                        color = ErrorAccentColor,
+                        fontSize = 14.sp
                     )
                 }
             }
