@@ -11,6 +11,10 @@ import com.example.moviecatalog.domain.authorization.model.RegistrationData
 import com.example.moviecatalog.domain.state.RegistrationState
 import com.example.moviecatalog.domain.usecase.DataValidateUseCase
 import com.example.moviecatalog.domain.usecase.PostRegistrationDataUseCase
+import com.example.moviecatalog.domain.validator.ConfirmPasswordValidator
+import com.example.moviecatalog.domain.validator.EmailValidator
+import com.example.moviecatalog.domain.validator.PasswordValidator
+import com.example.moviecatalog.domain.validator.Validator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -30,7 +34,7 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
         Constants.FALSE,
         Constants.FALSE,
         Constants.FALSE,
-        null
+        null, null, null
     )
 
     private val _state = MutableStateFlow(emptyState)
@@ -84,14 +88,28 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
             is RegistrationIntent.Registration -> {
                 performRegistration(state.value)
             }
-
             RegistrationIntent.UpdateError -> {
                 _state.value = state.value.copy(
                     isError = !_state.value.isError && !isContinueButtonAvailable()
                 )
             }
             is RegistrationIntent.UpdateErrorText -> {
-                _state.value = state.value.copy(isErrorText = intent.errorText)
+                var result = dataValidateUseCase.invoke(intent.validator, intent.data, intent.secondData)
+                when (intent.validator) {
+                    is EmailValidator -> {
+                        _state.value = state.value.copy (
+                            isErrorEmailText = result?.let { context.getString(it) }
+                        )
+                        Log.d("debug", _state.value.email.toString())
+                    }
+                    is PasswordValidator -> _state.value = state.value.copy (
+                        isErrorPasswordText = result?.let { context.getString(it) }
+                    )
+
+                    is ConfirmPasswordValidator -> _state.value = state.value.copy (
+                        isErrorConfirmPasswordText = result?.let { context.getString(it) }
+                    )
+                }
             }
         }
     }
@@ -105,7 +123,9 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                 state.value.login.isNotEmpty() &&
                 state.value.email.isNotEmpty() &&
                 state.value.date.isNotEmpty() &&
-                !state.value.isError
+                state.value.isErrorEmailText == null &&
+                state.value.isErrorPasswordText == null &&
+                state.value.isErrorConfirmPasswordText == null
     }
 
     private fun performRegistration(registrationState: RegistrationState) {

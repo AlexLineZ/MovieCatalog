@@ -112,7 +112,9 @@ fun LoginScreen(router: LoginRouter, viewModel: LoginViewModel) {
                 )
                 OutlinedTextField(
                     value = loginState.password,
-                    onValueChange = { viewModel.processIntent(LoginIntent.UpdatePassword(it)) },
+                    onValueChange = {
+                        viewModel.processIntent(LoginIntent.UpdatePassword(it))
+                    },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()

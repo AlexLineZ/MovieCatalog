@@ -1,5 +1,8 @@
 package com.example.moviecatalog.presentation.screen.registrationscreen
 
+import android.util.Log
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,9 +10,11 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
@@ -19,23 +24,28 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
+import com.example.moviecatalog.common.Constants
+import com.example.moviecatalog.domain.validator.EmailValidator
 import com.example.moviecatalog.presentation.router.LoginRouter
 import com.example.moviecatalog.presentation.screen.common.AppBar
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationIntent
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel
 import com.example.moviecatalog.presentation.screen.common.DatePickerField
 import com.example.moviecatalog.presentation.screen.common.GenderSelectionButton
+import com.example.moviecatalog.presentation.ui.theme.ErrorAccentColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
@@ -93,6 +103,7 @@ fun RegistrationFirstScreen(
                         .fillMaxWidth()
                         .padding(top = 8.dp),
                     shape = RoundedCornerShape(10.dp),
+
                 )
             }
         }
@@ -155,13 +166,31 @@ fun RegistrationFirstScreen(
 
                 OutlinedTextField(
                     value = registrationState.email,
-                    onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateEmail(it)) },
+                    onValueChange = {
+                        viewModel.processIntent(RegistrationIntent.UpdateEmail(it))
+                        viewModel.processIntent(
+                            RegistrationIntent.UpdateErrorText(
+                                EmailValidator(),
+                                registrationState.email
+                            )
+                        )
+                    },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 8.dp),
                     shape = RoundedCornerShape(10.dp),
+                    isError = registrationState.isErrorEmailText != null
                 )
+
+                registrationState.isErrorEmailText?.let {
+                    Text (
+                        text = it,
+                        modifier = Modifier
+                            .padding(8.dp),
+                        color = ErrorAccentColor
+                    )
+                }
             }
         }
 
@@ -222,5 +251,6 @@ fun RegistrationFirstScreen(
                 text = highlightedText
             )
         }
+
     }
 }

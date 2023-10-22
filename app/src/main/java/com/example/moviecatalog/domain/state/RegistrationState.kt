@@ -18,5 +18,7 @@ data class RegistrationState (
     val isConfirmPasswordHide: Boolean,
 
     val isError: Boolean,
-    val isErrorText: String?
+    val isErrorPasswordText: String?,
+    val isErrorEmailText: String?,
+    val isErrorConfirmPasswordText: String?
 )
