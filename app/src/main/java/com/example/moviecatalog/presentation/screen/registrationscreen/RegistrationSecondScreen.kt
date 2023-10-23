@@ -40,11 +40,15 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
+import com.example.moviecatalog.domain.validator.ConfirmPasswordValidator
+import com.example.moviecatalog.domain.validator.EmailValidator
+import com.example.moviecatalog.domain.validator.PasswordValidator
 import com.example.moviecatalog.presentation.router.LoginRouter
 import com.example.moviecatalog.presentation.screen.common.AppBar
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationIntent
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
+import com.example.moviecatalog.presentation.ui.theme.ErrorAccentColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
@@ -97,6 +101,12 @@ fun RegistrationSecondScreen (
                     value = state.password,
                     onValueChange = {
                         viewModel.processIntent(RegistrationIntent.UpdatePassword(it))
+                        viewModel.processIntent(
+                            RegistrationIntent.UpdateErrorText(
+                                PasswordValidator(),
+                                it
+                            )
+                        )
                     },
                     singleLine = true,
                     modifier = Modifier
@@ -123,6 +133,15 @@ fun RegistrationSecondScreen (
                         }
                     }
                 )
+                state.isErrorPasswordText?.let {
+                    Text (
+                        text = it,
+                        modifier = Modifier
+                            .padding(top = 4.dp),
+                        color = ErrorAccentColor,
+                        fontSize = 14.sp
+                    )
+                }
             }
         }
 
@@ -146,6 +165,13 @@ fun RegistrationSecondScreen (
                     value = state.confirmPassword,
                     onValueChange = {
                         viewModel.processIntent(RegistrationIntent.UpdateConfirmPassword(it))
+                        viewModel.processIntent(
+                            RegistrationIntent.UpdateErrorText(
+                                ConfirmPasswordValidator(),
+                                state.password,
+                                it
+                            )
+                        )
                     },
                     singleLine = true,
                     modifier = Modifier
@@ -174,6 +200,15 @@ fun RegistrationSecondScreen (
                         }
                     }
                 )
+                state.isErrorConfirmPasswordText?.let {
+                    Text (
+                        text = it,
+                        modifier = Modifier
+                            .padding(top = 4.dp),
+                        color = ErrorAccentColor,
+                        fontSize = 14.sp
+                    )
+                }
             }
         }
 
@@ -186,7 +221,8 @@ fun RegistrationSecondScreen (
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp, bottom = 16.dp, start = 8.dp, end = 8.dp)
-                .height(IntrinsicSize.Min)
+                .height(IntrinsicSize.Min),
+            enabled = viewModel.isRegisterButtonAvailable()
         ) {
             Text(
                 text = stringResource(R.string.to_register)
