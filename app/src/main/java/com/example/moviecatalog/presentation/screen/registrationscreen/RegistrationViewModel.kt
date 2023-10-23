@@ -43,9 +43,6 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
 
     fun processIntent(intent: RegistrationIntent) {
         when (intent) {
-            is RegistrationIntent.Continue -> {
-
-            }
             is RegistrationIntent.UpdateBirthday -> {
                 _state.value = state.value.copy(birthday = intent.birthday)
                 _state.value = state.value.copy(date = intent.date)
@@ -86,11 +83,6 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
             is RegistrationIntent.Registration -> {
                 performRegistration(state.value)
             }
-            RegistrationIntent.UpdateError -> {
-                _state.value = state.value.copy(
-                    isError = !_state.value.isError && !isContinueButtonAvailable()
-                )
-            }
             is RegistrationIntent.UpdateErrorText -> {
                 var result = dataValidateUseCase.invoke(intent.validator, intent.data, intent.secondData)
                 when (intent.validator) {
@@ -105,8 +97,6 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                     )
                 }
             }
-
-            else -> {}
         }
     }
 
