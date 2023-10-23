@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 
-class LoginViewModel (private val context: Context) : ViewModel() {
+class LoginViewModel (private val context: Context) : ViewModel() { //AndroidViewModel
     private val emptyState = LoginState(
         Constants.EMPTY_STRING,
         Constants.EMPTY_STRING,
