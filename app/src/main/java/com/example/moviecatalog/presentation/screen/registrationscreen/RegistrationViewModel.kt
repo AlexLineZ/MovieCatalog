@@ -105,6 +105,8 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                     )
                 }
             }
+
+            else -> {}
         }
     }
 

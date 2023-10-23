@@ -171,7 +171,7 @@ fun RegistrationFirstScreen(
                         viewModel.processIntent(
                             RegistrationIntent.UpdateErrorText(
                                 EmailValidator(),
-                                registrationState.email
+                                it
                             )
                         )
                     },

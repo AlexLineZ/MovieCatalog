@@ -104,7 +104,7 @@ fun RegistrationSecondScreen (
                         viewModel.processIntent(
                             RegistrationIntent.UpdateErrorText(
                                 PasswordValidator(),
-                                state.password
+                                it
                             )
                         )
                     },
@@ -169,7 +169,7 @@ fun RegistrationSecondScreen (
                             RegistrationIntent.UpdateErrorText(
                                 ConfirmPasswordValidator(),
                                 state.password,
-                                state.confirmPassword
+                                it
                             )
                         )
                     },
