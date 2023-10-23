@@ -1,13 +1,21 @@
 package com.example.moviecatalog.presentation.navigation
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.moviecatalog.presentation.navigation.bottombar.BottomBar
+import com.example.moviecatalog.presentation.navigation.bottombar.Routes
 import com.example.moviecatalog.presentation.router.LoginRouter
 import com.example.moviecatalog.presentation.screen.loginscreen.LoginScreen
 import com.example.moviecatalog.presentation.screen.loginscreen.LoginViewModel
+import com.example.moviecatalog.presentation.screen.mainscreen.FavouriteScreen
 import com.example.moviecatalog.presentation.screen.mainscreen.MainScreen
+import com.example.moviecatalog.presentation.screen.mainscreen.ProfileScreen
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationFirstScreen
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationSecondScreen
@@ -29,6 +37,8 @@ fun Navigation(
     registrationViewModel: RegistrationViewModel
 ) {
     val navController = rememberNavController()
+    val navController1 = rememberNavController()
+
     NavHost(
         navController = navController,
         startDestination = Destinations.SPLASH_SCREEN
@@ -49,7 +59,7 @@ fun Navigation(
             RegistrationSecondScreen(LoginRouter(navController), registrationViewModel)
         }
         composable(Destinations.MAIN_SCREEN) {
-            MainScreen()
+
         }
     }
 }
