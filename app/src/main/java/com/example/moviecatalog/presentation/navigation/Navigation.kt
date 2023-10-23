@@ -5,12 +5,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.moviecatalog.presentation.router.LoginRouter
-import com.example.moviecatalog.presentation.ui.screen.loginscreen.LoginScreen
-import com.example.moviecatalog.presentation.ui.screen.mainscreen.MainScreen
-import com.example.moviecatalog.presentation.ui.screen.registationfirstscreen.RegistrationFirstScreen
-import com.example.moviecatalog.presentation.ui.screen.registrationsecondscreen.RegistrationSecondScreen
-import com.example.moviecatalog.presentation.ui.screen.selectauthscreen.SelectAuthScreen
-import com.example.moviecatalog.presentation.ui.screen.splashscreen.SplashScreen
+import com.example.moviecatalog.presentation.screen.loginscreen.LoginScreen
+import com.example.moviecatalog.presentation.screen.loginscreen.LoginViewModel
+import com.example.moviecatalog.presentation.screen.mainscreen.MainScreen
+import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel
+import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationFirstScreen
+import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationSecondScreen
+import com.example.moviecatalog.presentation.screen.selectauthscreen.SelectAuthScreen
+import com.example.moviecatalog.presentation.screen.splashscreen.SplashScreen
 
 object Destinations {
     const val SPLASH_SCREEN = "splash"
@@ -22,44 +24,29 @@ object Destinations {
 }
 
 @Composable
-fun Navigation() {
+fun Navigation(
+    loginViewModel: LoginViewModel,
+    registrationViewModel: RegistrationViewModel
+) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
         startDestination = Destinations.SPLASH_SCREEN
     ) {
-
-        val router = LoginRouter(
-            toLogin = { navController.navigate(Destinations.LOGIN_SCREEN) {
-                popUpTo(Destinations.SELECT_AUTH_SCREEN)
-            } },
-            toRegistration = { navController.navigate(Destinations.REGISTRATION_FIRST_SCREEN) {
-                popUpTo(Destinations.SELECT_AUTH_SCREEN)
-            } },
-            toAuth = { navController.navigate(Destinations.SELECT_AUTH_SCREEN){
-                popUpTo(Destinations.SPLASH_SCREEN) { inclusive = true }
-            } },
-            toPasswordRegistration = { navController.navigate(Destinations.REGISTRATION_SECOND_SCREEN) },
-            toMain = { navController.navigate(Destinations.MAIN_SCREEN){
-                popUpTo(0)
-            }
-            }
-        )
-
         composable (Destinations.SPLASH_SCREEN){
-            SplashScreen(router)
+            SplashScreen(LoginRouter(navController))
         }
         composable(Destinations.SELECT_AUTH_SCREEN) {
-            SelectAuthScreen(router)
+            SelectAuthScreen(LoginRouter(navController))
         }
         composable(Destinations.LOGIN_SCREEN) {
-            LoginScreen(router)
+            LoginScreen(LoginRouter(navController), loginViewModel)
         }
         composable(Destinations.REGISTRATION_FIRST_SCREEN) {
-            RegistrationFirstScreen(router)
+            RegistrationFirstScreen(LoginRouter(navController), registrationViewModel)
         }
         composable(Destinations.REGISTRATION_SECOND_SCREEN) {
-            RegistrationSecondScreen(router)
+            RegistrationSecondScreen(LoginRouter(navController), registrationViewModel)
         }
         composable(Destinations.MAIN_SCREEN) {
             MainScreen()

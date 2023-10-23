@@ -1,3 +1,37 @@
 <resources>
     <string name="app_name">MovieCatalog</string>
+    <string name="logo">FИЛЬМУС</string>
+    <string name="registration">Регистрация</string>
+    <string name="to_register">Зарегистрироваться</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="confirm_password">Подтвердите пароль</string>
+    <string name="name">Имя</string>
+    <string name="email">Электронная почта</string>
+    <string name="date_of_birthday">Дата рождения</string>
+    <string name="continue_">Продолжить</string>
+    <string name="gender">Пол</string>
+    <string name="man">Мужчина</string>
+    <string name="woman">Женщина</string>
+    <string name="login_to">Вход</string>
+    <string name="login_button">Войти</string>
+    <string name="ok">ОК</string>
+    <string name="cancel">Отмена</string>
+
+
+    <string name="need_register">Еще нет аккаунта?</string>
+    <string name="need_register_clickable">Зарегистрируйтесь</string>
+
+    <string name="need_login">Уже есть аккаунт?</string>
+    <string name="need_login_clickable">Войдите</string>
+
+    <string name="auth_description_first">Погрузись в мир кино</string>
+    <string name="auth_description_second">Мы предлагаем удобный и легкий способ насладиться любимыми фильмами прямо с Вашего мобильного устройства.</string>
+
+    <string name="login_error">Неверный логин или пароль.</string>
+
+    <string name="email_error">Некорректный адрес электронной почты.</string>
+    <string name="password_result1">Пароль должен быть не менее 8-ми символов.</string>
+    <string name="password_result2">Пароль должен содержать хотя-бы 1 цифру и 1 большую букву.</string>
+    <string name="password_result3">Пароли не совпадают.</string>
 </resources>

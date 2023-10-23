@@ -1,5 +1,8 @@
-package com.example.moviecatalog.presentation.ui.screen.registationfirstscreen
+package com.example.moviecatalog.presentation.screen.registrationscreen
 
+import android.util.Log
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,48 +10,52 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
-import com.example.moviecatalog.common.Descriptions
+import com.example.moviecatalog.domain.validator.EmailValidator
 import com.example.moviecatalog.presentation.router.LoginRouter
-import com.example.moviecatalog.presentation.ui.screen.registationfirstscreen.components.DatePickerField
-import com.example.moviecatalog.presentation.ui.screen.registationfirstscreen.components.GenderSelectionButton
-import com.example.moviecatalog.presentation.ui.theme.AccentColor
+import com.example.moviecatalog.presentation.screen.common.AppBar
+import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationIntent
+import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel
+import com.example.moviecatalog.presentation.screen.common.DatePickerField
+import com.example.moviecatalog.presentation.screen.common.GenderSelectionButton
+import com.example.moviecatalog.presentation.ui.theme.ErrorAccentColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
 @Composable
-fun RegistrationFirstScreen(router: LoginRouter) {
+fun RegistrationFirstScreen(
+    router: LoginRouter,
+    viewModel: RegistrationViewModel
+) {
     val focusManager = LocalFocusManager.current
+    val registrationState by viewModel.state.collectAsState()
 
     Column(
         modifier = Modifier
@@ -61,40 +68,16 @@ fun RegistrationFirstScreen(router: LoginRouter) {
             },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Box(
-                modifier = Modifier
-                    .wrapContentSize(Alignment.Center)
-                    .align(alignment = Alignment.Center)
-            ) {
-                Text(
-                    text = Constants.LOGO,
-                    style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
-                    color = AccentColor
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .wrapContentSize(Alignment.CenterStart)
-                    .align(alignment = Alignment.CenterStart)
-            ) {
-                IconButton(
-                    onClick = { router.toAuth() },
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.KeyboardArrowLeft,
-                        contentDescription = "Back"
-                    )
-                }
-            }
+        AppBar{
+            router.toAuth()
         }
 
         Text(
-            text = Constants.REGISTRATION,
-            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
+            text = stringResource(R.string.registration),
+            style = TextStyle(
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold
+            ),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
         )
@@ -109,14 +92,55 @@ fun RegistrationFirstScreen(router: LoginRouter) {
                     .padding(8.dp)
             ) {
                 Text(
-                    text = Constants.NAME,
-                    style = TextStyle(fontSize = 16.sp),
-                    color = Color.White
+                    text = stringResource(R.string.name)
                 )
 
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {  },
+                    value = registrationState.name,
+                    onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateName(it)) },
+                    singleLine = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    shape = RoundedCornerShape(10.dp),
+
+                )
+            }
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.gender)
+                )
+                GenderSelectionButton(viewModel, registrationState)
+            }
+        }
+
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.login)
+                )
+
+                OutlinedTextField(
+                    value = registrationState.login,
+                    onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateLogin(it)) },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -126,23 +150,6 @@ fun RegistrationFirstScreen(router: LoginRouter) {
             }
         }
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = Constants.GENDER,
-                    style = TextStyle(fontSize = 16.sp),
-                    color = Color.White
-                )
-                GenderSelectionButton()
-            }
-        }
 
         Box(
             modifier = Modifier
@@ -154,48 +161,37 @@ fun RegistrationFirstScreen(router: LoginRouter) {
                     .padding(8.dp)
             ) {
                 Text(
-                    text = Constants.LOGIN,
-                    style = TextStyle(fontSize = 16.sp),
-                    color = Color.White
+                    text = stringResource(R.string.email)
                 )
 
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = registrationState.email,
+                    onValueChange = {
+                        viewModel.processIntent(RegistrationIntent.UpdateEmail(it))
+                        viewModel.processIntent(
+                            RegistrationIntent.UpdateErrorText(
+                                EmailValidator(),
+                                it
+                            )
+                        )
+                    },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 8.dp),
                     shape = RoundedCornerShape(10.dp),
-                )
-            }
-        }
-
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = Constants.EMAIL,
-                    style = TextStyle(fontSize = 16.sp),
-                    color = Color.White
+                    isError = registrationState.isErrorEmailText != null
                 )
 
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                    shape = RoundedCornerShape(10.dp),
-                )
+                registrationState.isErrorEmailText?.let {
+                    Text (
+                        text = it,
+                        modifier = Modifier
+                            .padding(top = 4.dp),
+                        color = ErrorAccentColor,
+                        fontSize = 14.sp
+                    )
+                }
             }
         }
 
@@ -209,12 +205,10 @@ fun RegistrationFirstScreen(router: LoginRouter) {
                     .padding(8.dp)
             ) {
                 Text(
-                    text = Constants.DATE_OF_BIRTHDAY,
-                    style = TextStyle(fontSize = 16.sp),
-                    color = Color.White
+                    text = stringResource(R.string.date_of_birthday)
                 )
 
-                DatePickerField()
+                DatePickerField(viewModel, registrationState)
             }
         }
 
@@ -224,10 +218,11 @@ fun RegistrationFirstScreen(router: LoginRouter) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp, bottom = 16.dp, start = 8.dp, end = 8.dp)
-                .height(IntrinsicSize.Min)
+                .height(IntrinsicSize.Min),
+            enabled = viewModel.isContinueButtonAvailable()
         ) {
             Text(
-                text = Constants.CONTINUE
+                text = stringResource(R.string.continue_)
             )
         }
 
@@ -240,11 +235,11 @@ fun RegistrationFirstScreen(router: LoginRouter) {
         ){
             val highlightedText = buildAnnotatedString {
                 withStyle(style = spanStyleGray){
-                    append(Descriptions.NEED_LOGIN)
+                    append(stringResource(R.string.need_login) + " ")
                 }
 
                 withStyle(style = spanStyleAccent) {
-                    append(Descriptions.NEED_LOGIN_CLICKABLE)
+                    append(stringResource(R.string.need_login_clickable))
                 }
             }
 
@@ -257,5 +252,6 @@ fun RegistrationFirstScreen(router: LoginRouter) {
                 text = highlightedText
             )
         }
+
     }
 }
