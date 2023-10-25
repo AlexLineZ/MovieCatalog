@@ -6,11 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
 import com.example.moviecatalog.presentation.factory.LoginViewModelFactory
 import com.example.moviecatalog.presentation.factory.RegistrationViewModelFactory
 import com.example.moviecatalog.presentation.navigation.Navigation
+import com.example.moviecatalog.presentation.router.BottomBarRouter
 import com.example.moviecatalog.presentation.screen.loginscreen.LoginViewModel
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel
 import com.example.moviecatalog.presentation.ui.theme.MovieCatalogTheme

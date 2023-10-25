@@ -11,11 +11,14 @@ import com.example.moviecatalog.presentation.screen.mainscreen.FavouriteScreen
 import com.example.moviecatalog.presentation.screen.mainscreen.MainScreen
 import com.example.moviecatalog.presentation.screen.mainscreen.ProfileScreen
 
+const val BOTTOM_BAR_ROUTE = "bottomBar"
+
 @Composable
 fun MainNavigation(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Routes.HomeScreen.route
+        startDestination = Routes.HomeScreen.route,
+        route = BOTTOM_BAR_ROUTE
     ) {
         composable(Routes.HomeScreen.route){
             MainScreen()

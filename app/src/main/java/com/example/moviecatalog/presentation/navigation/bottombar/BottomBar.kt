@@ -5,28 +5,23 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.moviecatalog.presentation.router.BottomBarRouter
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.BottomBarColor
 
 @Composable
 fun BottomBar(
-    navController: NavController
+    router: BottomBarRouter
 ) {
     val screens = listOf(
         Routes.HomeScreen, Routes.Favourite, Routes.Profile
     )
-
     NavigationBar(
         containerColor = BottomBarColor
     ) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
+        router.SetNavigationBackStack()
 
         screens.forEach { screen ->
             NavigationBarItem(
@@ -36,15 +31,11 @@ fun BottomBar(
                         contentDescription = null
                     )
                 },
-                selected = currentRoute == screen.route,
+
+                selected = router.isSelected(screen.route),
+
                 onClick = {
-                    navController.navigate(screen.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
+                    router.navigate(screen)
                 },
                 colors = NavigationBarItemDefaults
                     .colors(

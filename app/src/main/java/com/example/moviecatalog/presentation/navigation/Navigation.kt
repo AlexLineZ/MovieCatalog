@@ -10,7 +10,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.moviecatalog.presentation.navigation.bottombar.BottomBar
 import com.example.moviecatalog.presentation.navigation.bottombar.Routes
+import com.example.moviecatalog.presentation.router.BottomBarRouter
 import com.example.moviecatalog.presentation.router.LoginRouter
+import com.example.moviecatalog.presentation.screen.BottomBarScreen
 import com.example.moviecatalog.presentation.screen.loginscreen.LoginScreen
 import com.example.moviecatalog.presentation.screen.loginscreen.LoginViewModel
 import com.example.moviecatalog.presentation.screen.mainscreen.FavouriteScreen
@@ -31,17 +33,20 @@ object Destinations {
     const val MAIN_SCREEN = "main"
 }
 
+const val ROOT_ROUTE = "root"
+
 @Composable
 fun Navigation(
     loginViewModel: LoginViewModel,
     registrationViewModel: RegistrationViewModel
 ) {
     val navController = rememberNavController()
-    val navController1 = rememberNavController()
+    val bottomBarNavController = rememberNavController()
 
     NavHost(
         navController = navController,
-        startDestination = Destinations.SPLASH_SCREEN
+        startDestination = Destinations.SPLASH_SCREEN,
+        route = ROOT_ROUTE
     ) {
         composable (Destinations.SPLASH_SCREEN){
             SplashScreen(LoginRouter(navController))
@@ -58,8 +63,8 @@ fun Navigation(
         composable(Destinations.REGISTRATION_SECOND_SCREEN) {
             RegistrationSecondScreen(LoginRouter(navController), registrationViewModel)
         }
-        composable(Destinations.MAIN_SCREEN) {
-
+        composable(Destinations.MAIN_SCREEN){
+            BottomBarScreen(BottomBarRouter(bottomBarNavController))
         }
     }
 }

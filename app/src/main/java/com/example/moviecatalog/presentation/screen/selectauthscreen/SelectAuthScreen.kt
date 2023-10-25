@@ -50,7 +50,6 @@ fun SelectAuthScreen(router: LoginRouter) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .clip(CircleShape)
         )
 
         Box(
