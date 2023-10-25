@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import com.example.moviecatalog.presentation.navigation.Destinations
 
 
-class LoginRouter(
+class AppRouter(
     private val navController: NavController
 ) {
     fun toLogin() {

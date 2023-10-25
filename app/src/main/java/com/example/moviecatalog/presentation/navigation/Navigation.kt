@@ -1,23 +1,13 @@
 package com.example.moviecatalog.presentation.navigation
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.moviecatalog.presentation.navigation.bottombar.BottomBar
-import com.example.moviecatalog.presentation.navigation.bottombar.Routes
-import com.example.moviecatalog.presentation.router.BottomBarRouter
-import com.example.moviecatalog.presentation.router.LoginRouter
-import com.example.moviecatalog.presentation.screen.BottomBarScreen
+import com.example.moviecatalog.presentation.router.AppRouter
+import com.example.moviecatalog.presentation.screen.mainscreen.BottomBarScreen
 import com.example.moviecatalog.presentation.screen.loginscreen.LoginScreen
 import com.example.moviecatalog.presentation.screen.loginscreen.LoginViewModel
-import com.example.moviecatalog.presentation.screen.mainscreen.FavouriteScreen
-import com.example.moviecatalog.presentation.screen.mainscreen.MainScreen
-import com.example.moviecatalog.presentation.screen.mainscreen.ProfileScreen
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationFirstScreen
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationSecondScreen
@@ -41,30 +31,28 @@ fun Navigation(
     registrationViewModel: RegistrationViewModel
 ) {
     val navController = rememberNavController()
-    val bottomBarNavController = rememberNavController()
-
     NavHost(
         navController = navController,
         startDestination = Destinations.SPLASH_SCREEN,
         route = ROOT_ROUTE
     ) {
         composable (Destinations.SPLASH_SCREEN){
-            SplashScreen(LoginRouter(navController))
+            SplashScreen(AppRouter(navController))
         }
         composable(Destinations.SELECT_AUTH_SCREEN) {
-            SelectAuthScreen(LoginRouter(navController))
+            SelectAuthScreen(AppRouter(navController))
         }
         composable(Destinations.LOGIN_SCREEN) {
-            LoginScreen(LoginRouter(navController), loginViewModel)
+            LoginScreen(AppRouter(navController), loginViewModel)
         }
         composable(Destinations.REGISTRATION_FIRST_SCREEN) {
-            RegistrationFirstScreen(LoginRouter(navController), registrationViewModel)
+            RegistrationFirstScreen(AppRouter(navController), registrationViewModel)
         }
         composable(Destinations.REGISTRATION_SECOND_SCREEN) {
-            RegistrationSecondScreen(LoginRouter(navController), registrationViewModel)
+            RegistrationSecondScreen(AppRouter(navController), registrationViewModel)
         }
         composable(Destinations.MAIN_SCREEN){
-            BottomBarScreen(BottomBarRouter(bottomBarNavController))
+            BottomBarScreen()
         }
     }
 }
