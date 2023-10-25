@@ -20,3 +20,8 @@ val DarkGrayColor = Color(0xFF5E5E5E)
 val SuperDarkGrayColor = Color(0xFF767680)
 val ErrorAccentColor = Color(0xFFE64646)
 val BottomBarColor = Color(0xFF161616)
+val ChipColor = Color(0xFF404040)
+
+val GoodMarkColor = Color(0xFF4BB34B)
+val MiddleMarkColor = Color(0xFFFFD54F)
+val BadMarkColor = Color(0xFFF05C44)
