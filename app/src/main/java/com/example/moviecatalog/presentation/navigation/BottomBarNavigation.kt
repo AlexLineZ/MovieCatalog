@@ -12,7 +12,7 @@ import com.example.moviecatalog.presentation.screen.mainscreen.ProfileScreen
 const val BOTTOM_BAR_ROUTE = "bottomBar"
 
 @Composable
-fun MainNavigation(bottomBarController: NavHostController) {
+fun BottomBarNavigation(bottomBarController: NavHostController) {
     NavHost(
         navController = bottomBarController,
         startDestination = Routes.HomeScreen.route,
