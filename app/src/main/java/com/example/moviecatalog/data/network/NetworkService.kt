@@ -4,6 +4,7 @@ import android.util.Log
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.util.concurrent.TimeUnit
 
 object NetworkService {
@@ -26,4 +27,7 @@ object NetworkService {
 
     val authenticationApiService: AuthenticationApiService =
         retrofit.create(AuthenticationApiService::class.java)
+
+    val movieApiService: MovieApiService =
+        retrofit.create(MovieApiService::class.java)
 }

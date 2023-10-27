@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.data.localstorage.LocalStorage
-import com.example.moviecatalog.domain.authorization.model.RegistrationData
+import com.example.moviecatalog.domain.model.authorization.RegistrationData
 import com.example.moviecatalog.domain.state.RegistrationState
 import com.example.moviecatalog.domain.usecase.DataValidateUseCase
 import com.example.moviecatalog.domain.usecase.PostRegistrationDataUseCase

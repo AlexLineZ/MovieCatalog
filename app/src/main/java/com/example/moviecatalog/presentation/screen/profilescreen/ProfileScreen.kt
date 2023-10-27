@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.screen.mainscreen
+package com.example.moviecatalog.presentation.screen.profilescreen
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

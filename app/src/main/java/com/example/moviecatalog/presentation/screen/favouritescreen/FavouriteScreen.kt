@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.screen.mainscreen
+package com.example.moviecatalog.presentation.screen.favouritescreen
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column

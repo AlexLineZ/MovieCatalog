@@ -1,4 +1,4 @@
-package com.example.moviecatalog.domain.authorization.model
+package com.example.moviecatalog.domain.model.authorization
 
 data class RegistrationData(
     val userName: String,

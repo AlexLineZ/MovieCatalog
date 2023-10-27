@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.data.localstorage.LocalStorage
-import com.example.moviecatalog.domain.authorization.model.LoginData
+import com.example.moviecatalog.domain.model.authorization.LoginData
 import com.example.moviecatalog.domain.state.LoginState
 import com.example.moviecatalog.domain.usecase.PostLoginDataUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
