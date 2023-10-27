@@ -2,6 +2,7 @@ package com.example.moviecatalog.presentation.screen.mainscreen
 
 import androidx.compose.foundation.layout.Arrangement.Absolute.Center
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -50,6 +51,33 @@ fun MainScreen(viewModel: MainViewModel) {
         ){ movie ->
             movies[movie]?.let { MovieCard(it) }
         }
+
+        when(movies.loadState.append) {
+            is LoadState.NotLoading -> Unit
+
+            is LoadState.Error -> Unit
+
+            LoadState.Loading -> {
+                item {
+                    LoadingItem()
+                }
+            }
+        }
+
+        when(movies.loadState.refresh) {
+            is LoadState.Error -> Unit
+            LoadState.Loading -> {
+                item {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+            }
+            is LoadState.NotLoading -> Unit
+        }
     }
 }
 
@@ -58,7 +86,8 @@ fun LoadingItem() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight()
+            .wrapContentHeight(),
+        contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator(
             modifier = Modifier
