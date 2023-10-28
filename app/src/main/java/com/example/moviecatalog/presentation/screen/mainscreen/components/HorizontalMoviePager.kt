@@ -1,6 +1,5 @@
 package com.example.moviecatalog.presentation.screen.mainscreen.components
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,15 +19,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
+import androidx.paging.compose.LazyPagingItems
 import com.example.moviecatalog.R
 import com.example.moviecatalog.domain.model.movie.MovieElement
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HorizontalMoviePager() {
+fun HorizontalMoviePager(movies: LazyPagingItems<MovieElement>) {
     val state = rememberPagerState { 4 }
 
     LaunchedEffect(Unit) {

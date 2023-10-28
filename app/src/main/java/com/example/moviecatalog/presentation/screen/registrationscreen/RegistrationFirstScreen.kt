@@ -35,6 +35,7 @@ import com.example.moviecatalog.presentation.router.AppRouter
 import com.example.moviecatalog.presentation.screen.common.AppBar
 import com.example.moviecatalog.presentation.screen.common.DatePickerField
 import com.example.moviecatalog.presentation.screen.common.GenderSelectionButton
+import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
 import com.example.moviecatalog.presentation.ui.theme.ErrorAccentColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
@@ -58,6 +59,7 @@ fun RegistrationFirstScreen(
             },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         AppBar{
             router.toAuth()
         }
@@ -72,31 +74,12 @@ fun RegistrationFirstScreen(
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
         )
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.name)
-                )
-
-                OutlinedTextField(
-                    value = registrationState.name,
-                    onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateName(it)) },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                    shape = RoundedCornerShape(10.dp),
-
-                )
-            }
-        }
+        OutlinedTextFieldWithLabel(
+            label = stringResource(R.string.name),
+            value = registrationState.name,
+            onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateName(it)) },
+            error = null
+        )
 
         Box(
             modifier = Modifier
@@ -115,75 +98,29 @@ fun RegistrationFirstScreen(
         }
 
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.login)
-                )
-
-                OutlinedTextField(
-                    value = registrationState.login,
-                    onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateLogin(it)) },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                    shape = RoundedCornerShape(10.dp),
-                )
-            }
-        }
+        OutlinedTextFieldWithLabel(
+            label = stringResource(R.string.login),
+            value = registrationState.login,
+            onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateLogin(it)) },
+            error = null
+        )
 
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.email)
-                )
-
-                OutlinedTextField(
-                    value = registrationState.email,
-                    onValueChange = {
-                        viewModel.processIntent(RegistrationIntent.UpdateEmail(it))
-                        viewModel.processIntent(
-                            RegistrationIntent.UpdateErrorText(
-                                EmailValidator(),
-                                it
-                            )
-                        )
-                    },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                    shape = RoundedCornerShape(10.dp),
-                    isError = registrationState.isErrorEmailText != null
-                )
-
-                registrationState.isErrorEmailText?.let {
-                    Text (
-                        text = it,
-                        modifier = Modifier
-                            .padding(top = 4.dp),
-                        color = ErrorAccentColor,
-                        fontSize = 14.sp
+        OutlinedTextFieldWithLabel(
+            label = stringResource(R.string.email),
+            value = registrationState.email,
+            onValueChange = {
+                viewModel.processIntent(RegistrationIntent.UpdateEmail(it))
+                viewModel.processIntent(
+                    RegistrationIntent.UpdateErrorText(
+                        EmailValidator(),
+                        it
                     )
-                }
-            }
-        }
+                )
+
+            },
+            error = registrationState.isErrorEmailText
+        )
 
         Box(
             modifier = Modifier

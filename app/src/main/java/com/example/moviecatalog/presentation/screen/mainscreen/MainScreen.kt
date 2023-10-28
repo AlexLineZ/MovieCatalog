@@ -1,16 +1,9 @@
 package com.example.moviecatalog.presentation.screen.mainscreen
 
-import androidx.compose.foundation.layout.Arrangement.Absolute.Center
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,9 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.itemContentType
-import androidx.paging.compose.itemKey
 import com.example.moviecatalog.R
+import com.example.moviecatalog.presentation.screen.common.LoadingItem
 import com.example.moviecatalog.presentation.screen.mainscreen.components.HorizontalMoviePager
 import com.example.moviecatalog.presentation.screen.mainscreen.components.MovieCard
 
@@ -36,8 +28,10 @@ fun MainScreen(viewModel: MainViewModel) {
 
     LazyColumn {
         item {
-            HorizontalMoviePager()
+            HorizontalMoviePager(movies)
+        }
 
+        item {
             Text(
                 text = stringResource(R.string.catalog),
                 style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
@@ -78,23 +72,6 @@ fun MainScreen(viewModel: MainViewModel) {
             }
             is LoadState.NotLoading -> Unit
         }
-    }
-}
-
-@Composable
-fun LoadingItem() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator(
-            modifier = Modifier
-                .width(42.dp)
-                .height(42.dp),
-            strokeWidth = 5.dp
-        )
     }
 }
 

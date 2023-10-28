@@ -1,12 +1,12 @@
 package com.example.moviecatalog.presentation.screen.mainscreen
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.moviecatalog.domain.model.movie.MovieElement
 import com.example.moviecatalog.domain.usecase.GetMovieListUseCase
 
-class MoviePagingSource(private val getMovieListUseCase: GetMovieListUseCase) : PagingSource<Int, MovieElement>() {
+class MoviePagingSource(private val getMovieListUseCase: GetMovieListUseCase)
+    : PagingSource<Int, MovieElement>() {
 
     override fun getRefreshKey(state: PagingState<Int, MovieElement>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
@@ -18,7 +18,6 @@ class MoviePagingSource(private val getMovieListUseCase: GetMovieListUseCase) : 
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieElement> {
         val page = params.key ?: 1
-        val pageSize: Int = params.loadSize
 
         return try {
             val response = getMovieListUseCase.invoke(page)
