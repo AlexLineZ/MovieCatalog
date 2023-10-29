@@ -5,7 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.moviecatalog.presentation.router.AppRouter
-import com.example.moviecatalog.presentation.screen.mainscreen.BottomBarScreen
+import com.example.moviecatalog.presentation.screen.BottomBarScreen
 import com.example.moviecatalog.presentation.screen.loginscreen.LoginScreen
 import com.example.moviecatalog.presentation.screen.loginscreen.LoginViewModel
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel

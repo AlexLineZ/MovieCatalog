@@ -65,6 +65,7 @@ fun RegistrationSecondScreen (
             },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         AppBar {
             router.toRegistration()
         }

@@ -1,5 +1,6 @@
 package com.example.moviecatalog.presentation.screen.common
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -31,6 +32,10 @@ fun GenderSelectionButton(
     Row(
         modifier = Modifier
             .padding(top = 4.dp)
+            .background(
+                color = SecondButtonColor,
+                shape = RoundedCornerShape(10.dp)
+            )
     ) {
         Button(
             onClick = {
@@ -38,7 +43,8 @@ fun GenderSelectionButton(
             },
             modifier = Modifier
                 .weight(1f)
-                .height(IntrinsicSize.Min),
+                .height(IntrinsicSize.Min)
+                .padding(2.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = if (state.gender == 0)
@@ -55,7 +61,8 @@ fun GenderSelectionButton(
             },
             modifier = Modifier
                 .weight(1f)
-                .height(IntrinsicSize.Min),
+                .height(IntrinsicSize.Min)
+                .padding(2.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = if (state.gender == 1)

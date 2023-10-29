@@ -1,8 +1,8 @@
 package com.example.moviecatalog.data.network
 
 import com.example.moviecatalog.data.model.TokenResponse
-import com.example.moviecatalog.domain.authorization.model.LoginData
-import com.example.moviecatalog.domain.authorization.model.RegistrationData
+import com.example.moviecatalog.domain.model.authorization.LoginData
+import com.example.moviecatalog.domain.model.authorization.RegistrationData
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST

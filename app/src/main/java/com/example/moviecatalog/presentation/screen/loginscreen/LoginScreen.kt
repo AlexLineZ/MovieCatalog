@@ -63,9 +63,9 @@ fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
         }
 
         Text(
-            text = stringResource(R.string.login_to),
+            text = stringResource(R.string.catalog),
             style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Left,
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
         )
 

@@ -2,8 +2,8 @@ package com.example.moviecatalog.data.repository
 
 import com.example.moviecatalog.data.model.TokenResponse
 import com.example.moviecatalog.data.network.NetworkService
-import com.example.moviecatalog.domain.authorization.model.LoginData
-import com.example.moviecatalog.domain.authorization.model.RegistrationData
+import com.example.moviecatalog.domain.model.authorization.LoginData
+import com.example.moviecatalog.domain.model.authorization.RegistrationData
 import retrofit2.Response
 
 class AuthenticationRepository {
