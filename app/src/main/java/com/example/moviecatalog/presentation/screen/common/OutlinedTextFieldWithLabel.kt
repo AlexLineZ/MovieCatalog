@@ -17,8 +17,8 @@ import com.example.moviecatalog.presentation.ui.theme.ErrorAccentColor
 fun OutlinedTextFieldWithLabel(
     label: String,
     value: String,
-    onValueChange: (String) -> Unit,
-    error: String?
+    onValueChange: ((String) -> Unit)? = null,
+    error: String? = null
 ) {
     Box(
         modifier = Modifier
@@ -35,7 +35,11 @@ fun OutlinedTextFieldWithLabel(
 
             OutlinedTextField(
                 value = value,
-                onValueChange = { onValueChange(it) },
+                onValueChange = {
+                    if (onValueChange != null) {
+                        onValueChange(it)
+                    }
+                },
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()

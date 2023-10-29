@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -36,7 +35,6 @@ import com.example.moviecatalog.presentation.screen.common.AppBar
 import com.example.moviecatalog.presentation.screen.common.DatePickerField
 import com.example.moviecatalog.presentation.screen.common.GenderSelectionButton
 import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
-import com.example.moviecatalog.presentation.ui.theme.ErrorAccentColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
@@ -81,22 +79,10 @@ fun RegistrationFirstScreen(
             error = null
         )
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.gender)
-                )
-                GenderSelectionButton(viewModel, registrationState)
-            }
-        }
-
+        GenderSelectionButton(
+            updateGender = viewModel.processIntent(RegistrationIntent.UpdateGender),
+            state = registrationState.gender
+        )
 
         OutlinedTextFieldWithLabel(
             label = stringResource(R.string.login),

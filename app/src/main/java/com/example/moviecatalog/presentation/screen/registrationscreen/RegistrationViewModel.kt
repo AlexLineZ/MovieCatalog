@@ -56,7 +56,8 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                 _state.value = state.value.copy(email = intent.email)
             }
             is RegistrationIntent.UpdateGender -> {
-                _state.value = state.value.copy(gender = intent.gender)
+                val newGender = if (state.value.gender == 0) 1 else 0
+                _state.value = state.value.copy(gender = newGender)
             }
             is RegistrationIntent.UpdateLogin -> {
                 _state.value = state.value.copy(login = intent.login)
