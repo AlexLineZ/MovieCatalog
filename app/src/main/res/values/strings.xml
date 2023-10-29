@@ -36,4 +36,7 @@
     <string name="password_result1">Пароль должен быть не менее 8-ми символов.</string>
     <string name="password_result2">Пароль должен содержать хотя-бы 1 цифру и 1 большую букву.</string>
     <string name="password_result3">Пароли не совпадают.</string>
+
+    <string name="empty_favourite1">У вас пока нет любимых фильмов</string>
+    <string name="empty_favourite2">Выберите понравившийся фильм в каталоге и добавьте его в любимые</string>
 </resources>
