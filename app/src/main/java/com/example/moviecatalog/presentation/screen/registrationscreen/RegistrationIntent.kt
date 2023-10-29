@@ -6,7 +6,7 @@ import com.example.moviecatalog.domain.validator.Validator
 
 sealed class RegistrationIntent {
     data class UpdateName(val name: String) : RegistrationIntent()
-    data class UpdateGender(val gender: Int) : RegistrationIntent()
+    object UpdateGender : RegistrationIntent()
     data class UpdateLogin(val login: String) : RegistrationIntent()
     data class UpdateEmail(val email: String) : RegistrationIntent()
     data class UpdateBirthday(val birthday: String, val date: String) : RegistrationIntent()
