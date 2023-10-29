@@ -28,7 +28,13 @@ fun MainScreen(viewModel: MainViewModel) {
 
     LazyColumn {
         item {
-            HorizontalMoviePager(movies)
+            when(movies.loadState.refresh) {
+                is LoadState.NotLoading -> {
+                    HorizontalMoviePager(movies)
+                }
+                is LoadState.Error -> Unit
+                LoadState.Loading -> Unit
+            }
         }
 
         item {
@@ -36,7 +42,12 @@ fun MainScreen(viewModel: MainViewModel) {
                 text = stringResource(R.string.catalog),
                 style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
                 textAlign = TextAlign.Start,
-                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp, start = 16.dp, end = 16.dp)
+                modifier = Modifier.padding(
+                    top = 16.dp,
+                    bottom = 8.dp,
+                    start = 16.dp,
+                    end = 16.dp
+                )
             )
         }
 
@@ -48,9 +59,7 @@ fun MainScreen(viewModel: MainViewModel) {
 
         when(movies.loadState.append) {
             is LoadState.NotLoading -> Unit
-
             is LoadState.Error -> Unit
-
             LoadState.Loading -> {
                 item {
                     LoadingItem()

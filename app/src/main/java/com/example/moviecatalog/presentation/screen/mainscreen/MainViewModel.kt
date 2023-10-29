@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
-
     private val getMovieListUseCase = GetMovieListUseCase()
 
     val movies = Pager(

@@ -20,6 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
+import coil.compose.AsyncImage
 import com.example.moviecatalog.R
 import com.example.moviecatalog.domain.model.movie.MovieElement
 import kotlinx.coroutines.delay
@@ -27,7 +28,7 @@ import kotlinx.coroutines.delay
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HorizontalMoviePager(movies: LazyPagingItems<MovieElement>) {
-    val state = rememberPagerState { 4 }
+    val state = rememberPagerState(initialPage = 0, pageCount = {4})
 
     LaunchedEffect(Unit) {
         while (true) {
@@ -35,13 +36,6 @@ fun HorizontalMoviePager(movies: LazyPagingItems<MovieElement>) {
             state.animateScrollToPage((state.currentPage + 1) % state.pageCount)
         }
     }
-
-    val images = listOf(
-        R.drawable.position_1,
-        R.drawable.position_2,
-        R.drawable.position_3,
-        R.drawable.position_4
-    )
 
     Column(
         modifier = Modifier
@@ -59,16 +53,13 @@ fun HorizontalMoviePager(movies: LazyPagingItems<MovieElement>) {
                     .fillMaxWidth()
                     .height(497.dp)
             ) { page ->
-                val imageRes = images.getOrNull(page) ?: R.drawable.position_1
-                val image = painterResource(id = imageRes)
-
                 Box(
                     modifier = Modifier
                         .fillMaxSize(),
                     contentAlignment = Alignment.TopCenter
                 ) {
-                    Image(
-                        painter = image,
+                    AsyncImage(
+                        model = movies[page]?.poster,
                         contentDescription = null,
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop
