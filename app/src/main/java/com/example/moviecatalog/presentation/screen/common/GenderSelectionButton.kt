@@ -57,7 +57,7 @@ fun GenderSelectionButton(
                     modifier = Modifier
                         .weight(1f)
                         .height(IntrinsicSize.Min)
-                        .padding(2.dp),
+                        .padding(4.dp),
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (state == 0)
@@ -75,7 +75,7 @@ fun GenderSelectionButton(
                     modifier = Modifier
                         .weight(1f)
                         .height(IntrinsicSize.Min)
-                        .padding(2.dp),
+                        .padding(4.dp),
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (state == 1)

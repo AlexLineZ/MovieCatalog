@@ -45,7 +45,7 @@ fun OutlinedTextFieldWithLabel(
                     .fillMaxWidth()
                     .padding(top = 8.dp),
                 shape = RoundedCornerShape(10.dp),
-
+                isError = error != null
             )
 
             error?.let {

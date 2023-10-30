@@ -2,10 +2,11 @@ package com.example.moviecatalog.domain.usecase
 
 import android.util.Log
 import com.example.moviecatalog.data.model.MoviePageResponse
+import com.example.moviecatalog.data.model.TokenResponse
 import com.example.moviecatalog.data.repository.MovieRepository
 import com.example.moviecatalog.domain.model.movie.MovieElement
 
-class GetMovieListUseCase {
+class GetMovieListUseCase() {
     private val movieRepository = MovieRepository()
 
     suspend fun invoke(moviesPage: Int): Result<MoviePageResponse?> {

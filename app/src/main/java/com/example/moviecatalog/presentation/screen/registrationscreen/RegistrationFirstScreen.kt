@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
@@ -71,73 +72,77 @@ fun RegistrationFirstScreen(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
         )
+        LazyColumn {
+            item {
+                OutlinedTextFieldWithLabel(
+                    label = stringResource(R.string.name),
+                    value = registrationState.name,
+                    onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateName(it)) },
+                    error = null
+                )
 
-        OutlinedTextFieldWithLabel(
-            label = stringResource(R.string.name),
-            value = registrationState.name,
-            onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateName(it)) },
-            error = null
-        )
+                GenderSelectionButton(
+                    updateGender = { viewModel.processIntent(RegistrationIntent.UpdateGender) },
+                    state = registrationState.gender
+                )
 
-        GenderSelectionButton(
-            updateGender = { viewModel.processIntent(RegistrationIntent.UpdateGender) },
-            state = registrationState.gender
-        )
-
-        OutlinedTextFieldWithLabel(
-            label = stringResource(R.string.login),
-            value = registrationState.login,
-            onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateLogin(it)) },
-            error = null
-        )
+                OutlinedTextFieldWithLabel(
+                    label = stringResource(R.string.login),
+                    value = registrationState.login,
+                    onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateLogin(it)) },
+                    error = null
+                )
 
 
-        OutlinedTextFieldWithLabel(
-            label = stringResource(R.string.email),
-            value = registrationState.email,
-            onValueChange = {
-                viewModel.processIntent(RegistrationIntent.UpdateEmail(it))
-                viewModel.processIntent(
-                    RegistrationIntent.UpdateErrorText(
-                        EmailValidator(),
-                        it
+                OutlinedTextFieldWithLabel(
+                    label = stringResource(R.string.email),
+                    value = registrationState.email,
+                    onValueChange = {
+                        viewModel.processIntent(RegistrationIntent.UpdateEmail(it))
+                        viewModel.processIntent(
+                            RegistrationIntent.UpdateErrorText(
+                                EmailValidator(),
+                                it
+                            )
+                        )
+
+                    },
+                    error = registrationState.isErrorEmailText
+                )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.date_of_birthday)
+                        )
+
+                        DatePickerField(viewModel, registrationState)
+                    }
+                }
+
+                Button(
+                    onClick = { router.toPasswordRegistration() },
+                    shape = RoundedCornerShape(10.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp, bottom = 16.dp, start = 8.dp, end = 8.dp)
+                        .height(IntrinsicSize.Min),
+                    enabled = viewModel.isContinueButtonAvailable()
+                ) {
+                    Text(
+                        text = stringResource(R.string.continue_)
                     )
-                )
-
-            },
-            error = registrationState.isErrorEmailText
-        )
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.date_of_birthday)
-                )
-
-                DatePickerField(viewModel, registrationState)
+                }
             }
         }
 
-        Button(
-            onClick = { router.toPasswordRegistration() },
-            shape = RoundedCornerShape(10.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp, bottom = 16.dp, start = 8.dp, end = 8.dp)
-                .height(IntrinsicSize.Min),
-            enabled = viewModel.isContinueButtonAvailable()
-        ) {
-            Text(
-                text = stringResource(R.string.continue_)
-            )
-        }
 
         Box(
             modifier = Modifier

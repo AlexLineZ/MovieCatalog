@@ -32,7 +32,8 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
         Constants.FALSE,
         Constants.FALSE,
         Constants.FALSE,
-        null, null, null
+        null, null, null,
+        Constants.FALSE
     )
 
     private val _state = MutableStateFlow(emptyState)
@@ -97,6 +98,12 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                         isErrorConfirmPasswordText = result?.let { context.getString(it) }
                     )
                 }
+            }
+
+            RegistrationIntent.UpdateLoading -> {
+                _state.value = state.value.copy(
+                    isLoading = !_state.value.isLoading
+                )
             }
         }
     }
