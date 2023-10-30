@@ -17,6 +17,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,9 +40,9 @@ import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
 
 @Composable
-fun ProfileScreen () {
+fun ProfileScreen (viewModel: ProfileViewModel) {
     val focusManager = LocalFocusManager.current
-
+    val state by viewModel.state.collectAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -75,17 +77,17 @@ fun ProfileScreen () {
             item{
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.email),
-                    value = "Mem"
+                    value = state.email
                 )
 
                 OutlinedTextFieldWithLabel(
-                    label = "Ссылка на аватар",
-                    value = "Mem"
+                    label = stringResource(R.string.avatar_link),
+                    value = "state.avatarLink"
                 )
 
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.name),
-                    value = "Mem"
+                    value = state.nickName
                 )
 
                 GenderSelectionButton(updateGender = { Unit }, state = 0)
@@ -113,7 +115,7 @@ fun ProfileScreen () {
                                 .padding(8.dp)
                         ) {
                             Text(
-                                text = "Сохранить"
+                                text = stringResource(R.string.save)
                             )
                         }
 
@@ -130,7 +132,7 @@ fun ProfileScreen () {
                                 .padding(8.dp)
                         ) {
                             Text(
-                                text = "Отмена"
+                                text = stringResource(R.string.cancel)
                             )
                         }
                     }

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.data.localstorage.LocalStorage
+import com.example.moviecatalog.data.network.NetworkService
 import com.example.moviecatalog.domain.model.authorization.LoginData
 import com.example.moviecatalog.domain.state.LoginState
 import com.example.moviecatalog.domain.usecase.PostLoginDataUseCase
@@ -70,7 +71,7 @@ class LoginViewModel (private val context: Context) : ViewModel() { //AndroidVie
                 if (result.isSuccess) {
                     val tokenResponse = result.getOrNull()
                     if (tokenResponse != null) {
-                        Log.d("OMG", tokenResponse.token)
+                        NetworkService.setAuthToken(tokenResponse.token)
                     }
                     LocalStorage(context).saveToken(tokenResponse!!)
                     routeAfterLogin()

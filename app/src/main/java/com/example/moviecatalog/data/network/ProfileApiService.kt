@@ -11,6 +11,5 @@ interface ProfileApiService {
     suspend fun getProfileData(): Response<Profile>
 
     @PUT("api/account/profile")
-    suspend fun putProfileData(@Body profile: Profile)
-    : Response<Unit>
+    suspend fun putProfileData(@Body profile: Profile): Response<Unit>
 }

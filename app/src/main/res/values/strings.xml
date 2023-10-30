@@ -17,6 +17,8 @@
     <string name="login_button">Войти</string>
     <string name="ok">ОК</string>
     <string name="cancel">Отмена</string>
+    <string name="save">Сохранить</string>
+    <string name="avatar_link">Ссылка на аватар</string>
     <string name="favourite">Любимое</string>
     <string name="catalog">Каталог</string>
 
