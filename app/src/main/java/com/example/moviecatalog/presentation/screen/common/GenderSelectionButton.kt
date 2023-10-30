@@ -23,7 +23,7 @@ import com.example.moviecatalog.presentation.ui.theme.SuperDarkGrayColor
 
 @Composable
 fun GenderSelectionButton(
-    updateGender: Unit,
+    updateGender: () -> Unit,
     state: Int
 ) {
     val man = stringResource(R.string.man)
@@ -52,7 +52,7 @@ fun GenderSelectionButton(
             ) {
                 Button(
                     onClick = {
-                        updateGender
+                        updateGender()
                     },
                     modifier = Modifier
                         .weight(1f)
@@ -70,7 +70,7 @@ fun GenderSelectionButton(
 
                 Button(
                     onClick = {
-                        updateGender
+                        updateGender()
                     },
                     modifier = Modifier
                         .weight(1f)

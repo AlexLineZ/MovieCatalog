@@ -88,7 +88,7 @@ fun ProfileScreen () {
                     value = "Mem"
                 )
 
-                GenderSelectionButton(updateGender = Unit, state = 0)
+                GenderSelectionButton(updateGender = { Unit }, state = 0)
 
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.date_of_birthday),

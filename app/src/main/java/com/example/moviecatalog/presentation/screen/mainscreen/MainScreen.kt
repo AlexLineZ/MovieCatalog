@@ -54,7 +54,9 @@ fun MainScreen(viewModel: MainViewModel) {
         items(
             count = movies.itemCount,
         ){ movie ->
-            movies[movie]?.let { MovieCard(it) }
+            if (movie !in 0..3){
+                movies[movie]?.let { MovieCard(it) }
+            }
         }
 
         when(movies.loadState.append) {
