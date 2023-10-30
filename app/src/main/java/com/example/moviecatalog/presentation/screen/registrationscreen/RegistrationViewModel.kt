@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.data.localstorage.LocalStorage
-import com.example.moviecatalog.domain.authorization.model.RegistrationData
+import com.example.moviecatalog.domain.model.authorization.RegistrationData
 import com.example.moviecatalog.domain.state.RegistrationState
 import com.example.moviecatalog.domain.usecase.DataValidateUseCase
 import com.example.moviecatalog.domain.usecase.PostRegistrationDataUseCase
@@ -56,7 +56,8 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                 _state.value = state.value.copy(email = intent.email)
             }
             is RegistrationIntent.UpdateGender -> {
-                _state.value = state.value.copy(gender = intent.gender)
+                val newGender = if (state.value.gender == 0) 1 else 0
+                _state.value = state.value.copy(gender = newGender)
             }
             is RegistrationIntent.UpdateLogin -> {
                 _state.value = state.value.copy(login = intent.login)

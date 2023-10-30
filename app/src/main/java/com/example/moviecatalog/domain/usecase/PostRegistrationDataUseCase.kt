@@ -2,7 +2,7 @@ package com.example.moviecatalog.domain.usecase
 
 import com.example.moviecatalog.data.model.TokenResponse
 import com.example.moviecatalog.data.repository.AuthenticationRepository
-import com.example.moviecatalog.domain.authorization.model.RegistrationData
+import com.example.moviecatalog.domain.model.authorization.RegistrationData
 
 class PostRegistrationDataUseCase {
     private val authenticationRepository = AuthenticationRepository()

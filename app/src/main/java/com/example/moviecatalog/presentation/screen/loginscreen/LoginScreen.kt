@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -38,14 +37,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
 import com.example.moviecatalog.R
-import com.example.moviecatalog.presentation.router.LoginRouter
+import com.example.moviecatalog.presentation.router.AppRouter
 import com.example.moviecatalog.presentation.screen.common.AppBar
-import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
 @Composable
-fun LoginScreen(router: LoginRouter, viewModel: LoginViewModel) {
+fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
     val loginState by viewModel.state.collectAsState()
     val focusManager = LocalFocusManager.current
 
@@ -65,9 +63,9 @@ fun LoginScreen(router: LoginRouter, viewModel: LoginViewModel) {
         }
 
         Text(
-            text = stringResource(R.string.login_to),
+            text = stringResource(R.string.catalog),
             style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Left,
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
         )
 

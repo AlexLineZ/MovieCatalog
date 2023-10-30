@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -41,20 +39,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.domain.validator.ConfirmPasswordValidator
-import com.example.moviecatalog.domain.validator.EmailValidator
 import com.example.moviecatalog.domain.validator.PasswordValidator
-import com.example.moviecatalog.presentation.router.LoginRouter
+import com.example.moviecatalog.presentation.router.AppRouter
 import com.example.moviecatalog.presentation.screen.common.AppBar
-import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationIntent
-import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel
-import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.ErrorAccentColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
 @Composable
 fun RegistrationSecondScreen (
-    router: LoginRouter,
+    router: AppRouter,
     viewModel: RegistrationViewModel
 ) {
     val focusManager = LocalFocusManager.current
@@ -71,6 +65,7 @@ fun RegistrationSecondScreen (
             },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         AppBar {
             router.toRegistration()
         }
