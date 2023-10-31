@@ -1,15 +1,14 @@
 package com.example.moviecatalog.domain.usecase
 
-import android.util.Log
 import com.example.moviecatalog.data.repository.ProfileRepository
 import com.example.moviecatalog.domain.model.profile.Profile
 
-class GetProfileUseCase {
+class PutProfileDataUseCase {
     private val profileRepository = ProfileRepository()
 
-    suspend fun invoke(): Result<Profile?> {
+    suspend fun invoke(profile: Profile): Result<Unit?> {
         return try {
-            val response = profileRepository.getProfileData()
+            val response = profileRepository.putProfileData(profile)
             return if (response.isSuccessful) {
                 Result.success(response.body()!!)
             } else {

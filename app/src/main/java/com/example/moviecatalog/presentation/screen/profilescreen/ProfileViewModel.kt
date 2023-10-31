@@ -6,13 +6,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.domain.state.ProfileState
+import com.example.moviecatalog.domain.usecase.DataValidateUseCase
 import com.example.moviecatalog.domain.usecase.GetProfileUseCase
+import com.example.moviecatalog.domain.validator.EmailValidator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ProfileViewModel() : ViewModel() {
     private val getProfileUseCase = GetProfileUseCase()
+    private val dataValidateUseCase = DataValidateUseCase()
 
     private val emptyState = ProfileState (
         nickName = Constants.EMPTY_STRING,
@@ -41,6 +44,11 @@ class ProfileViewModel() : ViewModel() {
             }
             is ProfileIntent.UpdateEmail -> {
                 _state.value = state.value.copy(email = intent.email)
+                processIntent(
+                    ProfileIntent.UpdateEmailError(
+                        dataValidateUseCase.invoke(EmailValidator(), intent.email)
+                    )
+                )
             }
             is ProfileIntent.UpdateAvatarLink -> {
                 _state.value = state.value.copy(avatarLink = intent.link)
@@ -61,14 +69,13 @@ class ProfileViewModel() : ViewModel() {
                     isDatePickerOpened = !_state.value.isDatePickerOpened
                 )
             }
+            is ProfileIntent.UpdateEmailError -> {
+                _state.value = state.value.copy(emailError = intent.error)
+            }
             is ProfileIntent.SaveData -> {
 
             }
             is ProfileIntent.Cancel -> {
-
-            }
-
-            is ProfileIntent.UpdateEmailError -> {
 
             }
         }
@@ -90,7 +97,10 @@ class ProfileViewModel() : ViewModel() {
                         processIntent(ProfileIntent.UpdateEmail(response.email))
                         processIntent(ProfileIntent.UpdateAvatarLink(response.avatarLink))
                         processIntent(ProfileIntent.UpdateName(response.name))
-                        processIntent(ProfileIntent.UpdateDate(response.birthDate, response.birthDate))
+                        processIntent(ProfileIntent.UpdateDate(
+                            response.birthDate,
+                            response.birthDate )
+                        )
                     }
                 } else {
                     Log.d("Mem", "hahaha")

@@ -9,7 +9,7 @@ data class ProfileState (
     val date: String,
     val birthday: String,
 
-    val emailError: String?,
+    val emailError: Int?,
 
     val isDatePickerOpened: Boolean,
     val changesInProfile: Boolean

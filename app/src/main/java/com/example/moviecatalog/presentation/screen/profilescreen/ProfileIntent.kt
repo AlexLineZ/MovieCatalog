@@ -9,7 +9,7 @@ sealed class ProfileIntent{
     data class UpdateDate(val date: String, val birthday: String): ProfileIntent()
     object UpdateDatePickerVisibility : ProfileIntent()
 
-    data class UpdateEmailError(val error: String?): ProfileIntent()
+    data class UpdateEmailError(val error: Int?): ProfileIntent()
 
     object SaveData: ProfileIntent()
     object Cancel: ProfileIntent()
