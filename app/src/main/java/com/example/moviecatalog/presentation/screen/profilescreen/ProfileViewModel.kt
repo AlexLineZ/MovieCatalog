@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class ProfileViewModel(context: Context) : ViewModel() {
+class ProfileViewModel() : ViewModel() {
     private val getProfileUseCase = GetProfileUseCase()
 
     private val emptyState = ProfileState (
