@@ -17,6 +17,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,17 +32,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.moviecatalog.R
-import com.example.moviecatalog.presentation.screen.common.DatePickerField
+import com.example.moviecatalog.common.Constants
+import com.example.moviecatalog.presentation.screen.profilescreen.components.DatePickerFieldForProfile
 import com.example.moviecatalog.presentation.screen.common.GenderSelectionButton
 import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
 
 @Composable
-fun ProfileScreen () {
+fun ProfileScreen (viewModel: ProfileViewModel) {
     val focusManager = LocalFocusManager.current
-
+    val state by viewModel.state.collectAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -52,8 +56,8 @@ fun ProfileScreen () {
             },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = painterResource(R.drawable.position_1),
+        AsyncImage(
+            model = state.avatarLink,
             contentDescription = null,
             modifier = Modifier
                 .size(88.dp)
@@ -62,7 +66,7 @@ fun ProfileScreen () {
         )
 
         Text(
-            text = "My name",
+            text = state.nickName ?: Constants.EMPTY_STRING,
             style = TextStyle(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
@@ -75,24 +79,31 @@ fun ProfileScreen () {
             item{
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.email),
-                    value = "Mem"
+                    value = state.email,
+                    onValueChange = { viewModel.processIntent(ProfileIntent.UpdateEmail(it)) },
+                    error = state.emailError
                 )
 
                 OutlinedTextFieldWithLabel(
-                    label = "Ссылка на аватар",
-                    value = "Mem"
+                    label = stringResource(R.string.avatar_link),
+                    value = state.avatarLink ?: Constants.EMPTY_STRING,
+                    onValueChange = { viewModel.processIntent(ProfileIntent.UpdateAvatarLink(it)) }
                 )
 
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.name),
-                    value = "Mem"
+                    value = state.name,
+                    onValueChange = { viewModel.processIntent(ProfileIntent.UpdateName(it)) }
                 )
 
-                GenderSelectionButton(updateGender = { Unit }, state = 0)
+                GenderSelectionButton(
+                    updateGender = { viewModel.processIntent(ProfileIntent.UpdateGender) },
+                    state = state.gender
+                )
 
-                OutlinedTextFieldWithLabel(
-                    label = stringResource(R.string.date_of_birthday),
-                    value = "Mem"
+                DatePickerFieldForProfile(
+                    viewModel = viewModel,
+                    state = state
                 )
 
                 Box(
@@ -110,10 +121,10 @@ fun ProfileScreen () {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(IntrinsicSize.Min)
-                                .padding(8.dp)
+                                .padding(top = 8.dp, bottom = 8.dp)
                         ) {
                             Text(
-                                text = "Сохранить"
+                                text = stringResource(R.string.save)
                             )
                         }
 
@@ -127,10 +138,10 @@ fun ProfileScreen () {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(IntrinsicSize.Min)
-                                .padding(8.dp)
+                                .padding(top = 8.dp, bottom = 8.dp)
                         ) {
                             Text(
-                                text = "Отмена"
+                                text = stringResource(R.string.cancel)
                             )
                         }
                     }

@@ -1,7 +1,9 @@
 package com.example.moviecatalog.presentation.router
 
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.moviecatalog.presentation.navigation.Destinations
+import com.example.moviecatalog.presentation.navigation.ROOT_ROUTE
 
 
 class AppRouter(
@@ -31,7 +33,9 @@ class AppRouter(
 
     fun toMain() {
         navController.navigate(Destinations.MAIN_SCREEN) {
-            popUpTo(0)
+            popUpTo(ROOT_ROUTE) {
+                inclusive = true
+            }
         }
     }
 }

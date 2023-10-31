@@ -27,7 +27,7 @@ fun OutlinedTextFieldWithLabel(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
+                .padding(top = 8.dp, bottom = 8.dp)
         ) {
             Text(
                 text = label
@@ -45,7 +45,7 @@ fun OutlinedTextFieldWithLabel(
                     .fillMaxWidth()
                     .padding(top = 8.dp),
                 shape = RoundedCornerShape(10.dp),
-
+                isError = error != null
             )
 
             error?.let {

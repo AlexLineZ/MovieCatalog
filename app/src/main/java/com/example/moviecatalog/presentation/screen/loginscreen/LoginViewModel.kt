@@ -4,8 +4,10 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.data.localstorage.LocalStorage
+import com.example.moviecatalog.data.network.NetworkService
 import com.example.moviecatalog.domain.model.authorization.LoginData
 import com.example.moviecatalog.domain.state.LoginState
 import com.example.moviecatalog.domain.usecase.PostLoginDataUseCase
@@ -20,7 +22,8 @@ class LoginViewModel (private val context: Context) : ViewModel() { //AndroidVie
         Constants.EMPTY_STRING,
         Constants.FALSE,
         Constants.FALSE,
-        null
+        null,
+        Constants.FALSE
     )
 
     private val _state = MutableStateFlow(emptyState)
@@ -31,7 +34,7 @@ class LoginViewModel (private val context: Context) : ViewModel() { //AndroidVie
     fun processIntent(intent: LoginIntent) {
         when (intent) {
             is LoginIntent.Login -> {
-                performLogin(intent.loginState.login, intent.loginState.password)
+                performLogin(intent.loginState.login, intent.loginState.password, intent.afterLogin)
             }
             is LoginIntent.UpdateLogin -> {
                 _state.value = state.value.copy(login = intent.login)
@@ -48,25 +51,37 @@ class LoginViewModel (private val context: Context) : ViewModel() { //AndroidVie
             is LoginIntent.UpdateErrorText -> {
                 _state.value = state.value.copy(isErrorText = intent.errorText)
             }
+            LoginIntent.UpdateLoading -> {
+                _state.value = state.value.copy(isLoading = !_state.value.isLoading)
+            }
         }
     }
 
-    private fun performLogin(username: String, password: String) {
+    fun isLoginButtonAvailable() : Boolean {
+        return  state.value.password.isNotEmpty() &&
+                state.value.login.isNotEmpty()
+    }
+
+    private fun performLogin(username: String, password: String, routeAfterLogin: () -> Unit) {
         val loginData = LoginData(username, password)
+        processIntent(LoginIntent.UpdateLoading)
         viewModelScope.launch {
             try {
                 val result = postLoginDataUseCase.invoke(loginData)
                 if (result.isSuccess) {
                     val tokenResponse = result.getOrNull()
                     if (tokenResponse != null) {
-                        Log.d("OMG", tokenResponse.token)
+                        NetworkService.setAuthToken(tokenResponse.token)
                     }
                     LocalStorage(context).saveToken(tokenResponse!!)
+                    routeAfterLogin()
                 } else {
-                    Log.d("Mem", "hahaha")
+                    processIntent(LoginIntent.UpdateErrorText(context.getString(R.string.auth_error)))
                 }
             } catch (e: Exception) {
                 Log.d("ERROR", e.message.toString())
+            } finally {
+                processIntent(LoginIntent.UpdateLoading)
             }
         }
     }

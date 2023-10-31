@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.data.localstorage.LocalStorage
+import com.example.moviecatalog.data.network.NetworkService
 import com.example.moviecatalog.domain.model.authorization.RegistrationData
 import com.example.moviecatalog.domain.state.RegistrationState
 import com.example.moviecatalog.domain.usecase.DataValidateUseCase
@@ -32,7 +33,8 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
         Constants.FALSE,
         Constants.FALSE,
         Constants.FALSE,
-        null, null, null
+        null, null, null,
+        Constants.FALSE
     )
 
     private val _state = MutableStateFlow(emptyState)
@@ -98,6 +100,12 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                     )
                 }
             }
+
+            RegistrationIntent.UpdateLoading -> {
+                _state.value = state.value.copy(
+                    isLoading = !_state.value.isLoading
+                )
+            }
         }
     }
 
@@ -136,7 +144,7 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                 if (result.isSuccess) {
                     val tokenResponse = result.getOrNull()
                     if (tokenResponse != null) {
-                        Log.d("OMG", tokenResponse.token)
+                        NetworkService.setAuthToken(tokenResponse.token)
                     }
                     LocalStorage(context).saveToken(tokenResponse!!)
                 } else {

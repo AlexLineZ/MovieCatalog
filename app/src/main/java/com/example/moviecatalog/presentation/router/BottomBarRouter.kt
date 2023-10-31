@@ -10,8 +10,6 @@ import com.example.moviecatalog.presentation.navigation.bottombar.Routes
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class BottomBarRouter (private val navController: NavHostController) {
-    //private val currentScreen =  MutableStateFlow<String?>(null)
-
     fun navigate(screen: Routes) {
         navController.navigate(screen.route) {
             popUpTo(navController.graph.findStartDestination().id) {
@@ -21,17 +19,4 @@ class BottomBarRouter (private val navController: NavHostController) {
             restoreState = true
         }
     }
-
-//    @SuppressLint("StateFlowValueCalledInComposition")
-//    @Composable
-//    fun SetNavigationBackStack() {
-//        val navBackStackEntry by navController.currentBackStackEntryAsState()
-//        val currentRoute = navBackStackEntry?.destination?.route
-//
-//        currentScreen.value = currentRoute
-//    }
-//
-//    fun isSelected(screen: String) : Boolean{
-//        return currentScreen.value == screen
-//    }
 }

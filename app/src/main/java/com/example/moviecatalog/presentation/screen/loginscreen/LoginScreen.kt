@@ -39,12 +39,15 @@ import androidx.compose.ui.res.stringResource
 import com.example.moviecatalog.R
 import com.example.moviecatalog.presentation.router.AppRouter
 import com.example.moviecatalog.presentation.screen.common.AppBar
+import com.example.moviecatalog.presentation.screen.common.LoadingItem
+import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
 @Composable
 fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
     val loginState by viewModel.state.collectAsState()
+
     val focusManager = LocalFocusManager.current
 
     Column(
@@ -69,31 +72,12 @@ fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
         )
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.login)
-                )
-
-                OutlinedTextField(
-                    value = loginState.login,
-                    onValueChange = { viewModel.processIntent(LoginIntent.UpdateLogin(it)) },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                        .height(IntrinsicSize.Min),
-                    shape = RoundedCornerShape(10.dp),
-                )
-            }
-        }
+        OutlinedTextFieldWithLabel(
+            label = stringResource(R.string.login),
+            value = loginState.login,
+            onValueChange = { viewModel.processIntent(LoginIntent.UpdateLogin(it)) },
+            error = loginState.isErrorText
+        )
 
         Box(
             modifier = Modifier
@@ -102,7 +86,7 @@ fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp)
+                    .padding(top = 8.dp, bottom = 8.dp)
             ) {
                 Text(
                     text = stringResource(R.string.password)
@@ -133,21 +117,26 @@ fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
                                 contentDescription = null
                             )
                         }
-                    }
+                    },
+                    isError = loginState.isErrorText != null
                 )
             }
         }
 
+        if (loginState.isLoading){
+            LoadingItem()
+        }
+
         Button(
             onClick = {
-                viewModel.processIntent(LoginIntent.Login(loginState))
-                router.toMain()
+                viewModel.processIntent(LoginIntent.Login(loginState) { router.toMain() })
             },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp, bottom = 16.dp, start = 8.dp, end = 8.dp)
-                .height(IntrinsicSize.Min)
+                .padding(top = 16.dp, bottom = 16.dp)
+                .height(IntrinsicSize.Min),
+            enabled = !loginState.isLoading && viewModel.isLoginButtonAvailable()
         ) {
             Text(
                 text = stringResource(R.string.login_button)

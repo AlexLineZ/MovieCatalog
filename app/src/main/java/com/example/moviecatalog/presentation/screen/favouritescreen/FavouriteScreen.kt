@@ -36,7 +36,7 @@ fun FavouriteScreen() {
         reviews = null
     )
 
-    val itemsList: List<MovieElement> = listOf()
+    val itemsList: List<MovieElement> = listOf(movie1, movie1, movie1, movie1, movie1)
 
     Column(
         modifier = Modifier

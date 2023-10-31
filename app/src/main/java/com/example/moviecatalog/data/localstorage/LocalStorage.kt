@@ -6,8 +6,7 @@ import com.example.moviecatalog.data.model.TokenResponse
 
 class LocalStorage(context: Context) {
 
-
-    //encrypted shared preferences
+    //encrypted shared preferences от Вани Гулевского
     companion object {
         const val SHARED_PREF = "shared_pref"
         const val TOKEN_KEY = "token_key"
