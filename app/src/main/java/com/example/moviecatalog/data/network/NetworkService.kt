@@ -34,4 +34,7 @@ object NetworkService {
 
     val movieApiService: MovieApiService =
         retrofit.create(MovieApiService::class.java)
+
+    val profileApiService: ProfileApiService =
+        retrofit.create(ProfileApiService::class.java)
 }

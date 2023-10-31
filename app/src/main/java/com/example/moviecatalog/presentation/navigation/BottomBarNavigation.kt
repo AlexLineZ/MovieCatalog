@@ -17,7 +17,7 @@ const val BOTTOM_BAR_ROUTE = "bottomBar"
 @Composable
 fun BottomBarNavigation(bottomBarController: NavHostController) {
     val mainViewModel = MainViewModel()
-    val profileViewModel = ProfileViewModel()
+    val profileViewModel = ProfileViewModel(LocalContext.current)
 
     NavHost(
         navController = bottomBarController,

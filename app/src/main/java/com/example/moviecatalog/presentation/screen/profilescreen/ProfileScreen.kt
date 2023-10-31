@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.presentation.screen.profilescreen.components.DatePickerFieldForProfile
@@ -55,8 +56,8 @@ fun ProfileScreen (viewModel: ProfileViewModel) {
             },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = painterResource(R.drawable.position_1),
+        AsyncImage(
+            model = state.avatarLink,
             contentDescription = null,
             modifier = Modifier
                 .size(88.dp)
@@ -65,7 +66,7 @@ fun ProfileScreen (viewModel: ProfileViewModel) {
         )
 
         Text(
-            text = "My name",
+            text = state.nickName ?: Constants.EMPTY_STRING,
             style = TextStyle(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
@@ -91,8 +92,8 @@ fun ProfileScreen (viewModel: ProfileViewModel) {
 
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.name),
-                    value = state.nickName,
-                    onValueChange = { viewModel.processIntent(ProfileIntent.UpdateNickName(it)) }
+                    value = state.name,
+                    onValueChange = { viewModel.processIntent(ProfileIntent.UpdateName(it)) }
                 )
 
                 GenderSelectionButton(
