@@ -7,7 +7,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object NetworkService {
-
     private const val BASE_URL = "https://react-midterm.kreosoft.space/"
 
     private val authInterceptor = AuthInterceptor()

@@ -34,9 +34,7 @@ fun GenderSelectionButton(
             .fillMaxWidth()
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 text = stringResource(R.string.gender)

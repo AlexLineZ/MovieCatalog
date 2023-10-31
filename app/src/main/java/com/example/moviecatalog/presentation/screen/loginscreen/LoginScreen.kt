@@ -86,7 +86,7 @@ fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp)
+                    .padding(top = 8.dp, bottom = 8.dp)
             ) {
                 Text(
                     text = stringResource(R.string.password)
@@ -134,7 +134,7 @@ fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp, bottom = 16.dp, start = 8.dp, end = 8.dp)
+                .padding(top = 16.dp, bottom = 16.dp)
                 .height(IntrinsicSize.Min),
             enabled = !loginState.isLoading && viewModel.isLoginButtonAvailable()
         ) {

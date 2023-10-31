@@ -14,6 +14,7 @@ class ProfileViewModel : ViewModel() {
         gender = Constants.ZERO,
         date = Constants.EMPTY_STRING,
         birthday = Constants.EMPTY_STRING,
+        emailError = null,
         isDatePickerOpened = Constants.FALSE,
         changesInProfile = Constants.FALSE
     )
@@ -51,7 +52,15 @@ class ProfileViewModel : ViewModel() {
             is ProfileIntent.Cancel -> {
 
             }
+
+            is ProfileIntent.UpdateEmailError -> {
+
+            }
         }
+    }
+
+    fun isDatePickerOpen() : Boolean {
+        return state.value.isDatePickerOpened
     }
 }
 

@@ -33,7 +33,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
-import com.example.moviecatalog.presentation.screen.common.DatePickerField
+import com.example.moviecatalog.common.Constants
+import com.example.moviecatalog.presentation.screen.profilescreen.components.DatePickerFieldForProfile
 import com.example.moviecatalog.presentation.screen.common.GenderSelectionButton
 import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
@@ -77,24 +78,31 @@ fun ProfileScreen (viewModel: ProfileViewModel) {
             item{
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.email),
-                    value = state.email
+                    value = state.email,
+                    onValueChange = { viewModel.processIntent(ProfileIntent.UpdateEmail(it)) },
+                    error = state.emailError
                 )
 
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.avatar_link),
-                    value = "state.avatarLink"
+                    value = state.avatarLink ?: Constants.EMPTY_STRING,
+                    onValueChange = { viewModel.processIntent(ProfileIntent.UpdateAvatarLink(it)) }
                 )
 
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.name),
-                    value = state.nickName
+                    value = state.nickName,
+                    onValueChange = { viewModel.processIntent(ProfileIntent.UpdateNickName(it)) }
                 )
 
-                GenderSelectionButton(updateGender = { Unit }, state = 0)
+                GenderSelectionButton(
+                    updateGender = { viewModel.processIntent(ProfileIntent.UpdateGender) },
+                    state = state.gender
+                )
 
-                OutlinedTextFieldWithLabel(
-                    label = stringResource(R.string.date_of_birthday),
-                    value = "Mem"
+                DatePickerFieldForProfile(
+                    viewModel = viewModel,
+                    state = state
                 )
 
                 Box(
@@ -112,7 +120,7 @@ fun ProfileScreen (viewModel: ProfileViewModel) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(IntrinsicSize.Min)
-                                .padding(8.dp)
+                                .padding(top = 8.dp, bottom = 8.dp)
                         ) {
                             Text(
                                 text = stringResource(R.string.save)
@@ -129,7 +137,7 @@ fun ProfileScreen (viewModel: ProfileViewModel) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(IntrinsicSize.Min)
-                                .padding(8.dp)
+                                .padding(top = 8.dp, bottom = 8.dp)
                         ) {
                             Text(
                                 text = stringResource(R.string.cancel)

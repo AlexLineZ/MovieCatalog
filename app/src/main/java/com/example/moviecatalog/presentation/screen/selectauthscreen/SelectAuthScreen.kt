@@ -83,7 +83,7 @@ fun SelectAuthScreen(router: AppRouter) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(IntrinsicSize.Min)
-                        .padding(8.dp)
+                        .padding(top = 8.dp, bottom = 8.dp)
                 ) {
                     Text(
                         text = stringResource(R.string.registration)
@@ -100,7 +100,7 @@ fun SelectAuthScreen(router: AppRouter) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(IntrinsicSize.Min)
-                        .padding(8.dp)
+                        .padding(top = 8.dp, bottom = 8.dp)
                 ) {
                     Text(
                         text = stringResource(R.string.login_button)

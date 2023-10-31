@@ -110,29 +110,17 @@ fun RegistrationFirstScreen(
                     error = registrationState.isErrorEmailText
                 )
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                    ) {
-                        Text(
-                            text = stringResource(R.string.date_of_birthday)
-                        )
-
-                        DatePickerField(viewModel, registrationState)
-                    }
-                }
+                DatePickerField(
+                    viewModel = viewModel,
+                    state = registrationState
+                )
 
                 Button(
                     onClick = { router.toPasswordRegistration() },
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 16.dp, bottom = 16.dp, start = 8.dp, end = 8.dp)
+                        .padding(top = 16.dp, bottom = 16.dp)
                         .height(IntrinsicSize.Min),
                     enabled = viewModel.isContinueButtonAvailable()
                 ) {
