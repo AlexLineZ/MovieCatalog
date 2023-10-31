@@ -82,7 +82,7 @@ fun RegistrationFirstScreen(
                 )
 
                 GenderSelectionButton(
-                    updateGender = { viewModel.processIntent(RegistrationIntent.UpdateGender) },
+                    updateGender = { viewModel.processIntent(RegistrationIntent.UpdateGender(it)) },
                     state = registrationState.gender
                 )
 

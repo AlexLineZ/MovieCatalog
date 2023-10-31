@@ -100,7 +100,7 @@ fun ProfileScreen (viewModel: ProfileViewModel) {
                 )
 
                 GenderSelectionButton(
-                    updateGender = { viewModel.processIntent(ProfileIntent.UpdateGender) },
+                    updateGender = { viewModel.processIntent(ProfileIntent.UpdateGender(it)) },
                     state = state.gender
                 )
 

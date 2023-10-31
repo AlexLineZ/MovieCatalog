@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.common.Constants
+import com.example.moviecatalog.common.formatDateToNormal
 import com.example.moviecatalog.domain.state.ProfileState
 import com.example.moviecatalog.domain.usecase.DataValidateUseCase
 import com.example.moviecatalog.domain.usecase.GetProfileUseCase
@@ -57,8 +58,7 @@ class ProfileViewModel() : ViewModel() {
                 _state.value = state.value.copy(name = intent.name)
             }
             is ProfileIntent.UpdateGender -> {
-                val newGender = if (state.value.gender == 0) 1 else 0
-                _state.value = state.value.copy(gender = newGender)
+                _state.value = state.value.copy(gender = intent.gender)
             }
             is ProfileIntent.UpdateDate -> {
                 _state.value = state.value.copy(date = intent.date)
@@ -97,9 +97,11 @@ class ProfileViewModel() : ViewModel() {
                         processIntent(ProfileIntent.UpdateEmail(response.email))
                         processIntent(ProfileIntent.UpdateAvatarLink(response.avatarLink))
                         processIntent(ProfileIntent.UpdateName(response.name))
-                        processIntent(ProfileIntent.UpdateDate(
-                            response.birthDate,
-                            response.birthDate )
+                        processIntent(ProfileIntent.UpdateDate
+                            (
+                                formatDateToNormal(response.birthDate),
+                                response.birthDate
+                            )
                         )
                     }
                 } else {

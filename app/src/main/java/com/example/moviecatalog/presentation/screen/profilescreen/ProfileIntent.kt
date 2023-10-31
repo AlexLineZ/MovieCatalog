@@ -5,7 +5,7 @@ sealed class ProfileIntent{
     data class UpdateEmail(val email: String): ProfileIntent()
     data class UpdateAvatarLink(val link: String?): ProfileIntent()
     data class UpdateName(val name: String): ProfileIntent()
-    object UpdateGender: ProfileIntent()
+    data class UpdateGender(val gender: Int): ProfileIntent()
     data class UpdateDate(val date: String, val birthday: String): ProfileIntent()
     object UpdateDatePickerVisibility : ProfileIntent()
 
