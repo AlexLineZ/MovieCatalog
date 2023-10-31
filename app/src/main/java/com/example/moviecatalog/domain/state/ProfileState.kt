@@ -1,6 +1,7 @@
 package com.example.moviecatalog.domain.state
 
 data class ProfileState (
+    val id: String,
     val nickName: String?,
     val email: String,
     val avatarLink: String?,

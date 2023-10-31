@@ -119,7 +119,7 @@ fun ProfileScreen (viewModel: ProfileViewModel) {
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Button(
-                            onClick = { },
+                            onClick = { viewModel.processIntent(ProfileIntent.SaveData) },
                             shape = RoundedCornerShape(10.dp),
                             modifier = Modifier
                                 .fillMaxWidth()
