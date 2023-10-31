@@ -31,6 +31,8 @@ class ProfileViewModel() : ViewModel() {
         changesInProfile = Constants.FALSE
     )
 
+    private val initialProfileStateFlow = MutableStateFlow(emptyState)
+
     private val _state = MutableStateFlow(emptyState)
     val state: StateFlow<ProfileState> get() = _state
 
@@ -76,13 +78,21 @@ class ProfileViewModel() : ViewModel() {
 
             }
             is ProfileIntent.Cancel -> {
-
+                rollbackToInitialState()
             }
         }
     }
 
+    private fun rollbackToInitialState() {
+        _state.value = initialProfileStateFlow.value
+    }
+
     fun isDatePickerOpen() : Boolean {
         return state.value.isDatePickerOpened
+    }
+
+    fun isSaveButtonAvailable(): Boolean {
+        return state.value.changesInProfile && state.value.emailError == null
     }
 
     private fun performData(){
@@ -95,6 +105,7 @@ class ProfileViewModel() : ViewModel() {
                         Log.d("DebugProfile", response.toString())
                         processIntent(ProfileIntent.UpdateNickName(response.nickName))
                         processIntent(ProfileIntent.UpdateEmail(response.email))
+                        processIntent(ProfileIntent.UpdateGender(response.gender))
                         processIntent(ProfileIntent.UpdateAvatarLink(response.avatarLink))
                         processIntent(ProfileIntent.UpdateName(response.name))
                         processIntent(ProfileIntent.UpdateDate
@@ -103,6 +114,7 @@ class ProfileViewModel() : ViewModel() {
                                 response.birthDate
                             )
                         )
+                        initialProfileStateFlow.value = _state.value
                     }
                 } else {
                     Log.d("Mem", "hahaha")

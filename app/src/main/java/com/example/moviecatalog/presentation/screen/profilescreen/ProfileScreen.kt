@@ -124,7 +124,8 @@ fun ProfileScreen (viewModel: ProfileViewModel) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(IntrinsicSize.Min)
-                                .padding(top = 8.dp, bottom = 8.dp)
+                                .padding(top = 8.dp, bottom = 8.dp),
+                            enabled = viewModel.isSaveButtonAvailable()
                         ) {
                             Text(
                                 text = stringResource(R.string.save)
@@ -132,7 +133,7 @@ fun ProfileScreen (viewModel: ProfileViewModel) {
                         }
 
                         Button(
-                            onClick = { },
+                            onClick = { viewModel.processIntent(ProfileIntent.Cancel) },
                             shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = SecondButtonColor,

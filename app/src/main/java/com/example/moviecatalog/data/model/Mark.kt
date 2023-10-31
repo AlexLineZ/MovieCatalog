@@ -1,4 +1,4 @@
-package com.example.moviecatalog.common
+package com.example.moviecatalog.data.model
 
 import androidx.compose.ui.graphics.Color
 

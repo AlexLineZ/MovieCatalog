@@ -1,7 +1,5 @@
 package com.example.moviecatalog.presentation.screen.mainscreen.components
 
-import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,16 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.moviecatalog.R
-import com.example.moviecatalog.common.Helper
+import com.example.moviecatalog.common.MarkSelector
 import com.example.moviecatalog.domain.model.movie.MovieElement
 import com.example.moviecatalog.presentation.ui.theme.ChipColor
-import com.example.moviecatalog.presentation.ui.theme.MiddleMarkColor
 
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -52,7 +47,7 @@ fun MovieCard(movie: MovieElement) {
             )
 
             if (movie.reviews != null) {
-                val mark = Helper.markCalculation(movie.reviews)
+                val mark = MarkSelector.markCalculation(movie.reviews)
                 Box(
                     modifier = Modifier
                         .wrapContentHeight()
