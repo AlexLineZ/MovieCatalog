@@ -1,11 +1,17 @@
 package com.example.moviecatalog.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.moviecatalog.presentation.navigation.bottombar.BottomBar
 import com.example.moviecatalog.presentation.navigation.bottombar.Routes
 import com.example.moviecatalog.presentation.router.BottomBarRouter
 import com.example.moviecatalog.presentation.screen.favouritescreen.FavoriteViewModel
