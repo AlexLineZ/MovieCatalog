@@ -93,6 +93,9 @@ fun MovieScreen(backTo: () -> Unit) {
                 item{
                     MovieDetailsSection()
                 }
+                item{
+                    MovieReviewsSection()
+                }
             }
         }
     )
@@ -333,13 +336,66 @@ fun MovieReviewsSection() {
             color = Color.White,
             modifier = Modifier.padding(bottom = 16.dp)
         )
+        MovieReview()
+        MovieReview()
+        MovieReview()
     }
 
 }
 
 @Composable
 fun MovieReview(){
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(bottom = 16.dp)
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            AsyncImage(
+                model = "https://avatars.mds.yandex.net/get-kinopoisk-image/1898899/f59002c6-6fb6-4747-bf19-039f333d7ce5/1920x",
+                contentDescription = null,
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
+            )
 
+            Text(
+                text = "Анонимный пользователь",
+                fontSize = 14.sp,
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 8.dp)
+            )
+            
+            MarkWithStar()
+        }
+
+
+        Column(
+            modifier = Modifier.padding(top = 8.dp)
+        ) {
+            Text(
+                text = "Фильм треш и кринж, для мамонтов. Полный скам и кликбейт на просмотр!",
+                fontSize = 14.sp,
+                color = Color.White,
+                textAlign = TextAlign.Start
+            )
+
+            Text(
+                text = "07.10.2023",
+                fontSize = 12.sp,
+                color = GrayTextColor,
+                textAlign = TextAlign.Start
+            )
+        }
+    }
 }
 
 @Composable
