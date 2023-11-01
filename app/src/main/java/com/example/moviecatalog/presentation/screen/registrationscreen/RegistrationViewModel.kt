@@ -2,6 +2,7 @@ package com.example.moviecatalog.presentation.screen.registrationscreen
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.common.Constants
@@ -83,7 +84,7 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                 )
             }
             is RegistrationIntent.Registration -> {
-                performRegistration(state.value)
+                performRegistration(state.value, intent.afterRegistration)
             }
             is RegistrationIntent.UpdateErrorText -> {
                 var result = dataValidateUseCase.invoke(intent.validator, intent.data, intent.secondData)
@@ -127,7 +128,10 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                 state.value.isErrorConfirmPasswordText == null
     }
 
-    private fun performRegistration(registrationState: RegistrationState) {
+    private fun performRegistration(
+        registrationState: RegistrationState,
+        afterRegistration: () -> Unit
+    ) {
         val registrationData = RegistrationData(
             userName = registrationState.login,
             name = registrationState.name,
@@ -137,20 +141,28 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
             gender = registrationState.gender
         )
 
+        Log.d("RegistrationDebug", registrationData.toString())
+        processIntent(RegistrationIntent.UpdateLoading)
         viewModelScope.launch {
             try {
                 val result = postRegistrationDataUseCase.invoke(registrationData)
                 if (result.isSuccess) {
                     val tokenResponse = result.getOrNull()
-                    if (tokenResponse != null) {
-                        NetworkService.setAuthToken(tokenResponse.token)
-                    }
                     LocalStorage(context).saveToken(tokenResponse!!)
+                    NetworkService.setAuthToken(tokenResponse.token)
+                    Log.d("register", tokenResponse.token)
+                    afterRegistration()
                 } else {
-                    Log.d("Mem", "hahaha")
+                    Toast.makeText(
+                        context,
+                        "Ошибка регистрации",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             } catch (e: Exception) {
                 Log.d("ERROR", e.message.toString())
+            } finally {
+                processIntent(RegistrationIntent.UpdateLoading)
             }
         }
     }

@@ -17,7 +17,10 @@ sealed class RegistrationIntent {
     data class UpdateConfirmPassword(val confirmPassword: String) : RegistrationIntent()
     object UpdatePasswordVisibility : RegistrationIntent()
     object UpdateConfirmPasswordVisibility : RegistrationIntent()
-    data class Registration(val registrationState: RegistrationState) : RegistrationIntent()
+    data class Registration(
+        val registrationState: RegistrationState,
+        val afterRegistration: () -> Unit
+    ): RegistrationIntent()
 
     data class UpdateErrorText(
         val validator: Validator,
