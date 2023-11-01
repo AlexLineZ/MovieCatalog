@@ -23,7 +23,6 @@ private val DarkColorScheme = darkColorScheme(
     onPrimary = WhiteColor,
     primaryContainer = AccentColor,
     outline = DarkGrayColor
-
 )
 
 private val LightColorScheme = lightColorScheme(

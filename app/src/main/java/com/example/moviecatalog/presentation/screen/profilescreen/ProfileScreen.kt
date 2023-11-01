@@ -41,6 +41,7 @@ import com.example.moviecatalog.presentation.screen.common.GenderSelectionButton
 import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
+import com.example.moviecatalog.presentation.ui.theme.baseButtonColor
 
 @Composable
 fun ProfileScreen (viewModel: ProfileViewModel) {
@@ -125,7 +126,8 @@ fun ProfileScreen (viewModel: ProfileViewModel) {
                                 .fillMaxWidth()
                                 .height(IntrinsicSize.Min)
                                 .padding(top = 8.dp, bottom = 8.dp),
-                            enabled = viewModel.isSaveButtonAvailable()
+                            enabled = viewModel.isSaveButtonAvailable(),
+                            colors = baseButtonColor
                         ) {
                             Text(
                                 text = stringResource(R.string.save)
