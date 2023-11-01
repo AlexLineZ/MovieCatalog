@@ -52,7 +52,7 @@ fun DatePickerFieldForProfile(
                 value = state.date,
                 readOnly = true,
                 onValueChange = {
-                    viewModel.processIntent(ProfileIntent.UpdateDate(state.birthday, it))
+                    viewModel.processIntent(ProfileIntent.UpdateDate(it, state.birthday))
                 },
                 singleLine = true,
                 modifier = Modifier
@@ -86,8 +86,8 @@ fun DatePickerFieldForProfile(
                                 val date = datePickerState.selectedDateMillis?.let { Date(it) }
                                 viewModel.processIntent(
                                     ProfileIntent.UpdateDate(
+                                        formatDate(date),
                                         formatDateToISO8601(date),
-                                        formatDate(date)
                                     ))
                                 viewModel.processIntent(ProfileIntent.UpdateDatePickerVisibility)
                             }

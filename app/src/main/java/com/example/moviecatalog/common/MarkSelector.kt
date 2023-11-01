@@ -1,6 +1,7 @@
 package com.example.moviecatalog.common
 
 import androidx.compose.ui.graphics.Color
+import com.example.moviecatalog.data.model.Mark
 import com.example.moviecatalog.domain.model.movie.Review
 import com.example.moviecatalog.presentation.ui.theme.BadMarkColor
 import com.example.moviecatalog.presentation.ui.theme.GoodMarkColor
@@ -9,7 +10,7 @@ import com.example.moviecatalog.presentation.ui.theme.NormalMarkColor
 import com.example.moviecatalog.presentation.ui.theme.UnderMiddleMarkColor
 import com.example.moviecatalog.presentation.ui.theme.UpperBadMarkColor
 
-object Helper {
+object MarkSelector {
     fun markCalculation(list: ArrayList<Review>) : Mark {
         var markCount = 0.0f
         list.forEach{

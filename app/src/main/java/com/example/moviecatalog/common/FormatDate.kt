@@ -25,3 +25,11 @@ fun formatDateToISO8601(date: Date?): String {
         Constants.EMPTY_STRING
     }
 }
+
+fun formatDateToNormal(inputDate: String): String {
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+    val outputFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+
+    val date = inputFormat.parse(inputDate)
+    return outputFormat.format(date!!)
+}

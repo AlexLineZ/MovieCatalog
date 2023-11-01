@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -80,8 +81,10 @@ fun ProfileScreen (viewModel: ProfileViewModel) {
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.email),
                     value = state.email,
-                    onValueChange = { viewModel.processIntent(ProfileIntent.UpdateEmail(it)) },
-                    error = state.emailError
+                    onValueChange = {
+                        viewModel.processIntent(ProfileIntent.UpdateEmail(it))
+                    },
+                    error = state.emailError?.let { stringResource(it) }
                 )
 
                 OutlinedTextFieldWithLabel(
@@ -97,7 +100,7 @@ fun ProfileScreen (viewModel: ProfileViewModel) {
                 )
 
                 GenderSelectionButton(
-                    updateGender = { viewModel.processIntent(ProfileIntent.UpdateGender) },
+                    updateGender = { viewModel.processIntent(ProfileIntent.UpdateGender(it)) },
                     state = state.gender
                 )
 
@@ -116,12 +119,13 @@ fun ProfileScreen (viewModel: ProfileViewModel) {
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Button(
-                            onClick = { },
+                            onClick = { viewModel.processIntent(ProfileIntent.SaveData) },
                             shape = RoundedCornerShape(10.dp),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(IntrinsicSize.Min)
-                                .padding(top = 8.dp, bottom = 8.dp)
+                                .padding(top = 8.dp, bottom = 8.dp),
+                            enabled = viewModel.isSaveButtonAvailable()
                         ) {
                             Text(
                                 text = stringResource(R.string.save)
@@ -129,7 +133,7 @@ fun ProfileScreen (viewModel: ProfileViewModel) {
                         }
 
                         Button(
-                            onClick = { },
+                            onClick = { viewModel.processIntent(ProfileIntent.Cancel) },
                             shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = SecondButtonColor,

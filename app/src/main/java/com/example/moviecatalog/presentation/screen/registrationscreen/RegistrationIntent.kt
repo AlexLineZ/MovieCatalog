@@ -7,7 +7,7 @@ import com.example.moviecatalog.presentation.screen.loginscreen.LoginIntent
 
 sealed class RegistrationIntent {
     data class UpdateName(val name: String) : RegistrationIntent()
-    object UpdateGender : RegistrationIntent()
+    data class UpdateGender(val gender: Int) : RegistrationIntent()
     data class UpdateLogin(val login: String) : RegistrationIntent()
     data class UpdateEmail(val email: String) : RegistrationIntent()
     data class UpdateBirthday(val birthday: String, val date: String) : RegistrationIntent()

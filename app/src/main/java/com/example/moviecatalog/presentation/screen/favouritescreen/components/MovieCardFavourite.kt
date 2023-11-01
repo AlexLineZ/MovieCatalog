@@ -19,7 +19,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.moviecatalog.R
+import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.domain.model.movie.MovieElement
 
 
@@ -29,8 +31,8 @@ fun MovieCardFavourite(movie: MovieElement, modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxWidth()
     ) {
-        Image(
-            painter = painterResource(R.drawable.position_1),
+        AsyncImage(
+            model = movie.poster,
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
@@ -40,7 +42,7 @@ fun MovieCardFavourite(movie: MovieElement, modifier: Modifier = Modifier) {
         )
 
         Text(
-            text = "Один дома",
+            text = movie.name ?: Constants.EMPTY_STRING,
             style = TextStyle(fontSize = 14.sp),
             modifier = Modifier
                 .padding(top = 8.dp)

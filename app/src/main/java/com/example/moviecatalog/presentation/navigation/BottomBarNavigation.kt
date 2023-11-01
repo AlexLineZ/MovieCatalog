@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.moviecatalog.presentation.navigation.bottombar.Routes
+import com.example.moviecatalog.presentation.screen.favouritescreen.FavoriteViewModel
 import com.example.moviecatalog.presentation.screen.favouritescreen.FavouriteScreen
 import com.example.moviecatalog.presentation.screen.mainscreen.MainScreen
 import com.example.moviecatalog.presentation.screen.mainscreen.MainViewModel
@@ -18,6 +19,7 @@ const val BOTTOM_BAR_ROUTE = "bottomBar"
 fun BottomBarNavigation(bottomBarController: NavHostController) {
     val mainViewModel = MainViewModel()
     val profileViewModel = ProfileViewModel(LocalContext.current)
+    val favoriteViewModel = FavoriteViewModel()
 
     NavHost(
         navController = bottomBarController,
@@ -28,7 +30,7 @@ fun BottomBarNavigation(bottomBarController: NavHostController) {
             MainScreen(mainViewModel)
         }
         composable(Routes.Favourite.route) {
-            FavouriteScreen()
+            FavouriteScreen(favoriteViewModel)
         }
         composable(Routes.Profile.route) {
             ProfileScreen(profileViewModel)

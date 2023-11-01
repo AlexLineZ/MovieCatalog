@@ -1,6 +1,7 @@
 package com.example.moviecatalog.domain.state
 
 data class ProfileState (
+    val id: String,
     val nickName: String?,
     val email: String,
     val avatarLink: String?,
@@ -9,7 +10,7 @@ data class ProfileState (
     val date: String,
     val birthday: String,
 
-    val emailError: String?,
+    val emailError: Int?,
 
     val isDatePickerOpened: Boolean,
     val changesInProfile: Boolean
