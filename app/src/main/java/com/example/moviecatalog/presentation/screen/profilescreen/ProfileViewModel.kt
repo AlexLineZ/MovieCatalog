@@ -171,7 +171,11 @@ class ProfileViewModel(val context: Context) : ViewModel() {
                     processIntent(ProfileIntent.UpdateChanges(isChange = false))
                     initialProfileStateFlow.value = _state.value
                 } else {
-                    Log.d("Mem", "hahaha")
+                    Toast.makeText(
+                        context,
+                        "Произошла ошибка",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             } catch (e: Exception) {
                 Log.d("ERROR", e.message.toString())
