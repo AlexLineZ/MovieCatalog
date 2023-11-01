@@ -1,6 +1,9 @@
 package com.example.moviecatalog.presentation.ui.theme
 
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.graphics.Color
 
 val Purple80 = Color(0xFFD0BCFF)
@@ -31,7 +34,7 @@ val UnderMiddleMarkColor = Color(0xFFFFA000)
 val UpperBadMarkColor = Color(0xFFF05C44)
 val BadMarkColor = Color(0xFFE64646)
 
-val baseButtonColor = ButtonColors(
+val BaseButtonColor = ButtonColors(
     containerColor = AccentColor,
     contentColor = WhiteColor,
     disabledContainerColor = DisabledButtonColor.copy(alpha = 0.24f),

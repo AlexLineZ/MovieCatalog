@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -37,8 +36,7 @@ import com.example.moviecatalog.presentation.screen.common.AppBar
 import com.example.moviecatalog.presentation.screen.common.DatePickerField
 import com.example.moviecatalog.presentation.screen.common.GenderSelectionButton
 import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
-import com.example.moviecatalog.presentation.ui.theme.DisabledButtonColor
-import com.example.moviecatalog.presentation.ui.theme.baseButtonColor
+import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
@@ -126,7 +124,7 @@ fun RegistrationFirstScreen(
                         .padding(top = 16.dp, bottom = 16.dp)
                         .height(IntrinsicSize.Min),
                     enabled = viewModel.isContinueButtonAvailable(),
-                    colors = baseButtonColor
+                    colors = BaseButtonColor
                 ) {
                     Text(
                         text = stringResource(R.string.continue_)

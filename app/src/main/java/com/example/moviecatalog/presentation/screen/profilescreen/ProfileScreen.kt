@@ -1,6 +1,5 @@
 package com.example.moviecatalog.presentation.screen.profilescreen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,14 +18,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -41,7 +38,7 @@ import com.example.moviecatalog.presentation.screen.common.GenderSelectionButton
 import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
-import com.example.moviecatalog.presentation.ui.theme.baseButtonColor
+import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
 
 @Composable
 fun ProfileScreen (viewModel: ProfileViewModel) {
@@ -127,7 +124,7 @@ fun ProfileScreen (viewModel: ProfileViewModel) {
                                 .height(IntrinsicSize.Min)
                                 .padding(top = 8.dp, bottom = 8.dp),
                             enabled = viewModel.isSaveButtonAvailable(),
-                            colors = baseButtonColor
+                            colors = BaseButtonColor
                         ) {
                             Text(
                                 text = stringResource(R.string.save)

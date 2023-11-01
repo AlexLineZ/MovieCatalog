@@ -13,6 +13,7 @@ import com.example.moviecatalog.presentation.router.BottomBarRouter
 @Composable
 fun BottomBarScreen() {
     val bottomBarController = rememberNavController()
+
     Scaffold(
         bottomBar = {
             BottomBar(

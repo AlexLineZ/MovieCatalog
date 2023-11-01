@@ -5,6 +5,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.moviecatalog.presentation.navigation.bottombar.Routes
 import com.example.moviecatalog.presentation.router.BottomBarRouter
 import com.example.moviecatalog.presentation.screen.favouritescreen.FavoriteViewModel
@@ -38,7 +39,7 @@ fun BottomBarNavigation(bottomBarController: NavHostController) {
             ProfileScreen(profileViewModel)
         }
         composable(Destinations.MOVIE_SCREEN){
-            MovieScreen()
+            MovieScreen { bottomBarController.popBackStack() }
         }
     }
 }

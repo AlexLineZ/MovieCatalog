@@ -41,7 +41,7 @@ import com.example.moviecatalog.presentation.router.AppRouter
 import com.example.moviecatalog.presentation.screen.common.AppBar
 import com.example.moviecatalog.presentation.screen.common.LoadingItem
 import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
-import com.example.moviecatalog.presentation.ui.theme.baseButtonColor
+import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
@@ -138,7 +138,7 @@ fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
                 .padding(top = 16.dp, bottom = 16.dp)
                 .height(IntrinsicSize.Min),
             enabled = !loginState.isLoading && viewModel.isLoginButtonAvailable(),
-            colors = baseButtonColor
+            colors = BaseButtonColor
         ) {
             Text(
                 text = stringResource(R.string.login_button)
