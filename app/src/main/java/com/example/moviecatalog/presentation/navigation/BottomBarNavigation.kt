@@ -6,10 +6,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.moviecatalog.presentation.navigation.bottombar.Routes
+import com.example.moviecatalog.presentation.router.BottomBarRouter
 import com.example.moviecatalog.presentation.screen.favouritescreen.FavoriteViewModel
 import com.example.moviecatalog.presentation.screen.favouritescreen.FavouriteScreen
 import com.example.moviecatalog.presentation.screen.mainscreen.MainScreen
 import com.example.moviecatalog.presentation.screen.mainscreen.MainViewModel
+import com.example.moviecatalog.presentation.screen.moviescreen.MovieScreen
 import com.example.moviecatalog.presentation.screen.profilescreen.ProfileScreen
 import com.example.moviecatalog.presentation.screen.profilescreen.ProfileViewModel
 
@@ -27,13 +29,16 @@ fun BottomBarNavigation(bottomBarController: NavHostController) {
         route = BOTTOM_BAR_ROUTE
     ) {
         composable(Routes.HomeScreen.route){
-            MainScreen(mainViewModel)
+            MainScreen(mainViewModel, BottomBarRouter(bottomBarController))
         }
         composable(Routes.Favourite.route) {
             FavouriteScreen(favoriteViewModel)
         }
         composable(Routes.Profile.route) {
             ProfileScreen(profileViewModel)
+        }
+        composable(Destinations.MOVIE_SCREEN){
+            MovieScreen()
         }
     }
 }

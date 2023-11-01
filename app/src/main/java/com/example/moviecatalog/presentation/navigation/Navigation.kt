@@ -21,6 +21,7 @@ object Destinations {
     const val REGISTRATION_SECOND_SCREEN = "registrationSecond"
     const val LOGIN_SCREEN = "login"
     const val MAIN_SCREEN = "main"
+    const val MOVIE_SCREEN = "movie"
 }
 
 const val ROOT_ROUTE = "root"

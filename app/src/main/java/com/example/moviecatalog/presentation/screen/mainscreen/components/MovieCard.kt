@@ -1,6 +1,7 @@
 package com.example.moviecatalog.presentation.screen.mainscreen.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,11 +30,14 @@ import com.example.moviecatalog.presentation.ui.theme.ChipColor
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun MovieCard(movie: MovieElement) {
+fun MovieCard(movie: MovieElement, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+            .clickable (
+                onClick = onClick
+            )
     ) {
 
         Box {

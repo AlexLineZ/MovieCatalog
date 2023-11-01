@@ -18,19 +18,22 @@ import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.moviecatalog.R
+import com.example.moviecatalog.presentation.router.BottomBarRouter
 import com.example.moviecatalog.presentation.screen.common.LoadingItem
 import com.example.moviecatalog.presentation.screen.mainscreen.components.HorizontalMoviePager
 import com.example.moviecatalog.presentation.screen.mainscreen.components.MovieCard
 
 @Composable
-fun MainScreen(viewModel: MainViewModel) {
+fun MainScreen(viewModel: MainViewModel, router: BottomBarRouter) {
     val movies = viewModel.movies.collectAsLazyPagingItems()
 
     LazyColumn {
         item {
             when(movies.loadState.refresh) {
                 is LoadState.NotLoading -> {
-                    HorizontalMoviePager(movies)
+                    HorizontalMoviePager(movies) {
+                        router.toMovie()
+                    }
                 }
                 is LoadState.Error -> Unit
                 LoadState.Loading -> Unit
@@ -55,7 +58,12 @@ fun MainScreen(viewModel: MainViewModel) {
             count = movies.itemCount,
         ){ movie ->
             if (movie !in 0..3){
-                movies[movie]?.let { MovieCard(it) }
+                movies[movie]?.let {
+                    MovieCard (
+                        movie = it,
+                        onClick = { router.toMovie() }
+                    )
+                }
             }
         }
 
