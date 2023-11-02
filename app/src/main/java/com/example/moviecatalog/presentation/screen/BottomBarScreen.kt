@@ -21,7 +21,7 @@ fun BottomBarScreen() {
                 navController = bottomBarController
             )
         }) { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues)) {
+        Box (modifier = Modifier.padding(paddingValues)) {
             BottomBarNavigation(bottomBarController)
         }
     }

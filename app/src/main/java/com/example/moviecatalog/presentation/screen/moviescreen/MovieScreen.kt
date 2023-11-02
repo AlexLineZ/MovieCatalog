@@ -20,8 +20,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -50,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.moviecatalog.R
+import com.example.moviecatalog.data.model.Mark
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
 import com.example.moviecatalog.presentation.ui.theme.BottomBarColor
@@ -85,7 +84,7 @@ fun MovieScreen(backTo: () -> Unit) {
                     PosterWithGradient("https://avatars.mds.yandex.net/get-kinopoisk-image/1898899/f59002c6-6fb6-4747-bf19-039f333d7ce5/1920x")
                 }
                 item {
-                    LabelWithButtonAndMark()
+                    LabelWithButtonAndMark(Mark(mark = "8.5", color = GoodMarkColor), "Людина-Павук: До дому шляху нема")
                 }
                 item{
                     MovieDescription("Жизнь и репутация Питера Паркера оказываются под угрозой, поскольку Мистерио раскрыл всему миру тайну личности Человека-паука. Пытаясь исправить ситуацию, Питер обращается за помощью к Стивену Стрэнджу, но вскоре всё становится намного опаснее.")
@@ -132,7 +131,7 @@ fun PosterWithGradient(url: String) {
 }
 
 @Composable
-fun LabelWithButtonAndMark(){
+fun LabelWithButtonAndMark(mark: Mark, movieName: String, ){
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -145,10 +144,13 @@ fun LabelWithButtonAndMark(){
         Box(
             modifier = Modifier
                 .wrapContentSize()
-                .background(color = GoodMarkColor, shape = RoundedCornerShape(5.dp))
+                .background(
+                    color = mark.color,
+                    shape = RoundedCornerShape(5.dp)
+                )
         ) {
             Text(
-                text = "8.5",
+                text = mark.mark,
                 fontSize = 16.sp,
                 color = Color.Black,
                 modifier = Modifier.padding(start = 14.dp, top = 4.dp, end = 14.dp, bottom = 4.dp)
@@ -156,7 +158,7 @@ fun LabelWithButtonAndMark(){
         }
 
         Text(
-            text = "Людина-Павук: До дому шляху нема",
+            text = movieName,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
             fontSize = 24.sp,
@@ -166,7 +168,10 @@ fun LabelWithButtonAndMark(){
 
         Box(
             modifier = Modifier
-                .background(color = ChipColor, shape = CircleShape)
+                .background(
+                    color = ChipColor,
+                    shape = CircleShape
+                )
                 .padding(10.dp),
         ) {
             IconButton(
@@ -177,7 +182,7 @@ fun LabelWithButtonAndMark(){
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.like_unfocused),
                         contentDescription = null,
-                        tint = AccentColor
+                        tint = Color.White
                     )
                 }
             )
@@ -413,20 +418,20 @@ fun MarkWithStar(){
     ){
         Row(
             modifier = Modifier
-                .padding(4.dp),
+                .padding(2.dp),
             verticalAlignment = Alignment.CenterVertically
         ){
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.star_mark),
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(end = 2.dp)
+                    .padding(start = 4.dp, end = 4.dp)
             )
             Text(
-                text = "9",
+                text = "8",
                 fontSize = 16.sp,
                 modifier = Modifier
-                    .padding(start = 2.dp)
+                    .padding(start = 2.dp, end = 4.dp)
             )
         }
     }
