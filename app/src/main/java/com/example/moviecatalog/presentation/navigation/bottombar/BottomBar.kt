@@ -19,7 +19,6 @@ import com.example.moviecatalog.presentation.ui.theme.BottomBarColor
 fun BottomBar(router: BottomBarRouter, navController: NavHostController) {
     val screens = listOf( Routes.HomeScreen, Routes.Favourite, Routes.Profile )
 
-
     NavigationBar(
         containerColor = BottomBarColor
     ) {

@@ -11,6 +11,6 @@ class MovieRepository {
     }
 
     suspend fun getMovieDetails(movieId: String): Response<MovieDetailsResponse> {
-        return NetworkService.movieApiService.getMoviesDetails(movieId)
+        return NetworkService.movieApiService.getMovieDetails(movieId)
     }
 }
