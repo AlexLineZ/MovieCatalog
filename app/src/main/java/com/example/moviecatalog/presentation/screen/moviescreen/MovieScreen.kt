@@ -40,13 +40,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.moviecatalog.R
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
 import com.example.moviecatalog.presentation.ui.theme.BottomBarColor
@@ -172,7 +175,7 @@ fun LabelWithButtonAndMark(){
                     .size(24.dp),
                 content = {
                     Icon(
-                        imageVector = Icons.Default.Favorite,
+                        imageVector = ImageVector.vectorResource(id = R.drawable.like_unfocused),
                         contentDescription = null,
                         tint = AccentColor
                     )
@@ -214,7 +217,7 @@ fun MovieDescription(description: String) {
         )
 
         Text(
-            text = if (showFullDescription) "Подробнее ▲" else "Подробнее ▼",
+            text = if (showFullDescription) "Свернуть ▲" else "Подробнее ▼",
             fontSize = 15.sp,
             color = AccentColor,
             modifier = Modifier
@@ -409,13 +412,22 @@ fun MarkWithStar(){
             )
     ){
         Row(
-            modifier = Modifier.padding(4.dp)
+            modifier = Modifier
+                .padding(4.dp),
+            verticalAlignment = Alignment.CenterVertically
         ){
             Icon(
-                imageVector = Icons.Filled.Star,
-                contentDescription = null
+                imageVector = ImageVector.vectorResource(R.drawable.star_mark),
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(end = 2.dp)
             )
-            Text(text = "9", fontSize = 16.sp, modifier = Modifier.padding(start = 2.dp))
+            Text(
+                text = "9",
+                fontSize = 16.sp,
+                modifier = Modifier
+                    .padding(start = 2.dp)
+            )
         }
     }
 }
