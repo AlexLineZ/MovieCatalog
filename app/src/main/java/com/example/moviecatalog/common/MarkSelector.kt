@@ -25,11 +25,7 @@ object MarkSelector {
         )
     }
 
-    fun getMark(mark: Float): Mark {
-        return Mark(mark.toInt().toString(), setColorForMark(mark))
-    }
-
-    private fun setColorForMark(mark: Float): Color {
+    fun setColorForMark(mark: Float): Color {
         return when {
             mark in 9f..10f -> {
                 GoodMarkColor

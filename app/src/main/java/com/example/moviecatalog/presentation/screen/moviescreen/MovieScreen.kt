@@ -6,8 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,13 +26,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -48,18 +46,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.moviecatalog.R
+import com.example.moviecatalog.common.Constants
+import com.example.moviecatalog.common.MarkSelector
 import com.example.moviecatalog.data.model.Mark
+import com.example.moviecatalog.presentation.screen.moviescreen.components.GenresSection
+import com.example.moviecatalog.presentation.screen.moviescreen.components.MovieDescriptionSection
+import com.example.moviecatalog.presentation.screen.moviescreen.components.MovieDetailsSection
+import com.example.moviecatalog.presentation.screen.moviescreen.components.MovieReviewsSection
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
 import com.example.moviecatalog.presentation.ui.theme.BottomBarColor
 import com.example.moviecatalog.presentation.ui.theme.ChipColor
-import com.example.moviecatalog.presentation.ui.theme.GoodMarkColor
-import com.example.moviecatalog.presentation.ui.theme.GrayTextColor
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MovieScreen(backTo: () -> Unit) {
+fun MovieScreen(backTo: () -> Unit, viewModel: MovieViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -79,24 +81,40 @@ fun MovieScreen(backTo: () -> Unit) {
         },
 
         content = {
+            val state = viewModel.state.collectAsState()
+
             LazyColumn {
                 item{
-                    PosterWithGradient("https://avatars.mds.yandex.net/get-kinopoisk-image/1898899/f59002c6-6fb6-4747-bf19-039f333d7ce5/1920x")
+                    PosterWithGradient(state.value.poster ?: Constants.EMPTY_STRING)
                 }
                 item {
-                    LabelWithButtonAndMark(Mark(mark = "8.5", color = GoodMarkColor), "Людина-Павук: До дому шляху нема")
+                    LabelWithButtonAndMark(
+                        mark = MarkSelector.markCalculation(state.value.reviews ?: arrayListOf()),
+                        movieName = state.value.name ?: Constants.EMPTY_STRING
+                    )
                 }
                 item{
-                    MovieDescription("Жизнь и репутация Питера Паркера оказываются под угрозой, поскольку Мистерио раскрыл всему миру тайну личности Человека-паука. Пытаясь исправить ситуацию, Питер обращается за помощью к Стивену Стрэнджу, но вскоре всё становится намного опаснее.")
+                    MovieDescriptionSection(
+                        description = state.value.description ?: Constants.EMPTY_STRING
+                    )
                 }
                 item{
-                    GenresSection(genres = listOf("боевик", "фантастика", "драма", "мелодрама"))
+                    GenresSection(genres = state.value.genres ?: arrayListOf())
                 }
                 item{
-                    MovieDetailsSection()
+                    MovieDetailsSection(
+                        year = state.value.year,
+                        country = state.value.country,
+                        slogan = state.value.slogan,
+                        director = state.value.director,
+                        budget = state.value.budget,
+                        fees = state.value.fees,
+                        age = state.value.age,
+                        time = state.value.time
+                    )
                 }
                 item{
-                    MovieReviewsSection()
+                    MovieReviewsSection(state.value.reviews)
                 }
             }
         }
@@ -131,7 +149,7 @@ fun PosterWithGradient(url: String) {
 }
 
 @Composable
-fun LabelWithButtonAndMark(mark: Mark, movieName: String, ){
+fun LabelWithButtonAndMark(mark: Mark, movieName: String){
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -189,254 +207,6 @@ fun LabelWithButtonAndMark(mark: Mark, movieName: String, ){
         }
     }
 }
-
-@Composable
-fun MovieDescription(description: String) {
-    var showFullDescription by remember { mutableStateOf(false) }
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Text(
-            text = description,
-            fontSize = 15.sp,
-            maxLines = if (showFullDescription) Int.MAX_VALUE else 4,
-            overflow = TextOverflow.Ellipsis,
-            color = Color.White,
-            modifier = Modifier
-                .drawWithCache {
-                    val gradient = Brush.verticalGradient(
-                        colors = listOf(Color.Transparent, BackgroundColor),
-                        startY = size.height * 0.5f,
-                        endY = size.height
-                    )
-                    onDrawWithContent {
-                        drawContent()
-                        if (!showFullDescription) {
-                            drawRect(gradient)
-                        }
-                    }
-                }
-        )
-
-        Text(
-            text = if (showFullDescription) "Свернуть ▲" else "Подробнее ▼",
-            fontSize = 15.sp,
-            color = AccentColor,
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .clickable {
-                    showFullDescription = !showFullDescription
-                }
-        )
-    }
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-fun GenresSection(genres: List<String>) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-
-        Text(
-            text = "Жанры",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-
-        FlowRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            genres.forEach { genre ->
-                GenreItem(genre = genre)
-            }
-        }
-    }
-}
-
-@Composable
-fun GenreItem(genre: String) {
-    Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(8.dp))
-            .background(AccentColor)
-    ) {
-        Text(
-            text = genre,
-            color = Color.White,
-            fontSize = 15.sp,
-            modifier = Modifier
-                .padding(top = 5.dp, bottom = 5.dp, start = 10.dp, end = 10.dp)
-        )
-    }
-}
-
-data class MovieDetail(val type: String, val value: String)
-
-@Composable
-fun MovieDetailRow(movieDetail: MovieDetail) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = movieDetail.type,
-            fontSize = 14.sp,
-            color = GrayTextColor,
-            modifier = Modifier.weight(0.5f)
-        )
-        Text(
-            text = movieDetail.value,
-            fontSize = 14.sp,
-            color = Color.White,
-            modifier = Modifier.weight(1f)
-        )
-    }
-}
-
-@Composable
-fun MovieDetailsSection() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Text(
-            text = "О фильме",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-
-        MovieDetailRow(MovieDetail("Год", "1999"))
-        MovieDetailRow(MovieDetail("Страна", "США, Австралия"))
-        MovieDetailRow(MovieDetail("Слоган", "«Добро пожаловать в реальный мир»"))
-        MovieDetailRow(MovieDetail("Режиссёр", "Лана Вачовски, Лилли Вачовски"))
-        MovieDetailRow(MovieDetail("Бюджет", "$63 000 000"))
-        MovieDetailRow(MovieDetail("Сборы в мире", "$463 517 383"))
-        MovieDetailRow(MovieDetail("Возраст", "16+"))
-        MovieDetailRow(MovieDetail("Время", "136 мин"))
-    }
-}
-
-@Composable
-fun MovieReviewsSection() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Text(
-            text = "Отзывы",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-        MovieReview()
-        MovieReview()
-        MovieReview()
-    }
-
-}
-
-@Composable
-fun MovieReview(){
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(bottom = 16.dp)
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            AsyncImage(
-                model = "https://avatars.mds.yandex.net/get-kinopoisk-image/1898899/f59002c6-6fb6-4747-bf19-039f333d7ce5/1920x",
-                contentDescription = null,
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop
-            )
-
-            Text(
-                text = "Анонимный пользователь",
-                fontSize = 14.sp,
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 8.dp)
-            )
-            
-            MarkWithStar()
-        }
-
-
-        Column(
-            modifier = Modifier.padding(top = 8.dp)
-        ) {
-            Text(
-                text = "Фильм треш и кринж, для мамонтов. Полный скам и кликбейт на просмотр!",
-                fontSize = 14.sp,
-                color = Color.White,
-                textAlign = TextAlign.Start
-            )
-
-            Text(
-                text = "07.10.2023",
-                fontSize = 12.sp,
-                color = GrayTextColor,
-                textAlign = TextAlign.Start
-            )
-        }
-    }
-}
-
-@Composable
-fun MarkWithStar(){
-    Box(
-        modifier = Modifier
-            .wrapContentSize()
-            .background(
-                color = GoodMarkColor,
-                shape = RoundedCornerShape(35.dp)
-            )
-    ){
-        Row(
-            modifier = Modifier
-                .padding(2.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ){
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.star_mark),
-                contentDescription = null,
-                modifier = Modifier
-                    .padding(start = 4.dp, end = 4.dp)
-            )
-            Text(
-                text = "8",
-                fontSize = 16.sp,
-                modifier = Modifier
-                    .padding(start = 2.dp, end = 4.dp)
-            )
-        }
-    }
-}
-
 
 
 

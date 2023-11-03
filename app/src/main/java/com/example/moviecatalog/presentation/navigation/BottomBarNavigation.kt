@@ -19,6 +19,7 @@ import com.example.moviecatalog.presentation.screen.favouritescreen.FavouriteScr
 import com.example.moviecatalog.presentation.screen.mainscreen.MainScreen
 import com.example.moviecatalog.presentation.screen.mainscreen.MainViewModel
 import com.example.moviecatalog.presentation.screen.moviescreen.MovieScreen
+import com.example.moviecatalog.presentation.screen.moviescreen.MovieViewModel
 import com.example.moviecatalog.presentation.screen.profilescreen.ProfileScreen
 import com.example.moviecatalog.presentation.screen.profilescreen.ProfileViewModel
 
@@ -29,6 +30,7 @@ fun BottomBarNavigation(bottomBarController: NavHostController) {
     val mainViewModel = MainViewModel()
     val profileViewModel = ProfileViewModel(LocalContext.current)
     val favoriteViewModel = FavoriteViewModel()
+    val movieViewModel = MovieViewModel()
 
     NavHost(
         navController = bottomBarController,
@@ -45,7 +47,7 @@ fun BottomBarNavigation(bottomBarController: NavHostController) {
             ProfileScreen(profileViewModel)
         }
         composable(Destinations.MOVIE_SCREEN){
-            MovieScreen { bottomBarController.popBackStack() }
+            MovieScreen({ bottomBarController.popBackStack() }, movieViewModel)
         }
     }
 }

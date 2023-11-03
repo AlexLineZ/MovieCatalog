@@ -29,7 +29,7 @@ import kotlinx.coroutines.delay
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HorizontalMoviePager(movies: LazyPagingItems<MovieElement>, onClick: () -> Unit) {
-    val state = rememberPagerState(initialPage = 0, pageCount = {4})
+    val state = rememberPagerState(initialPage = 0, pageCount = { 4 })
 
     LaunchedEffect(Unit) {
         while (true) {
