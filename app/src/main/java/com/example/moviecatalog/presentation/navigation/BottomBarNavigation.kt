@@ -26,7 +26,9 @@ import com.example.moviecatalog.presentation.screen.profilescreen.ProfileViewMod
 const val BOTTOM_BAR_ROUTE = "bottomBar"
 
 @Composable
-fun BottomBarNavigation(bottomBarController: NavHostController) {
+fun BottomBarNavigation() {
+    val bottomBarController = rememberNavController()
+
     val mainViewModel = MainViewModel()
     val profileViewModel = ProfileViewModel(LocalContext.current)
     val favoriteViewModel = FavoriteViewModel()
@@ -41,10 +43,10 @@ fun BottomBarNavigation(bottomBarController: NavHostController) {
             MainScreen(mainViewModel, BottomBarRouter(bottomBarController))
         }
         composable(Routes.Favourite.route) {
-            FavouriteScreen(favoriteViewModel)
+            FavouriteScreen(favoriteViewModel, BottomBarRouter(bottomBarController))
         }
         composable(Routes.Profile.route) {
-            ProfileScreen(profileViewModel)
+            ProfileScreen(profileViewModel, BottomBarRouter(bottomBarController))
         }
         composable(Destinations.MOVIE_SCREEN){
             MovieScreen({ bottomBarController.popBackStack() }, movieViewModel)

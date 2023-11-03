@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -33,15 +34,36 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
+import com.example.moviecatalog.presentation.navigation.bottombar.BottomBar
+import com.example.moviecatalog.presentation.navigation.bottombar.Routes
+import com.example.moviecatalog.presentation.router.BottomBarRouter
 import com.example.moviecatalog.presentation.screen.profilescreen.components.DatePickerFieldForProfile
 import com.example.moviecatalog.presentation.screen.common.GenderSelectionButton
 import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
+import com.example.moviecatalog.presentation.screen.favouritescreen.FavoriteMoviesList
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
 import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
 
 @Composable
-fun ProfileScreen (viewModel: ProfileViewModel) {
+fun ProfileScreen (viewModel: ProfileViewModel, router: BottomBarRouter) {
+
+    Scaffold(
+        bottomBar = {
+            BottomBar(
+                router = router,
+                currentRoute = Routes.Profile.route
+            )
+        }
+    ) {
+        Box(modifier = Modifier.padding(it)) {
+            ProfileItemsList(viewModel = viewModel)
+        }
+    }
+}
+
+@Composable
+fun ProfileItemsList(viewModel: ProfileViewModel){
     val focusManager = LocalFocusManager.current
     val state by viewModel.state.collectAsState()
     Column(
