@@ -20,7 +20,8 @@ class BottomBarRouter (private val navController: NavHostController) {
             restoreState = true
         }
     }
-    fun toMovie() {
-        navController.navigate(Destinations.MOVIE_SCREEN)
+    fun toMovie(movieId: String) {
+        val routeWithId = Destinations.MOVIE_SCREEN.replace("{movieId}", movieId)
+        navController.navigate(routeWithId)
     }
 }

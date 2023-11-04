@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.example.moviecatalog.R
 import com.example.moviecatalog.presentation.router.AppRouter
@@ -26,7 +27,8 @@ fun SplashScreen(router: AppRouter) {
             painter = painterResource(id = R.drawable.launch_screen),
             contentDescription = null,
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxSize(),
+            contentScale = ContentScale.Crop
         )
     }
 }

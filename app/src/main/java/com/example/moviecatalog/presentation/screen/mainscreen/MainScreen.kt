@@ -55,7 +55,7 @@ fun MovieListScreen(viewModel: MainViewModel, router: BottomBarRouter){
             when(movies.loadState.refresh) {
                 is LoadState.NotLoading -> {
                     HorizontalMoviePager(movies) {
-                        router.toMovie()
+                       router.toMovie(it)
                     }
                 }
                 is LoadState.Error -> Unit
@@ -84,7 +84,7 @@ fun MovieListScreen(viewModel: MainViewModel, router: BottomBarRouter){
                 movies[movie]?.let {
                     MovieCard (
                         movie = it,
-                        onClick = { router.toMovie() }
+                        onClick = { router.toMovie(it.id) }
                     )
                 }
             }

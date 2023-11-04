@@ -22,22 +22,23 @@ class MovieViewModel : ViewModel() {
         genres = null,
         reviews = null,
         time = Constants.ZERO,
-        slogan = null,
+        tagline = null,
         description = null,
         director = null,
         budget = null,
         fees = null,
-        age = Constants.ZERO
+        ageLimit = Constants.ZERO
     )
 
     private val _state = MutableStateFlow(emptyState)
     val state: StateFlow<MovieDetailsResponse> get() = _state
 
-    init {
-        performDetails("f7c6a32b-a55b-4d86-a2bd-08d9b9f3d2a2")
-    }
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> get() = _isLoading
 
-    private fun performDetails(movieId: String) {
+
+    fun performDetails(movieId: String) {
+        _isLoading.value = true
         viewModelScope.launch {
             try {
                 val result = getMovieDetailsUseCase.invoke(movieId)
@@ -51,6 +52,8 @@ class MovieViewModel : ViewModel() {
                 }
             } catch (e: Exception) {
                 Log.d("ERROR", e.message.toString())
+            } finally {
+                _isLoading.value = false
             }
         }
     }

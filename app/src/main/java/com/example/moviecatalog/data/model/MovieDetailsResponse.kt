@@ -12,10 +12,10 @@ data class MovieDetailsResponse(
     val genres: ArrayList<Genre>?,
     val reviews: ArrayList<Review>?,
     val time: Int,
-    val slogan: String?,
+    val tagline: String?,
     val description: String?,
     val director: String?,
     val budget: Int?,
     val fees: Int?,
-    val age: Int,
+    val ageLimit: Int,
 )

@@ -26,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,6 +50,7 @@ import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.MarkSelector
 import com.example.moviecatalog.data.model.Mark
+import com.example.moviecatalog.presentation.screen.common.LoadingItem
 import com.example.moviecatalog.presentation.screen.moviescreen.components.GenresSection
 import com.example.moviecatalog.presentation.screen.moviescreen.components.MovieDescriptionSection
 import com.example.moviecatalog.presentation.screen.moviescreen.components.MovieDetailsSection
@@ -61,7 +63,11 @@ import com.example.moviecatalog.presentation.ui.theme.ChipColor
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MovieScreen(backTo: () -> Unit, viewModel: MovieViewModel) {
+fun MovieScreen(
+    backTo: () -> Unit,
+    viewModel: MovieViewModel,
+    movieId: String
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -69,7 +75,7 @@ fun MovieScreen(backTo: () -> Unit, viewModel: MovieViewModel) {
                 navigationIcon = {
                     IconButton(onClick = { backTo() }) {
                         Icon (
-                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                            imageVector = ImageVector.vectorResource(id = R.drawable.arrow_back),
                             contentDescription = null
                         )
                     }
@@ -82,39 +88,48 @@ fun MovieScreen(backTo: () -> Unit, viewModel: MovieViewModel) {
 
         content = {
             val state = viewModel.state.collectAsState()
+            val isLoading = viewModel.isLoading.collectAsState()
 
-            LazyColumn {
-                item{
-                    PosterWithGradient(state.value.poster ?: Constants.EMPTY_STRING)
-                }
-                item {
-                    LabelWithButtonAndMark(
-                        mark = MarkSelector.markCalculation(state.value.reviews ?: arrayListOf()),
-                        movieName = state.value.name ?: Constants.EMPTY_STRING
-                    )
-                }
-                item{
-                    MovieDescriptionSection(
-                        description = state.value.description ?: Constants.EMPTY_STRING
-                    )
-                }
-                item{
-                    GenresSection(genres = state.value.genres ?: arrayListOf())
-                }
-                item{
-                    MovieDetailsSection(
-                        year = state.value.year,
-                        country = state.value.country,
-                        slogan = state.value.slogan,
-                        director = state.value.director,
-                        budget = state.value.budget,
-                        fees = state.value.fees,
-                        age = state.value.age,
-                        time = state.value.time
-                    )
-                }
-                item{
-                    MovieReviewsSection(state.value.reviews)
+            LaunchedEffect(Unit) {
+                viewModel.performDetails(movieId)
+            }
+
+            if (isLoading.value) {
+                LoadingItem()
+            } else {
+                LazyColumn {
+                    item{
+                        PosterWithGradient(state.value.poster ?: Constants.EMPTY_STRING)
+                    }
+                    item {
+                        LabelWithButtonAndMark(
+                            mark = MarkSelector.markCalculation(state.value.reviews ?: arrayListOf()),
+                            movieName = state.value.name ?: Constants.EMPTY_STRING
+                        )
+                    }
+                    item{
+                        MovieDescriptionSection(
+                            description = state.value.description ?: Constants.EMPTY_STRING
+                        )
+                    }
+                    item{
+                        GenresSection(genres = state.value.genres ?: arrayListOf())
+                    }
+                    item{
+                        MovieDetailsSection(
+                            year = state.value.year,
+                            country = state.value.country,
+                            slogan = state.value.tagline,
+                            director = state.value.director,
+                            budget = state.value.budget,
+                            fees = state.value.fees,
+                            age = state.value.ageLimit,
+                            time = state.value.time
+                        )
+                    }
+                    item{
+                        MovieReviewsSection(state.value.reviews)
+                    }
                 }
             }
         }

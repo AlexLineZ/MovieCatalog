@@ -48,8 +48,9 @@ fun BottomBarNavigation() {
         composable(Routes.Profile.route) {
             ProfileScreen(profileViewModel, BottomBarRouter(bottomBarController))
         }
-        composable(Destinations.MOVIE_SCREEN){
-            MovieScreen({ bottomBarController.popBackStack() }, movieViewModel)
+        composable(Destinations.MOVIE_SCREEN){ backStackEntry ->
+            val movieId = backStackEntry.arguments?.getString("movieId")
+            MovieScreen({ bottomBarController.popBackStack() }, movieViewModel, movieId ?: "")
         }
     }
 }
