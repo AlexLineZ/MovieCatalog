@@ -10,8 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.moviecatalog.presentation.screen.moviescreen.components.items.MovieDetail
-import com.example.moviecatalog.presentation.ui.theme.GrayTextColor
+import com.example.moviecatalog.presentation.ui.theme.Gray400Color
 
 @Composable
 fun MovieDetailRow(movieDetail: MovieDetail) {
@@ -24,7 +23,7 @@ fun MovieDetailRow(movieDetail: MovieDetail) {
         Text(
             text = movieDetail.type,
             fontSize = 14.sp,
-            color = GrayTextColor,
+            color = Gray400Color,
             modifier = Modifier.weight(0.5f)
         )
         Text(

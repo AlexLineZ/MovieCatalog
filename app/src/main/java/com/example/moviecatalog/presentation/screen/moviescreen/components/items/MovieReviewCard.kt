@@ -1,6 +1,5 @@
 package com.example.moviecatalog.presentation.screen.moviescreen.components.items
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,9 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -28,7 +25,7 @@ import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.formatDateToNormal
 import com.example.moviecatalog.domain.model.movie.Review
 import com.example.moviecatalog.presentation.screen.common.MarkWithStar
-import com.example.moviecatalog.presentation.ui.theme.GrayTextColor
+import com.example.moviecatalog.presentation.ui.theme.Gray400Color
 
 @Composable
 fun MovieReviewCard(review: Review){
@@ -81,7 +78,7 @@ fun MovieReviewCard(review: Review){
             Text(
                 text = formatDateToNormal(review.createDateTime),
                 fontSize = 12.sp,
-                color = GrayTextColor,
+                color = Gray400Color,
                 textAlign = TextAlign.Start
             )
         }

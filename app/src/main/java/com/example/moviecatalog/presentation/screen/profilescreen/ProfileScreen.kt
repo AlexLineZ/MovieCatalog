@@ -78,7 +78,9 @@ fun ProfileItemsList(viewModel: ProfileViewModel){
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AsyncImage(
-            model = state.avatarLink,
+            model = if (state.avatarLink == null || state.avatarLink == Constants.EMPTY_STRING)
+                R.drawable.anonymus
+                        else state.avatarLink,
             contentDescription = null,
             modifier = Modifier
                 .size(88.dp)
@@ -93,7 +95,18 @@ fun ProfileItemsList(viewModel: ProfileViewModel){
                 fontWeight = FontWeight.Bold
             ),
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(top = 12.dp)
+        )
+
+        Text(
+            text = "Выйти из аккаунта",
+            style = TextStyle(
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            ),
+            color = AccentColor,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(top = 12.dp, bottom = 32.dp)
         )
 
         LazyColumn {
