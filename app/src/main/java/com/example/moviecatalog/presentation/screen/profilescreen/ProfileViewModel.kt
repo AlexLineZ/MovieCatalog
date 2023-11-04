@@ -95,6 +95,10 @@ class ProfileViewModel(val context: Context) : ViewModel() {
             is ProfileIntent.UpdateChanges -> {
                 _state.value = state.value.copy(changesInProfile = intent.isChange)
             }
+
+            ProfileIntent.Logout -> {
+
+            }
         }
     }
 

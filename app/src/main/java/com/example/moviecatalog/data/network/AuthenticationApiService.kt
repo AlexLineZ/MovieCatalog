@@ -15,5 +15,5 @@ interface AuthenticationApiService {
     suspend fun postLoginData(@Body loginData: LoginData): Response<TokenResponse>
 
     @POST("api/account/logout")
-    suspend fun postLogoutData(token: String)
+    suspend fun postLogoutData(): Response<Unit>
 }

@@ -1,6 +1,5 @@
 package com.example.moviecatalog.presentation.screen.profilescreen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,18 +14,17 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -36,15 +34,36 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
+import com.example.moviecatalog.presentation.navigation.bottombar.BottomBar
+import com.example.moviecatalog.presentation.navigation.bottombar.Routes
+import com.example.moviecatalog.presentation.router.BottomBarRouter
 import com.example.moviecatalog.presentation.screen.profilescreen.components.DatePickerFieldForProfile
 import com.example.moviecatalog.presentation.screen.common.GenderSelectionButton
 import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
+import com.example.moviecatalog.presentation.screen.favouritescreen.FavoriteMoviesList
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
-import com.example.moviecatalog.presentation.ui.theme.baseButtonColor
+import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
 
 @Composable
-fun ProfileScreen (viewModel: ProfileViewModel) {
+fun ProfileScreen (viewModel: ProfileViewModel, router: BottomBarRouter) {
+
+    Scaffold(
+        bottomBar = {
+            BottomBar(
+                router = router,
+                currentRoute = Routes.Profile.route
+            )
+        }
+    ) {
+        Box(modifier = Modifier.padding(it)) {
+            ProfileItemsList(viewModel = viewModel)
+        }
+    }
+}
+
+@Composable
+fun ProfileItemsList(viewModel: ProfileViewModel){
     val focusManager = LocalFocusManager.current
     val state by viewModel.state.collectAsState()
     Column(
@@ -127,7 +146,7 @@ fun ProfileScreen (viewModel: ProfileViewModel) {
                                 .height(IntrinsicSize.Min)
                                 .padding(top = 8.dp, bottom = 8.dp),
                             enabled = viewModel.isSaveButtonAvailable(),
-                            colors = baseButtonColor
+                            colors = BaseButtonColor
                         ) {
                             Text(
                                 text = stringResource(R.string.save)

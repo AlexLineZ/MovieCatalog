@@ -42,8 +42,9 @@ import com.example.moviecatalog.domain.validator.ConfirmPasswordValidator
 import com.example.moviecatalog.domain.validator.PasswordValidator
 import com.example.moviecatalog.presentation.router.AppRouter
 import com.example.moviecatalog.presentation.screen.common.AppBar
+import com.example.moviecatalog.presentation.screen.common.LoadingItem
 import com.example.moviecatalog.presentation.ui.theme.ErrorAccentColor
-import com.example.moviecatalog.presentation.ui.theme.baseButtonColor
+import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
@@ -208,10 +209,13 @@ fun RegistrationSecondScreen (
             }
         }
 
+        if (state.isLoading){
+            LoadingItem()
+        }
+
         Button(
             onClick = {
-                viewModel.processIntent(RegistrationIntent.Registration(state))
-                router.toMain()
+                viewModel.processIntent(RegistrationIntent.Registration(state) { router.toMain() })
             },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
@@ -219,7 +223,7 @@ fun RegistrationSecondScreen (
                 .padding(top = 16.dp, bottom = 16.dp)
                 .height(IntrinsicSize.Min),
             enabled = viewModel.isRegisterButtonAvailable(),
-            colors = baseButtonColor
+            colors = BaseButtonColor
         ) {
             Text(
                 text = stringResource(R.string.to_register)

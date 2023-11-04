@@ -30,6 +30,7 @@ class FavoriteViewModel: ViewModel() {
                     response?.let {
                         _state.value = it.movies
                     }
+                    Log.d("FAVORITE", _state.value.toString())
                 } else {
                     Log.d("Mem", "hahaha")
                 }

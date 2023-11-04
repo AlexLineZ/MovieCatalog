@@ -1,10 +1,12 @@
 package com.example.moviecatalog.presentation.screen.mainscreen
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,19 +20,43 @@ import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.moviecatalog.R
+import com.example.moviecatalog.presentation.navigation.bottombar.BottomBar
+import com.example.moviecatalog.presentation.navigation.bottombar.Routes
+import com.example.moviecatalog.presentation.router.BottomBarRouter
 import com.example.moviecatalog.presentation.screen.common.LoadingItem
 import com.example.moviecatalog.presentation.screen.mainscreen.components.HorizontalMoviePager
 import com.example.moviecatalog.presentation.screen.mainscreen.components.MovieCard
 
 @Composable
-fun MainScreen(viewModel: MainViewModel) {
+fun MainScreen(viewModel: MainViewModel, router: BottomBarRouter) {
+    Scaffold(
+        bottomBar = {
+            BottomBar(
+                router = router,
+                currentRoute = Routes.HomeScreen.route
+            )
+        }
+    ) {
+        Box(modifier = Modifier.padding(it)) {
+            MovieListScreen(
+                viewModel = viewModel,
+                router = router
+            )
+        }
+    }
+}
+
+@Composable
+fun MovieListScreen(viewModel: MainViewModel, router: BottomBarRouter){
     val movies = viewModel.movies.collectAsLazyPagingItems()
 
     LazyColumn {
         item {
             when(movies.loadState.refresh) {
                 is LoadState.NotLoading -> {
-                    HorizontalMoviePager(movies)
+                    HorizontalMoviePager(movies) {
+                       router.toMovie(it)
+                    }
                 }
                 is LoadState.Error -> Unit
                 LoadState.Loading -> Unit
@@ -55,7 +81,12 @@ fun MainScreen(viewModel: MainViewModel) {
             count = movies.itemCount,
         ){ movie ->
             if (movie !in 0..3){
-                movies[movie]?.let { MovieCard(it) }
+                movies[movie]?.let {
+                    MovieCard (
+                        movie = it,
+                        onClick = { router.toMovie(it.id) }
+                    )
+                }
             }
         }
 
@@ -85,5 +116,3 @@ fun MainScreen(viewModel: MainViewModel) {
         }
     }
 }
-
-

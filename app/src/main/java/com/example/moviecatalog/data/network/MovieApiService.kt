@@ -4,7 +4,6 @@ import com.example.moviecatalog.data.model.MovieDetailsResponse
 import com.example.moviecatalog.data.model.MoviePageResponse
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Path
 
 interface MovieApiService {
@@ -12,5 +11,5 @@ interface MovieApiService {
     suspend fun getMovies(@Path("page") moviesPage: Int): Response<MoviePageResponse>
 
     @GET("api/movies/details/{id}")
-    suspend fun getMoviesDetails(@Path("id") movieId: String): Response<MovieDetailsResponse>
+    suspend fun getMovieDetails(@Path("id") movieId: String): Response<MovieDetailsResponse>
 }

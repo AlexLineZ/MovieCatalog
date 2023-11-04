@@ -20,7 +20,7 @@ import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun DotIndicator(
+fun AnimatedDotIndicator(
     count: Int,
     pagerState: PagerState,
 ) {
