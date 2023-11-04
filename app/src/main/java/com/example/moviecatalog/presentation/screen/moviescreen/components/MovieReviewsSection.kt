@@ -14,11 +14,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,14 +23,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
-import com.example.moviecatalog.domain.model.movie.Review
+import com.example.moviecatalog.domain.model.review.Review
 import com.example.moviecatalog.presentation.screen.moviescreen.components.items.MovieReviewCard
+import com.example.moviecatalog.presentation.screen.moviescreen.components.items.MovieReviewCurrentUserCard
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 
 @Composable
 fun MovieReviewsSection(
     list: ArrayList<Review>?,
     isDialogOpen: Boolean,
+    userReview: Review?,
     onClick: () -> Unit
 ) {
 
@@ -70,33 +67,41 @@ fun MovieReviewsSection(
                 color = Color.White
             )
 
-            Box(
-                modifier = Modifier
-                    .background(
-                        color = AccentColor,
-                        shape = CircleShape
-                    )
-                    .wrapContentSize()
-            ) {
-                IconButton(
-                    onClick = {
-                        onClick()
-                    },
+            if (userReview == null) {
+                Box(
                     modifier = Modifier
-                        .size(34.dp),
-                    content = {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.plus),
-                            contentDescription = null,
-                            tint = Color.White
+                        .background(
+                            color = AccentColor,
+                            shape = CircleShape
                         )
-                    }
-                )
+                        .wrapContentSize()
+                ) {
+                    IconButton(
+                        onClick = {
+                            onClick()
+                        },
+                        modifier = Modifier
+                            .size(34.dp),
+                        content = {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.plus),
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                        }
+                    )
+                }
             }
         }
 
+        if (userReview != null){
+            MovieReviewCurrentUserCard(review = userReview)
+        }
+
         list?.forEach { review ->
-            MovieReviewCard(review)
+            if (review != userReview){
+                MovieReviewCard(review)
+            }
         }
     }
 }

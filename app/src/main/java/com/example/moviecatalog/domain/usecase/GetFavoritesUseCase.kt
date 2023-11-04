@@ -1,7 +1,6 @@
 package com.example.moviecatalog.domain.usecase
 
 import android.util.Log
-import com.example.moviecatalog.data.model.MoviePageResponse
 import com.example.moviecatalog.data.repository.FavoriteRepository
 import com.example.moviecatalog.domain.model.favorite.Favorite
 

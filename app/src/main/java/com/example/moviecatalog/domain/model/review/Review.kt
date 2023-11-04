@@ -1,4 +1,6 @@
-package com.example.moviecatalog.domain.model.movie
+package com.example.moviecatalog.domain.model.review
+
+import com.example.moviecatalog.domain.model.movie.UserShort
 
 
 data class Review(

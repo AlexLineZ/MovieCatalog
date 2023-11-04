@@ -106,7 +106,6 @@ fun MovieScreen(
                             description = state.value.movieDetails.description ?: Constants.EMPTY_STRING,
                             state = state.value.isDescriptionOpen,
                             onClick = { viewModel.processIntent(MovieIntent.ChangeDescriptionVisibility) }
-
                         )
                     }
                     item{
@@ -128,8 +127,8 @@ fun MovieScreen(
                         MovieReviewsSection(
                             list = state.value.movieDetails.reviews,
                             isDialogOpen = state.value.isReviewDialogOpen,
+                            userReview = state.value.userReview,
                             onClick = { viewModel.processIntent(MovieIntent.ChangeReviewDialog) }
-
                         )
                     }
                 }

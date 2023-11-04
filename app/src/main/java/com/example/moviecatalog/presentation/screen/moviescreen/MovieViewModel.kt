@@ -1,13 +1,14 @@
 package com.example.moviecatalog.presentation.screen.moviescreen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.common.Constants
-import com.example.moviecatalog.data.model.MovieDetailsResponse
+import com.example.moviecatalog.domain.model.movie.MovieDetails
 import com.example.moviecatalog.domain.state.MovieState
+import com.example.moviecatalog.domain.usecase.DeleteFavoriteMovieUseCase
 import com.example.moviecatalog.domain.usecase.GetFavoritesUseCase
 import com.example.moviecatalog.domain.usecase.GetMovieDetailsUseCase
+import com.example.moviecatalog.domain.usecase.GetProfileUseCase
 import com.example.moviecatalog.domain.usecase.PostAddFavoriteMovieUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,8 +18,11 @@ class MovieViewModel : ViewModel() {
     private val getMovieDetailsUseCase = GetMovieDetailsUseCase()
     private val getFavoritesUseCase = GetFavoritesUseCase()
     private val postAddFavoriteMovieUseCase = PostAddFavoriteMovieUseCase()
+    private val deleteFavoriteMovieUseCase = DeleteFavoriteMovieUseCase()
+    private val getProfileUseCase = GetProfileUseCase()
 
-    private val emptyMovieState = MovieDetailsResponse(
+
+    private val emptyMovieState = MovieDetails(
         id = Constants.EMPTY_STRING,
         name = null,
         poster = null,
@@ -38,6 +42,7 @@ class MovieViewModel : ViewModel() {
     private val emptyState = MovieState(
         isLoading = Constants.FALSE,
         movieDetails = emptyMovieState,
+        userReview = null,
         isDescriptionOpen = Constants.FALSE,
         isLiked = Constants.FALSE,
         hasUserReview = Constants.FALSE,
@@ -83,10 +88,16 @@ class MovieViewModel : ViewModel() {
 
             is MovieIntent.ClickOnFavoriteButton -> {
                 if (state.value.isLiked) {
-
+                    deleteFromFavorite(movieId = intent.movieId)
                 } else {
                     addToFavorite(movieId = intent.movieId)
                 }
+            }
+
+            is MovieIntent.ChangeUserReview -> {
+                _state.value = state.value.copy(
+                    userReview = intent.review
+                )
             }
         }
     }
@@ -105,6 +116,7 @@ class MovieViewModel : ViewModel() {
                 response?.let {
                     _state.value.movieDetails = it
                     checkMovieIsLiked(it.id)
+                    getProfile()
                 }
             }
             processIntent(MovieIntent.ChangeIsLoading)
@@ -130,6 +142,31 @@ class MovieViewModel : ViewModel() {
             val result = postAddFavoriteMovieUseCase.invoke(movieId)
             if (result.isSuccess){
                 processIntent(MovieIntent.ChangeLiked)
+            }
+        }
+    }
+
+    private fun deleteFromFavorite(movieId: String){
+        viewModelScope.launch {
+            val result = deleteFavoriteMovieUseCase.invoke(movieId)
+            if (result.isSuccess){
+                processIntent(MovieIntent.ChangeLiked)
+            }
+        }
+    }
+
+    private fun getProfile(){
+        viewModelScope.launch {
+            val result = getProfileUseCase.invoke()
+            if (result.isSuccess){
+                val response = result.getOrNull()
+                if (response != null) {
+                    _state.value.movieDetails.reviews?.forEach { review ->
+                        if (review.author.userId == response.id){
+                            _state.value.userReview = review
+                        }
+                    }
+                }
             }
         }
     }

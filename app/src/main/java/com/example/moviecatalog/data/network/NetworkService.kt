@@ -40,4 +40,7 @@ object NetworkService {
 
     val favoriteApiService: FavoriteApiService =
         retrofit.create(FavoriteApiService::class.java)
+
+    val reviewApiService: ReviewApiService =
+        retrofit.create(ReviewApiService::class.java)
 }
