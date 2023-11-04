@@ -126,9 +126,12 @@ fun MovieScreen(
                     item{
                         MovieReviewsSection(
                             list = state.value.movieDetails.reviews,
-                            isDialogOpen = state.value.isReviewDialogOpen,
-                            userReview = state.value.userReview,
-                            onClick = { viewModel.processIntent(MovieIntent.ChangeReviewDialog) }
+                            state = state.value,
+                            onClick = { viewModel.processIntent(MovieIntent.ChangeReviewDialog) },
+                            onSaveClick = { viewModel.processIntent(MovieIntent.SendReview) },
+                            onRatingSelected = { viewModel.processIntent(MovieIntent.ChangeRating(it)) },
+                            onAnonymousCheckedChanged = { viewModel.processIntent(MovieIntent.ChangeAnonymous(it)) },
+                            onReviewTextChanged = { viewModel.processIntent(MovieIntent.ChangeReviewText(it)) }
                         )
                     }
                 }

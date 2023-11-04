@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.domain.model.review.Review
+import com.example.moviecatalog.domain.state.MovieState
 import com.example.moviecatalog.presentation.screen.moviescreen.components.items.MovieReviewCard
 import com.example.moviecatalog.presentation.screen.moviescreen.components.items.MovieReviewCurrentUserCard
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
@@ -31,17 +32,21 @@ import com.example.moviecatalog.presentation.ui.theme.AccentColor
 @Composable
 fun MovieReviewsSection(
     list: ArrayList<Review>?,
-    isDialogOpen: Boolean,
-    userReview: Review?,
-    onClick: () -> Unit
+    state: MovieState,
+    onClick: () -> Unit,
+    onSaveClick: () -> Unit,
+    onRatingSelected: (Int) -> Unit,
+    onAnonymousCheckedChanged: (Boolean) -> Unit,
+    onReviewTextChanged: (String) -> Unit
 ) {
 
-    if (isDialogOpen) {
+    if (state.isReviewDialogOpen) {
         ReviewDialog(
-            onRatingSelected = { },
-            onReviewTextChanged = { },
-            onAnonymousCheckedChanged = {  },
-            onSaveClick = {  },
+            state = state,
+            onRatingSelected = { onRatingSelected(it)},
+            onReviewTextChanged = {onReviewTextChanged(it) },
+            onAnonymousCheckedChanged = { onAnonymousCheckedChanged(it) },
+            onSaveClick = { onSaveClick() },
             onCancelClick = { onClick() }
         )
     }
@@ -67,7 +72,7 @@ fun MovieReviewsSection(
                 color = Color.White
             )
 
-            if (userReview == null) {
+            if (state.userReview == null) {
                 Box(
                     modifier = Modifier
                         .background(
@@ -94,12 +99,12 @@ fun MovieReviewsSection(
             }
         }
 
-        if (userReview != null){
-            MovieReviewCurrentUserCard(review = userReview)
+        if (state.userReview != null){
+            MovieReviewCurrentUserCard(review = state.userReview!!)
         }
 
         list?.forEach { review ->
-            if (review != userReview){
+            if (review != state.userReview){
                 MovieReviewCard(review)
             }
         }

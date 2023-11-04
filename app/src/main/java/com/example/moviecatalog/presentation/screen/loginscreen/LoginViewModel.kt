@@ -54,6 +54,8 @@ class LoginViewModel (private val context: Context) : ViewModel() { //AndroidVie
             LoginIntent.UpdateLoading -> {
                 _state.value = state.value.copy(isLoading = !_state.value.isLoading)
             }
+
+            else -> {}
         }
     }
 

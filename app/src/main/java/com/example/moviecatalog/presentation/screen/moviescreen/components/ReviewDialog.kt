@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.moviecatalog.R
+import com.example.moviecatalog.domain.state.MovieState
 import com.example.moviecatalog.presentation.screen.profilescreen.ProfileIntent
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
@@ -58,16 +59,13 @@ import com.example.moviecatalog.presentation.ui.theme.YellowStarColor
 
 @Composable
 fun ReviewDialog(
+    state: MovieState,
     onRatingSelected: (Int) -> Unit,
     onReviewTextChanged: (String) -> Unit,
     onAnonymousCheckedChanged: (Boolean) -> Unit,
     onSaveClick: () -> Unit,
     onCancelClick: () -> Unit
 ) {
-    var rating by remember { mutableStateOf(0) }
-    var reviewText by remember { mutableStateOf("") }
-    var isAnonymous by remember { mutableStateOf(false) }
-
     Dialog(
         onDismissRequest = { onCancelClick() },
         properties = DialogProperties(
@@ -105,31 +103,30 @@ fun ReviewDialog(
                     repeat(10) { index ->
                         IconButton(
                             onClick = {
-                                rating = index + 1
-                                onRatingSelected(rating)
+                                onRatingSelected(index + 1)
                             },
                             modifier = Modifier.size(24.dp)
                         ) {
                             Icon(
-                                imageVector = if (index < rating)
+                                imageVector = if (index < state.movieRating)
                                     ImageVector.vectorResource(R.drawable.raiting_star_focused)
                                 else
                                     ImageVector.vectorResource(R.drawable.raiting_star_unfocused),
                                 contentDescription = null,
-                                tint = if (index < rating) YellowStarColor else Gray400Color
+                                tint = if (index < state.movieRating) YellowStarColor else Gray400Color
                             )
                         }
                     }
                 }
 
                 OutlinedTextField(
-                    value = reviewText,
+                    value = state.reviewText,
                     textStyle = TextStyle(
                         fontWeight = FontWeight.W400,
                         fontSize = 15.sp
                     ),
                     onValueChange = {
-                        reviewText = it
+                        onReviewTextChanged(it)
                     },
                     label = { Text("Напишите отзыв") },
                     shape = RoundedCornerShape(5.dp),
@@ -139,12 +136,12 @@ fun ReviewDialog(
                 )
                 Row(
                     modifier = Modifier.clickable {
-                        isAnonymous = !isAnonymous
+                        onAnonymousCheckedChanged(!state.isAnonymous)
                     },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Checkbox(
-                        checked = isAnonymous,
+                        checked = state.isAnonymous,
                         onCheckedChange = null
                     )
 
@@ -170,7 +167,7 @@ fun ReviewDialog(
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Button(
-                            onClick = {  },
+                            onClick = { onSaveClick() },
                             shape = RoundedCornerShape(10.dp),
                             modifier = Modifier
                                 .fillMaxWidth()

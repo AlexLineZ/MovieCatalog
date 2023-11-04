@@ -7,6 +7,7 @@ data class MovieState(
     val isLoading: Boolean,
     var movieDetails: MovieDetails,
     var userReview: Review?,
+    var userId: String,
     val isDescriptionOpen: Boolean,
     var isLiked: Boolean,
     var hasUserReview: Boolean,
