@@ -1,5 +1,6 @@
 package com.example.moviecatalog.presentation.screen.moviescreen.components.items
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,12 +15,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.formatDateToNormal
 import com.example.moviecatalog.domain.model.movie.Review
@@ -38,8 +42,10 @@ fun MovieReviewCard(review: Review){
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+
             AsyncImage(
-                model = review.author?.avatar,
+                model = if (review.author?.avatar == null) R.drawable.anonymus
+                        else review.author?.avatar,
                 contentDescription = null,
                 modifier = Modifier
                     .size(40.dp)
