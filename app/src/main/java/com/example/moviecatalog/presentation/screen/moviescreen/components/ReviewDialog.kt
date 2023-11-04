@@ -69,7 +69,7 @@ fun ReviewDialog(
     var isAnonymous by remember { mutableStateOf(false) }
 
     Dialog(
-        onDismissRequest = {  },
+        onDismissRequest = { onCancelClick() },
         properties = DialogProperties(
             usePlatformDefaultWidth = false
         ),
@@ -184,7 +184,7 @@ fun ReviewDialog(
                         }
 
                         Button(
-                            onClick = {  },
+                            onClick = { onCancelClick() },
                             shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = SecondButtonColor,

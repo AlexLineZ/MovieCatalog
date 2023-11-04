@@ -33,21 +33,19 @@ import com.example.moviecatalog.presentation.screen.moviescreen.components.items
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 
 @Composable
-fun MovieReviewsSection(list: ArrayList<Review>?) {
+fun MovieReviewsSection(
+    list: ArrayList<Review>?,
+    isDialogOpen: Boolean,
+    onClick: () -> Unit
+) {
 
-    var showDialog by remember { mutableStateOf(false) }
-
-    if (showDialog) {
-        LaunchedEffect(showDialog) {
-            showDialog = true
-        }
-
+    if (isDialogOpen) {
         ReviewDialog(
             onRatingSelected = { },
             onReviewTextChanged = { },
             onAnonymousCheckedChanged = {  },
             onSaveClick = {  },
-            onCancelClick = {  }
+            onCancelClick = { onClick() }
         )
     }
 
@@ -82,7 +80,7 @@ fun MovieReviewsSection(list: ArrayList<Review>?) {
             ) {
                 IconButton(
                     onClick = {
-                        showDialog = true
+                        onClick()
                     },
                     modifier = Modifier
                         .size(34.dp),

@@ -17,25 +17,15 @@ class FavoriteViewModel: ViewModel() {
     private val _state = MutableStateFlow(arrayListOf<MovieElement>())
     val state: StateFlow<ArrayList<MovieElement>> get() = _state
 
-    init {
-        performData()
-    }
-
-    private fun performData(){
+    fun performData(){
         viewModelScope.launch {
-            try {
-                val result = getFavoritesUseCase.invoke()
-                if (result.isSuccess) {
-                    val response = result.getOrNull()
-                    response?.let {
-                        _state.value = it.movies
-                    }
-                    Log.d("FAVORITE", _state.value.toString())
-                } else {
-                    Log.d("Mem", "hahaha")
+            val result = getFavoritesUseCase.invoke()
+            if (result.isSuccess) {
+                val response = result.getOrNull()
+                response?.let {
+                    _state.value = it.movies
                 }
-            } catch (e: Exception) {
-                Log.d("ERROR", e.message.toString())
+                Log.d("FAVORITE", _state.value.toString())
             }
         }
     }
