@@ -21,9 +21,11 @@ import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
 
 @Composable
-fun MovieDescriptionSection(description: String) {
-    var showFullDescription by remember { mutableStateOf(false) }
-
+fun MovieDescriptionSection(
+    description: String,
+    state: Boolean,
+    onClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -32,7 +34,7 @@ fun MovieDescriptionSection(description: String) {
         Text(
             text = description,
             fontSize = 15.sp,
-            maxLines = if (showFullDescription) Int.MAX_VALUE else 4,
+            maxLines = if (state) Int.MAX_VALUE else 4,
             overflow = TextOverflow.Ellipsis,
             color = Color.White,
             modifier = Modifier
@@ -44,7 +46,7 @@ fun MovieDescriptionSection(description: String) {
                     )
                     onDrawWithContent {
                         drawContent()
-                        if (!showFullDescription) {
+                        if (!state) {
                             drawRect(gradient)
                         }
                     }
@@ -52,13 +54,13 @@ fun MovieDescriptionSection(description: String) {
         )
 
         Text(
-            text = if (showFullDescription) "Свернуть ▲" else "Подробнее ▼",
+            text = if (state) "Свернуть ▲" else "Подробнее ▼",
             fontSize = 15.sp,
             color = AccentColor,
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .clickable {
-                    showFullDescription = !showFullDescription
+                    onClick()
                 }
         )
     }

@@ -2,10 +2,8 @@ package com.example.moviecatalog.presentation.screen.moviescreen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,8 +14,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,10 +24,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
@@ -42,7 +34,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -59,6 +50,8 @@ import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
 import com.example.moviecatalog.presentation.ui.theme.BottomBarColor
 import com.example.moviecatalog.presentation.ui.theme.ChipColor
+import com.example.moviecatalog.presentation.ui.theme.Gray400Color
+import com.example.moviecatalog.presentation.ui.theme.WhiteColor
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -88,47 +81,56 @@ fun MovieScreen(
 
         content = {
             val state = viewModel.state.collectAsState()
-            val isLoading = viewModel.isLoading.collectAsState()
 
             LaunchedEffect(Unit) {
                 viewModel.performDetails(movieId)
             }
 
-            if (isLoading.value) {
+            if (state.value.isLoading) {
                 LoadingItem()
             } else {
                 LazyColumn {
                     item{
-                        PosterWithGradient(state.value.poster ?: Constants.EMPTY_STRING)
+                        PosterWithGradient(state.value.movieDetails.poster ?: Constants.EMPTY_STRING)
                     }
                     item {
                         LabelWithButtonAndMark(
-                            mark = MarkSelector.markCalculation(state.value.reviews ?: arrayListOf()),
-                            movieName = state.value.name ?: Constants.EMPTY_STRING
+                            mark = MarkSelector.markCalculation(state.value.movieDetails.reviews ?: arrayListOf()),
+                            movieName = state.value.movieDetails.name ?: Constants.EMPTY_STRING,
+                            isLiked = state.value.isLiked,
+                            onClickToLikeButton = { viewModel.processIntent(MovieIntent.ClickOnFavoriteButton(state.value.movieDetails.id)) }
                         )
                     }
                     item{
                         MovieDescriptionSection(
-                            description = state.value.description ?: Constants.EMPTY_STRING
+                            description = state.value.movieDetails.description ?: Constants.EMPTY_STRING,
+                            state = state.value.isDescriptionOpen,
+                            onClick = { viewModel.processIntent(MovieIntent.ChangeDescriptionVisibility) }
+
                         )
                     }
                     item{
-                        GenresSection(genres = state.value.genres ?: arrayListOf())
+                        GenresSection(genres = state.value.movieDetails.genres ?: arrayListOf())
                     }
                     item{
                         MovieDetailsSection(
-                            year = state.value.year,
-                            country = state.value.country,
-                            slogan = state.value.tagline,
-                            director = state.value.director,
-                            budget = state.value.budget,
-                            fees = state.value.fees,
-                            age = state.value.ageLimit,
-                            time = state.value.time
+                            year = state.value.movieDetails.year,
+                            country = state.value.movieDetails.country,
+                            slogan = state.value.movieDetails.tagline,
+                            director = state.value.movieDetails.director,
+                            budget = state.value.movieDetails.budget,
+                            fees = state.value.movieDetails.fees,
+                            age = state.value.movieDetails.ageLimit,
+                            time = state.value.movieDetails.time
                         )
                     }
                     item{
-                        MovieReviewsSection(state.value.reviews)
+                        MovieReviewsSection(
+                            list = state.value.movieDetails.reviews,
+                            isDialogOpen = state.value.isReviewDialogOpen,
+                            onClick = { viewModel.processIntent(MovieIntent.ChangeReviewDialog) }
+
+                        )
                     }
                 }
             }
@@ -164,7 +166,12 @@ fun PosterWithGradient(url: String) {
 }
 
 @Composable
-fun LabelWithButtonAndMark(mark: Mark, movieName: String){
+fun LabelWithButtonAndMark(
+    mark: Mark,
+    movieName: String,
+    isLiked: Boolean,
+    onClickToLikeButton: () -> Unit
+){
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -205,17 +212,20 @@ fun LabelWithButtonAndMark(mark: Mark, movieName: String){
                     color = ChipColor,
                     shape = CircleShape
                 )
-                .padding(10.dp),
+                .wrapContentSize()
         ) {
             IconButton(
-                onClick = { },
+                onClick = { onClickToLikeButton() },
                 modifier = Modifier
-                    .size(24.dp),
+                    .size(40.dp),
                 content = {
                     Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.like_unfocused),
+                        imageVector = if (isLiked)
+                            ImageVector.vectorResource(id = R.drawable.like_focused)
+                        else
+                            ImageVector.vectorResource(id = R.drawable.like_unfocused),
                         contentDescription = null,
-                        tint = Color.White
+                        tint = if (isLiked) AccentColor else WhiteColor,
                     )
                 }
             )

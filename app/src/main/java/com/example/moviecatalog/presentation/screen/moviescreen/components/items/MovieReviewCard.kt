@@ -20,11 +20,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.formatDateToNormal
 import com.example.moviecatalog.domain.model.movie.Review
 import com.example.moviecatalog.presentation.screen.common.MarkWithStar
-import com.example.moviecatalog.presentation.ui.theme.GrayTextColor
+import com.example.moviecatalog.presentation.ui.theme.Gray400Color
 
 @Composable
 fun MovieReviewCard(review: Review){
@@ -38,8 +39,10 @@ fun MovieReviewCard(review: Review){
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+
             AsyncImage(
-                model = review.author?.avatar,
+                model = if (review.author?.avatar == null) R.drawable.anonymus
+                        else review.author?.avatar,
                 contentDescription = null,
                 modifier = Modifier
                     .size(40.dp)
@@ -75,7 +78,7 @@ fun MovieReviewCard(review: Review){
             Text(
                 text = formatDateToNormal(review.createDateTime),
                 fontSize = 12.sp,
-                color = GrayTextColor,
+                color = Gray400Color,
                 textAlign = TextAlign.Start
             )
         }
