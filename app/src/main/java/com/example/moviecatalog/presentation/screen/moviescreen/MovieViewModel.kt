@@ -1,13 +1,14 @@
 package com.example.moviecatalog.presentation.screen.moviescreen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.domain.model.movie.MovieDetails
-import com.example.moviecatalog.domain.model.review.Review
 import com.example.moviecatalog.domain.model.review.ReviewModify
 import com.example.moviecatalog.domain.state.MovieState
 import com.example.moviecatalog.domain.usecase.DeleteFavoriteMovieUseCase
+import com.example.moviecatalog.domain.usecase.DeleteReviewUseCase
 import com.example.moviecatalog.domain.usecase.GetFavoritesUseCase
 import com.example.moviecatalog.domain.usecase.GetMovieDetailsUseCase
 import com.example.moviecatalog.domain.usecase.GetProfileUseCase
@@ -24,7 +25,7 @@ class MovieViewModel : ViewModel() {
     private val deleteFavoriteMovieUseCase = DeleteFavoriteMovieUseCase()
     private val getProfileUseCase = GetProfileUseCase()
     private val postAddReviewUseCase = PostAddReviewUseCase()
-
+    private val deleteReviewUseCase = DeleteReviewUseCase()
 
     private val emptyMovieState = MovieDetails(
         id = Constants.EMPTY_STRING,
@@ -85,7 +86,7 @@ class MovieViewModel : ViewModel() {
                     isLiked = !_state.value.isLiked
                 )
             }
-            MovieIntent.ChangeReviewDialog -> {
+            MovieIntent.ChangeReviewDialogOpen -> {
                 _state.value = state.value.copy(
                     isReviewDialogOpen = !_state.value.isReviewDialogOpen
                 )
@@ -127,7 +128,10 @@ class MovieViewModel : ViewModel() {
                 addReview()
             }
 
-            else -> {}
+            is MovieIntent.DeleteReview -> {
+                Log.d("Delete", "yes")
+                deleteReview()
+            }
         }
     }
 
@@ -213,6 +217,15 @@ class MovieViewModel : ViewModel() {
             val result = postAddReviewUseCase.invoke(state.value.movieDetails.id, review)
             if (result.isSuccess) {
                 performDetails(state.value.movieDetails.id)
+            }
+        }
+    }
+
+    private fun deleteReview() {
+        viewModelScope.launch {
+            val result = deleteReviewUseCase.invoke(state.value.movieDetails.id, state.value.userReview!!.id)
+            if (result.isSuccess){
+                processIntent(MovieIntent.ChangeUserReview(null))
             }
         }
     }

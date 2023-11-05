@@ -37,7 +37,8 @@ fun MovieReviewsSection(
     onSaveClick: () -> Unit,
     onRatingSelected: (Int) -> Unit,
     onAnonymousCheckedChanged: (Boolean) -> Unit,
-    onReviewTextChanged: (String) -> Unit
+    onReviewTextChanged: (String) -> Unit,
+    onDeleteClick: () -> Unit
 ) {
 
     if (state.isReviewDialogOpen) {
@@ -100,7 +101,11 @@ fun MovieReviewsSection(
         }
 
         if (state.userReview != null){
-            MovieReviewCurrentUserCard(review = state.userReview!!)
+            MovieReviewCurrentUserCard(
+                review = state.userReview!!,
+                onSaveClick = { },
+                onDeleteClick = { onDeleteClick() }
+            )
         }
 
         list?.forEach { review ->

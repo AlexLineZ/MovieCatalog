@@ -50,7 +50,6 @@ import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
 import com.example.moviecatalog.presentation.ui.theme.BottomBarColor
 import com.example.moviecatalog.presentation.ui.theme.ChipColor
-import com.example.moviecatalog.presentation.ui.theme.Gray400Color
 import com.example.moviecatalog.presentation.ui.theme.WhiteColor
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -127,11 +126,12 @@ fun MovieScreen(
                         MovieReviewsSection(
                             list = state.value.movieDetails.reviews,
                             state = state.value,
-                            onClick = { viewModel.processIntent(MovieIntent.ChangeReviewDialog) },
+                            onClick = { viewModel.processIntent(MovieIntent.ChangeReviewDialogOpen) },
                             onSaveClick = { viewModel.processIntent(MovieIntent.SendReview) },
                             onRatingSelected = { viewModel.processIntent(MovieIntent.ChangeRating(it)) },
                             onAnonymousCheckedChanged = { viewModel.processIntent(MovieIntent.ChangeAnonymous(it)) },
-                            onReviewTextChanged = { viewModel.processIntent(MovieIntent.ChangeReviewText(it)) }
+                            onReviewTextChanged = { viewModel.processIntent(MovieIntent.ChangeReviewText(it)) },
+                            onDeleteClick = { viewModel.processIntent(MovieIntent.DeleteReview) }
                         )
                     }
                 }

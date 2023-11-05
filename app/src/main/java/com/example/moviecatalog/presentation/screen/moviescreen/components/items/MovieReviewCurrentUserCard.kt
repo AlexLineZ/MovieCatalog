@@ -17,6 +17,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,12 +38,18 @@ import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.formatDateToNormal
 import com.example.moviecatalog.domain.model.review.Review
 import com.example.moviecatalog.presentation.screen.common.MarkWithStar
-import com.example.moviecatalog.presentation.ui.theme.AccentColor
+import com.example.moviecatalog.presentation.screen.moviescreen.components.ReviewDropDownMenu
 import com.example.moviecatalog.presentation.ui.theme.ChipColor
 import com.example.moviecatalog.presentation.ui.theme.Gray400Color
 
 @Composable
-fun MovieReviewCurrentUserCard(review: Review){
+fun MovieReviewCurrentUserCard(
+    review: Review,
+    onSaveClick: () -> Unit,
+    onDeleteClick: () -> Unit
+){
+    var isMenuVisible by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -97,7 +107,7 @@ fun MovieReviewCurrentUserCard(review: Review){
                 ) {
                     IconButton(
                         onClick = {
-
+                            isMenuVisible = true
                         },
                         modifier = Modifier.size(30.dp),
                         content = {
@@ -110,8 +120,19 @@ fun MovieReviewCurrentUserCard(review: Review){
                     )
                 }
             }
-        }
 
+            if (isMenuVisible) {
+                ReviewDropDownMenu(
+                    onEditClick = {
+                        isMenuVisible = false
+                    },
+                    onDeleteClick = {
+                        onDeleteClick()
+                    },
+                    expanded = isMenuVisible
+                )
+            }
+        }
 
         Column(
             modifier = Modifier.padding(top = 8.dp)
