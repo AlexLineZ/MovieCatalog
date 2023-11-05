@@ -45,10 +45,6 @@ class ProfileViewModel(val context: Context) : ViewModel() {
     private val _state = MutableStateFlow(emptyState)
     val state: StateFlow<ProfileState> get() = _state
 
-    init {
-        performData()
-    }
-
     fun processIntent(intent: ProfileIntent) {
         when (intent) {
             is ProfileIntent.ChangeId -> {
@@ -121,7 +117,7 @@ class ProfileViewModel(val context: Context) : ViewModel() {
                 && _state.value.date.isNotEmpty()
     }
 
-    private fun performData(){
+    fun performData(){
         viewModelScope.launch {
             try {
                 val result = getProfileUseCase.invoke()

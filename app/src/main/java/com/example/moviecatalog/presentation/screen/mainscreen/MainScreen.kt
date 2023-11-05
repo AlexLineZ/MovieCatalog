@@ -59,7 +59,9 @@ fun MovieListScreen(viewModel: MainViewModel, router: BottomBarRouter){
                     }
                 }
                 is LoadState.Error -> Unit
-                LoadState.Loading -> Unit
+                LoadState.Loading -> {
+                    LoadingItem()
+                }
             }
         }
 

@@ -32,6 +32,7 @@ fun Navigation(
     registrationViewModel: RegistrationViewModel
 ) {
     val navController = rememberNavController()
+    val profileViewModel = ProfileViewModel(LocalContext.current)
     NavHost(
         navController = navController,
         startDestination = Destinations.SPLASH_SCREEN,
@@ -43,7 +44,8 @@ fun Navigation(
             registrationViewModel = registrationViewModel
         )
         mainNavigationGraph(
-            navController = navController
+            navController = navController,
+            profileViewModel = profileViewModel
         )
     }
 }

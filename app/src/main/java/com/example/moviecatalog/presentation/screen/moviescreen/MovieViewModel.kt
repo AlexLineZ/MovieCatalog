@@ -201,7 +201,7 @@ class MovieViewModel : ViewModel() {
                 if (response != null) {
                     _state.value.userId = response.id
                     _state.value.movieDetails.reviews?.forEach { review ->
-                        if (review.author.userId == response.id){
+                        if (review.author?.userId == response.id){
                             processIntent(MovieIntent.ChangeUserReview(review))
                             processIntent(MovieIntent.ChangeReviewText(review.reviewText!!))
                             processIntent(MovieIntent.ChangeRating(review.rating))

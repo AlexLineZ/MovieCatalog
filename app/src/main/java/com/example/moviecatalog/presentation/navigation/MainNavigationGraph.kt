@@ -18,7 +18,8 @@ import com.example.moviecatalog.presentation.screen.profilescreen.ProfileViewMod
 const val MAIN_ROUTE = "main_root"
 
 fun NavGraphBuilder.mainNavigationGraph(
-    navController: NavHostController
+    navController: NavHostController,
+    profileViewModel: ProfileViewModel
 ) {
     val mainViewModel = MainViewModel()
     val favoriteViewModel = FavoriteViewModel()
@@ -35,7 +36,7 @@ fun NavGraphBuilder.mainNavigationGraph(
             FavouriteScreen(favoriteViewModel, BottomBarRouter(navController))
         }
         composable(Routes.Profile.route) {
-            ProfileScreen(BottomBarRouter(navController))
+            ProfileScreen(profileViewModel, BottomBarRouter(navController))
         }
         composable(Destinations.MOVIE_SCREEN){ backStackEntry ->
             val movieId = backStackEntry.arguments?.getString("movieId")
