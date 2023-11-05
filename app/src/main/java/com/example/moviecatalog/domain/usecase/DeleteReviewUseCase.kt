@@ -1,6 +1,5 @@
 package com.example.moviecatalog.domain.usecase
 
-import android.util.Log
 import com.example.moviecatalog.data.repository.ReviewRepository
 
 class DeleteReviewUseCase {
@@ -13,11 +12,9 @@ class DeleteReviewUseCase {
             if (response.isSuccessful) {
                 Result.success(response.body())
             } else {
-                Log.d("DeleteResult", "Error: ${response.code()}")
                 Result.failure(Exception("Error: ${response.code()}"))
             }
         } catch (e: Exception) {
-            Log.d("DeleteResult2", e.toString())
             Result.failure(e)
         }
     }

@@ -18,7 +18,8 @@ interface ReviewApiService {
     @PUT("api/movie/{movieId}/review/{id}/edit")
     suspend fun putReview(
         @Path("movieId") movieId: String,
-        @Path("id") id: String
+        @Path("id") id: String,
+        @Body review: ReviewModify
     ): Response<Unit>
 
     @DELETE("api/movie/{movieId}/review/{id}/delete")

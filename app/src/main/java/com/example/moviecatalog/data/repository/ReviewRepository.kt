@@ -9,8 +9,8 @@ class ReviewRepository {
         return NetworkService.reviewApiService.postAddReview(movieId, review)
     }
 
-    suspend fun putReview(movieId: String, id: String): Response<Unit> {
-        return NetworkService.reviewApiService.putReview(movieId, id)
+    suspend fun putReview(movieId: String, id: String, review: ReviewModify): Response<Unit> {
+        return NetworkService.reviewApiService.putReview(movieId, id, review)
     }
 
     suspend fun deleteReview(movieId: String, id: String): Response<Unit> {

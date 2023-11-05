@@ -33,12 +33,13 @@ import com.example.moviecatalog.presentation.ui.theme.AccentColor
 fun MovieReviewsSection(
     list: ArrayList<Review>?,
     state: MovieState,
-    onClick: () -> Unit,
+    onClickDialog: () -> Unit,
     onSaveClick: () -> Unit,
     onRatingSelected: (Int) -> Unit,
     onAnonymousCheckedChanged: (Boolean) -> Unit,
     onReviewTextChanged: (String) -> Unit,
-    onDeleteClick: () -> Unit
+    onDeleteClick: () -> Unit,
+    onDropClick: () -> Unit
 ) {
 
     if (state.isReviewDialogOpen) {
@@ -48,7 +49,7 @@ fun MovieReviewsSection(
             onReviewTextChanged = {onReviewTextChanged(it) },
             onAnonymousCheckedChanged = { onAnonymousCheckedChanged(it) },
             onSaveClick = { onSaveClick() },
-            onCancelClick = { onClick() }
+            onCancelClick = { onClickDialog() }
         )
     }
 
@@ -84,7 +85,7 @@ fun MovieReviewsSection(
                 ) {
                     IconButton(
                         onClick = {
-                            onClick()
+                            onClickDialog()
                         },
                         modifier = Modifier
                             .size(34.dp),
@@ -102,14 +103,22 @@ fun MovieReviewsSection(
 
         if (state.userReview != null){
             MovieReviewCurrentUserCard(
+                state = state,
                 review = state.userReview!!,
-                onSaveClick = { },
-                onDeleteClick = { onDeleteClick() }
+                onSaveClick = { onSaveClick() },
+                onDeleteClick = { onDeleteClick() },
+                onDropClick = { onDropClick() },
+                onRatingSelected = { onRatingSelected(it) },
+                onAnonymousCheckedChanged = { onAnonymousCheckedChanged(it) },
+                onReviewTextChanged = { onReviewTextChanged(it) },
+                onClickDialog = { onClickDialog() }
             )
         }
 
         list?.forEach { review ->
-            if (review != state.userReview){
+            if (review != state.userReview &&
+                review.author?.userId != state.userId
+            ){
                 MovieReviewCard(review)
             }
         }

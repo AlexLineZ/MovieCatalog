@@ -14,6 +14,7 @@ import com.example.moviecatalog.domain.usecase.GetMovieDetailsUseCase
 import com.example.moviecatalog.domain.usecase.GetProfileUseCase
 import com.example.moviecatalog.domain.usecase.PostAddFavoriteMovieUseCase
 import com.example.moviecatalog.domain.usecase.PostAddReviewUseCase
+import com.example.moviecatalog.domain.usecase.PutReviewUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -25,6 +26,7 @@ class MovieViewModel : ViewModel() {
     private val deleteFavoriteMovieUseCase = DeleteFavoriteMovieUseCase()
     private val getProfileUseCase = GetProfileUseCase()
     private val postAddReviewUseCase = PostAddReviewUseCase()
+    private val putReviewUseCase = PutReviewUseCase()
     private val deleteReviewUseCase = DeleteReviewUseCase()
 
     private val emptyMovieState = MovieDetails(
@@ -53,6 +55,7 @@ class MovieViewModel : ViewModel() {
         userId = Constants.EMPTY_STRING,
         hasUserReview = Constants.FALSE,
         isReviewDialogOpen = Constants.FALSE,
+        isDropDownMenuOpen = Constants.FALSE,
         movieRating = Constants.ZERO,
         reviewText = Constants.EMPTY_STRING,
         isAnonymous = Constants.FALSE
@@ -91,7 +94,6 @@ class MovieViewModel : ViewModel() {
                     isReviewDialogOpen = !_state.value.isReviewDialogOpen
                 )
             }
-
             is MovieIntent.ClickOnFavoriteButton -> {
                 if (state.value.isLiked) {
                     deleteFromFavorite(movieId = intent.movieId)
@@ -99,38 +101,41 @@ class MovieViewModel : ViewModel() {
                     addToFavorite(movieId = intent.movieId)
                 }
             }
-
             is MovieIntent.ChangeUserReview -> {
                 _state.value = state.value.copy(
                     userReview = intent.review
                 )
             }
-
             is MovieIntent.ChangeReviewText -> {
                 _state.value = state.value.copy(
                     reviewText = intent.text
                 )
             }
-
             is MovieIntent.ChangeRating -> {
                 _state.value = state.value.copy(
                     movieRating = intent.rating
                 )
             }
-
             is MovieIntent.ChangeAnonymous -> {
                 _state.value = state.value.copy(
                     isAnonymous = intent.state
                 )
             }
-
             is MovieIntent.SendReview -> {
-                addReview()
+                if (state.value.userReview == null) {
+                    addReview()
+                } else {
+                    editReview()
+                }
             }
-
             is MovieIntent.DeleteReview -> {
                 Log.d("Delete", "yes")
                 deleteReview()
+            }
+            MovieIntent.ChangeDropDownMenuOpen -> {
+                _state.value = state.value.copy(
+                    isDropDownMenuOpen = !_state.value.isDropDownMenuOpen
+                )
             }
         }
     }
@@ -226,6 +231,24 @@ class MovieViewModel : ViewModel() {
             val result = deleteReviewUseCase.invoke(state.value.movieDetails.id, state.value.userReview!!.id)
             if (result.isSuccess){
                 processIntent(MovieIntent.ChangeUserReview(null))
+            }
+        }
+    }
+
+    private fun editReview() {
+        val review = ReviewModify(
+            reviewText = state.value.reviewText,
+            rating = state.value.movieRating,
+            isAnonymous = state.value.isAnonymous
+        )
+        viewModelScope.launch {
+            val result = putReviewUseCase.invoke(
+                state.value.movieDetails.id,
+                state.value.userReview!!.id,
+                review
+            )
+            if (result.isSuccess){
+                performDetails(state.value.movieDetails.id)
             }
         }
     }

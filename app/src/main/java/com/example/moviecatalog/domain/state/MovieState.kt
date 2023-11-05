@@ -12,6 +12,7 @@ data class MovieState(
     var isLiked: Boolean,
     var hasUserReview: Boolean,
     val isReviewDialogOpen: Boolean,
+    val isDropDownMenuOpen: Boolean,
 
     val movieRating: Int,
     val reviewText: String,

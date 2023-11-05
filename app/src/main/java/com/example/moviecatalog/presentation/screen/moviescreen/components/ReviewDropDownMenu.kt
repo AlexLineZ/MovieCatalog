@@ -38,6 +38,7 @@ import com.example.moviecatalog.presentation.ui.theme.WhiteColor
 fun ReviewDropDownMenu(
     onEditClick: () -> Unit,
     onDeleteClick: () -> Unit,
+    onDropClick: () -> Unit,
     expanded: Boolean
 ) {
     Box(
@@ -45,7 +46,7 @@ fun ReviewDropDownMenu(
     ){
         DropdownMenu(
             expanded = expanded,
-            onDismissRequest = { onDeleteClick() },
+            onDismissRequest = { onDropClick() },
             modifier = Modifier.background(
                 color = ChipColor,
                 shape = RoundedCornerShape(10.dp)

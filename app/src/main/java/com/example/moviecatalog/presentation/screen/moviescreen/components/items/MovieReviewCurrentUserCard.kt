@@ -37,18 +37,36 @@ import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.formatDateToNormal
 import com.example.moviecatalog.domain.model.review.Review
+import com.example.moviecatalog.domain.state.MovieState
 import com.example.moviecatalog.presentation.screen.common.MarkWithStar
+import com.example.moviecatalog.presentation.screen.moviescreen.components.ReviewDialog
 import com.example.moviecatalog.presentation.screen.moviescreen.components.ReviewDropDownMenu
 import com.example.moviecatalog.presentation.ui.theme.ChipColor
 import com.example.moviecatalog.presentation.ui.theme.Gray400Color
 
 @Composable
 fun MovieReviewCurrentUserCard(
+    state: MovieState,
     review: Review,
     onSaveClick: () -> Unit,
-    onDeleteClick: () -> Unit
+    onDeleteClick: () -> Unit,
+    onDropClick: () -> Unit,
+    onRatingSelected: (Int) -> Unit,
+    onAnonymousCheckedChanged: (Boolean) -> Unit,
+    onReviewTextChanged: (String) -> Unit,
+    onClickDialog: () -> Unit
 ){
-    var isMenuVisible by remember { mutableStateOf(false) }
+
+    if (state.isReviewDialogOpen) {
+        ReviewDialog(
+            state = state,
+            onRatingSelected = { onRatingSelected(it)},
+            onReviewTextChanged = {onReviewTextChanged(it) },
+            onAnonymousCheckedChanged = { onAnonymousCheckedChanged(it) },
+            onSaveClick = { onSaveClick() },
+            onCancelClick = { onClickDialog() }
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -107,7 +125,7 @@ fun MovieReviewCurrentUserCard(
                 ) {
                     IconButton(
                         onClick = {
-                            isMenuVisible = true
+                            onDropClick()
                         },
                         modifier = Modifier.size(30.dp),
                         content = {
@@ -121,15 +139,18 @@ fun MovieReviewCurrentUserCard(
                 }
             }
 
-            if (isMenuVisible) {
+            if (state.isDropDownMenuOpen) {
                 ReviewDropDownMenu(
                     onEditClick = {
-                        isMenuVisible = false
+                        onClickDialog()
                     },
                     onDeleteClick = {
                         onDeleteClick()
                     },
-                    expanded = isMenuVisible
+                    onDropClick = {
+                        onDropClick()
+                    },
+                    expanded = state.isDropDownMenuOpen
                 )
             }
         }
