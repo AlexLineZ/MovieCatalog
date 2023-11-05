@@ -24,4 +24,7 @@ class BottomBarRouter (private val navController: NavHostController) {
         val routeWithId = Destinations.MOVIE_SCREEN.replace("{movieId}", movieId)
         navController.navigate(routeWithId)
     }
+    fun toAuth() {
+        navController.navigate(Destinations.SELECT_AUTH_SCREEN)
+    }
 }

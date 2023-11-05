@@ -17,5 +17,5 @@ sealed class ProfileIntent{
 
     object SaveData: ProfileIntent()
     object Cancel: ProfileIntent()
-    object Logout: ProfileIntent()
+    data class Logout(val toAfterLogout: () -> Unit): ProfileIntent()
 }

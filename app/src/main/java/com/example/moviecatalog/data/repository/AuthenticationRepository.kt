@@ -16,7 +16,7 @@ class AuthenticationRepository {
         return NetworkService.authenticationApiService.postRegistrationData(registrationData)
     }
 
-    suspend fun postLogoutData() {
-        NetworkService.authenticationApiService.postLogoutData()
+    suspend fun postLogoutData(): Response<Unit> {
+        return NetworkService.authenticationApiService.postLogoutData()
     }
 }

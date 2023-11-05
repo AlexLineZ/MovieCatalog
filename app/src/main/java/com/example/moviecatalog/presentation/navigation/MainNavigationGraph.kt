@@ -1,17 +1,9 @@
 package com.example.moviecatalog.presentation.navigation
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import com.example.moviecatalog.presentation.navigation.bottombar.BottomBar
+import androidx.navigation.navigation
 import com.example.moviecatalog.presentation.navigation.bottombar.Routes
 import com.example.moviecatalog.presentation.router.BottomBarRouter
 import com.example.moviecatalog.presentation.screen.favouritescreen.FavoriteViewModel
@@ -23,34 +15,31 @@ import com.example.moviecatalog.presentation.screen.moviescreen.MovieViewModel
 import com.example.moviecatalog.presentation.screen.profilescreen.ProfileScreen
 import com.example.moviecatalog.presentation.screen.profilescreen.ProfileViewModel
 
-const val BOTTOM_BAR_ROUTE = "bottomBar"
+const val MAIN_ROUTE = "main_root"
 
-@Composable
-fun BottomBarNavigation() {
-    val bottomBarController = rememberNavController()
-
+fun NavGraphBuilder.mainNavigationGraph(
+    navController: NavHostController
+) {
     val mainViewModel = MainViewModel()
-    val profileViewModel = ProfileViewModel(LocalContext.current)
     val favoriteViewModel = FavoriteViewModel()
     val movieViewModel = MovieViewModel()
 
-    NavHost(
-        navController = bottomBarController,
+    navigation(
         startDestination = Routes.HomeScreen.route,
-        route = BOTTOM_BAR_ROUTE
+        route = MAIN_ROUTE
     ) {
         composable(Routes.HomeScreen.route){
-            MainScreen(mainViewModel, BottomBarRouter(bottomBarController))
+            MainScreen(mainViewModel, BottomBarRouter(navController))
         }
         composable(Routes.Favourite.route) {
-            FavouriteScreen(favoriteViewModel, BottomBarRouter(bottomBarController))
+            FavouriteScreen(favoriteViewModel, BottomBarRouter(navController))
         }
         composable(Routes.Profile.route) {
-            ProfileScreen(profileViewModel, BottomBarRouter(bottomBarController))
+            ProfileScreen(BottomBarRouter(navController))
         }
         composable(Destinations.MOVIE_SCREEN){ backStackEntry ->
             val movieId = backStackEntry.arguments?.getString("movieId")
-            MovieScreen({ bottomBarController.popBackStack() }, movieViewModel, movieId ?: "")
+            MovieScreen({ navController.popBackStack() }, movieViewModel, movieId ?: "")
         }
     }
 }

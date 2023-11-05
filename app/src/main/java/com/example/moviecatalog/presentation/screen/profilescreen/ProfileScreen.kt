@@ -1,5 +1,6 @@
 package com.example.moviecatalog.presentation.screen.profilescreen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -41,12 +43,16 @@ import com.example.moviecatalog.presentation.screen.profilescreen.components.Dat
 import com.example.moviecatalog.presentation.screen.common.GenderSelectionButton
 import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
 import com.example.moviecatalog.presentation.screen.favouritescreen.FavoriteMoviesList
+import com.example.moviecatalog.presentation.screen.moviescreen.MovieIntent
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
 import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
 
 @Composable
-fun ProfileScreen (viewModel: ProfileViewModel, router: BottomBarRouter) {
+fun ProfileScreen (
+    router: BottomBarRouter
+) {
+    val viewModel = ProfileViewModel(LocalContext.current)
 
     Scaffold(
         bottomBar = {
@@ -57,13 +63,19 @@ fun ProfileScreen (viewModel: ProfileViewModel, router: BottomBarRouter) {
         }
     ) {
         Box(modifier = Modifier.padding(it)) {
-            ProfileItemsList(viewModel = viewModel)
+            ProfileItemsList(
+                viewModel = viewModel,
+                router = router
+            )
         }
     }
 }
 
 @Composable
-fun ProfileItemsList(viewModel: ProfileViewModel){
+fun ProfileItemsList(
+    viewModel: ProfileViewModel,
+    router: BottomBarRouter
+){
     val focusManager = LocalFocusManager.current
     val state by viewModel.state.collectAsState()
     Column(
@@ -106,7 +118,11 @@ fun ProfileItemsList(viewModel: ProfileViewModel){
             ),
             color = AccentColor,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 12.dp, bottom = 32.dp)
+            modifier = Modifier
+                .padding(top = 12.dp, bottom = 32.dp)
+                .clickable {
+                    viewModel.processIntent(ProfileIntent.Logout { router.toAuth() })
+                }
         )
 
         LazyColumn {
