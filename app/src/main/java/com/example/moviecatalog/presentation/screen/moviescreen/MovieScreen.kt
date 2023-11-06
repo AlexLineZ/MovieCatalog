@@ -93,7 +93,7 @@ fun MovieScreen(
                                 color = Color.White,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
-                                modifier = Modifier.widthIn(max = 250.dp)
+                                modifier = Modifier.widthIn(max = 250.dp).padding(end = 16.dp)
                             )
                             Spacer(modifier = Modifier.weight(0.5f))
                             LikeButton(
