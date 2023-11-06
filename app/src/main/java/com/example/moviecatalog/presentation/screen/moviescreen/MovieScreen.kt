@@ -5,13 +5,18 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,16 +29,22 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -60,10 +71,40 @@ fun MovieScreen(
     viewModel: MovieViewModel,
     movieId: String
 ) {
+    val state = viewModel.state.collectAsState()
+    val showName = remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {  },
+                title = {
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(horizontal = 15.dp)
+                    ) {
+                        if (showName.value) {
+                            Spacer(modifier = Modifier.weight(0.5f))
+                            Text(
+                                text = state.value.movieDetails.name ?: Constants.EMPTY_STRING,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                                fontSize = 24.sp,
+                                color = Color.White,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier.widthIn(max = 250.dp)
+                            )
+                            Spacer(modifier = Modifier.weight(0.5f))
+                            LikeButton(
+                                isLiked = state.value.isLiked,
+                                onClickToLikeButton = {
+                                    viewModel.processIntent(MovieIntent.ChangeLiked)
+                                }
+                            )
+                        }
+                    }
+                },
                 navigationIcon = {
                     IconButton(onClick = { backTo() }) {
                         Icon (
@@ -79,18 +120,32 @@ fun MovieScreen(
         },
 
         content = {
-            val state = viewModel.state.collectAsState()
-
             LaunchedEffect(Unit) {
                 viewModel.performDetails(movieId)
             }
 
+            val lazyListState = rememberLazyListState()
+
+            LaunchedEffect(lazyListState) {
+                snapshotFlow { lazyListState.firstVisibleItemIndex }
+                    .collect { firstVisibleIndex ->
+                        showName.value = firstVisibleIndex > 1
+                    }
+            }
+
+
             if (state.value.isLoading) {
                 LoadingItem()
             } else {
-                LazyColumn {
+                LazyColumn(
+                    state = lazyListState,
+                    modifier = Modifier.padding(it)
+                ) {
                     item{
-                        PosterWithGradient(state.value.movieDetails.poster ?: Constants.EMPTY_STRING)
+                        PosterWithGradient(
+                            url = state.value.movieDetails.poster ?: Constants.EMPTY_STRING,
+                            scrollState = lazyListState
+                        )
                     }
                     item {
                         LabelWithButtonAndMark(
@@ -142,10 +197,23 @@ fun MovieScreen(
 }
 
 @Composable
-fun PosterWithGradient(url: String) {
+fun PosterWithGradient(
+    url: String,
+    scrollState: LazyListState
+) {
+    val posterHeight = 497.dp
+    val posterHeightPx = with(LocalDensity.current) {
+        posterHeight.toPx()
+    }
+
     Box(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
+            .fillMaxHeight(0.6f)
+            .graphicsLayer {
+                translationY = scrollState.firstVisibleItemScrollOffset / 3f
+                alpha = (-1f / posterHeightPx) * scrollState.firstVisibleItemScrollOffset + 1
+            }
     ) {
         AsyncImage(
             model = url,
@@ -209,30 +277,42 @@ fun LabelWithButtonAndMark(
             modifier = Modifier.weight(1f)
         )
 
-        Box(
-            modifier = Modifier
-                .background(
-                    color = ChipColor,
-                    shape = CircleShape
-                )
-                .wrapContentSize()
-        ) {
-            IconButton(
-                onClick = { onClickToLikeButton() },
-                modifier = Modifier
-                    .size(40.dp),
-                content = {
-                    Icon(
-                        imageVector = if (isLiked)
-                            ImageVector.vectorResource(id = R.drawable.like_focused)
-                        else
-                            ImageVector.vectorResource(id = R.drawable.like_unfocused),
-                        contentDescription = null,
-                        tint = if (isLiked) AccentColor else WhiteColor,
-                    )
-                }
+        LikeButton(
+            isLiked = isLiked,
+            onClickToLikeButton = onClickToLikeButton
+        )
+    }
+}
+
+
+@Composable
+fun LikeButton(
+    isLiked: Boolean,
+    onClickToLikeButton: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .background(
+                color = ChipColor,
+                shape = CircleShape
             )
-        }
+            .wrapContentSize()
+    ) {
+        IconButton(
+            onClick = { onClickToLikeButton() },
+            modifier = Modifier
+                .size(40.dp),
+            content = {
+                Icon(
+                    imageVector = if (isLiked)
+                        ImageVector.vectorResource(id = R.drawable.like_focused)
+                    else
+                        ImageVector.vectorResource(id = R.drawable.like_unfocused),
+                    contentDescription = null,
+                    tint = if (isLiked) AccentColor else WhiteColor,
+                )
+            }
+        )
     }
 }
 

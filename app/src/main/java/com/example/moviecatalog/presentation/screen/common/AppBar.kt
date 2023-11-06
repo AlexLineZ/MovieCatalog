@@ -2,6 +2,7 @@ package com.example.moviecatalog.presentation.screen.common
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
@@ -16,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
@@ -25,36 +27,28 @@ fun AppBar(
     toAnotherScreen: () -> Unit
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Box(
+        Text(
+            text = stringResource(R.string.logo),
+            style = TextStyle(
+                fontSize = 17.sp,
+                fontWeight = FontWeight.W600
+            ),
+            color = AccentColor,
+            modifier = Modifier.align(Alignment.Center)
+        )
+
+        IconButton(
+            onClick = { toAnotherScreen() },
             modifier = Modifier
-                .wrapContentSize(Alignment.Center)
-                .align(alignment = Alignment.Center)
+                .align(Alignment.CenterStart)
+                .size(24.dp),
         ) {
-            Text(
-                text = stringResource(R.string.logo),
-                style = TextStyle(
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                ),
-                color = AccentColor
+            Icon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.arrow_back),
+                contentDescription = null
             )
-        }
-        Box(
-            modifier = Modifier
-                .wrapContentSize(Alignment.CenterStart)
-                .align(alignment = Alignment.CenterStart)
-        ) {
-            IconButton(
-                onClick = { toAnotherScreen() },
-            ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.arrow_back),
-                    contentDescription = null
-                )
-            }
         }
     }
 }

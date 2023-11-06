@@ -6,7 +6,9 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.moviecatalog.presentation.navigation.AUTH_ROUTE
 import com.example.moviecatalog.presentation.navigation.Destinations
+import com.example.moviecatalog.presentation.navigation.MAIN_ROUTE
 import com.example.moviecatalog.presentation.navigation.bottombar.Routes
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -25,6 +27,10 @@ class BottomBarRouter (private val navController: NavHostController) {
         navController.navigate(routeWithId)
     }
     fun toAuth() {
-        navController.navigate(Destinations.SELECT_AUTH_SCREEN)
+        navController.navigate(Destinations.SELECT_AUTH_SCREEN){
+            popUpTo(MAIN_ROUTE) {
+                inclusive = true
+            }
+        }
     }
 }
