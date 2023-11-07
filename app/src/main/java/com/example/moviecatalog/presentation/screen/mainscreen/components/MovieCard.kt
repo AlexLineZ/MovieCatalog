@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,7 +35,7 @@ fun MovieCard(movie: MovieElement, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+            .padding(start = 16.dp, end = 16.dp, top = 12.dp)
             .clickable (
                 onClick = onClick
             )
@@ -45,7 +46,7 @@ fun MovieCard(movie: MovieElement, onClick: () -> Unit) {
                 model = movie.poster,
                 contentDescription = null,
                 modifier = Modifier
-                    .clip(RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(3.dp))
                     .background(Color.Yellow),
                 contentScale = ContentScale.FillBounds
             )
@@ -56,21 +57,21 @@ fun MovieCard(movie: MovieElement, onClick: () -> Unit) {
                     modifier = Modifier
                         .wrapContentHeight()
                         .align(Alignment.TopStart)
-                        .padding(4.dp)
+                        .padding(2.dp)
                 ) {
                     Box(
                         modifier = Modifier
-                            .clip(RoundedCornerShape(8.dp))
+                            .clip(RoundedCornerShape(5.dp))
                             .background(mark.color),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
                             text = mark.mark,
-                            fontWeight = FontWeight.Bold,
+                            style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.W700),
                             color = Color.Black,
                             modifier = Modifier.padding(
-                                start = 8.dp,
-                                end = 8.dp,
+                                horizontal = 8.dp,
+                                vertical = 2.dp
                             )
                         )
                     }
@@ -87,15 +88,14 @@ fun MovieCard(movie: MovieElement, onClick: () -> Unit) {
                 Text(
                     text = it,
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 4.dp)
+                    fontWeight = FontWeight.W700
                 )
             }
 
             Text(
                 text = movie.year.toString() + " • " + movie.country,
-                fontSize = 12.sp,
-                modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
+                style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.W400),
+                modifier = Modifier.padding(top = 4.dp, bottom = 10.dp)
             )
 
             FlowRow(
@@ -107,22 +107,5 @@ fun MovieCard(movie: MovieElement, onClick: () -> Unit) {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Chip(text: String) {
-    Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(8.dp))
-            .background(ChipColor)
-    ) {
-        Text(
-            text = text,
-            color = Color.White,
-            fontSize = 13.sp,
-            modifier = Modifier
-                .padding(horizontal = 8.dp)
-        )
     }
 }

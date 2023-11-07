@@ -72,7 +72,7 @@ fun MovieListScreen(viewModel: MainViewModel, router: BottomBarRouter){
                 textAlign = TextAlign.Start,
                 modifier = Modifier.padding(
                     top = 16.dp,
-                    bottom = 8.dp,
+                    bottom = 3.dp,
                     start = 16.dp,
                     end = 16.dp
                 )

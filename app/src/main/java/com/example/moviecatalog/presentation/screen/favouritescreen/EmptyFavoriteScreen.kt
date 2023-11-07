@@ -24,14 +24,15 @@ fun EmptyFavouriteScreen() {
         Text (
             text = stringResource(R.string.empty_favourite1),
             textAlign = TextAlign.Center,
-            style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
-            modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
+            style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.W700),
+            modifier = Modifier.padding(bottom = 5.dp, start = 32.dp, end = 32.dp)
         )
 
         Text (
             text = stringResource(R.string.empty_favourite2),
             textAlign = TextAlign.Center,
-            fontSize = 15.sp
+            style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.W400),
+            modifier = Modifier.padding(horizontal = 20.dp)
         )
     }
 }

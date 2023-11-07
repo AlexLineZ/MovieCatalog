@@ -51,7 +51,7 @@ fun MovieCardFavourite(
 
         Text(
             text = movie.name ?: Constants.EMPTY_STRING,
-            style = TextStyle(fontSize = 14.sp),
+            style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.W500),
             modifier = Modifier
                 .padding(top = 8.dp)
                 .fillMaxWidth()

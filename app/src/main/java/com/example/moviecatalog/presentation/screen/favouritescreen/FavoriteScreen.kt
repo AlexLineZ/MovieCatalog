@@ -68,13 +68,13 @@ fun FavoriteMoviesList(viewModel: FavoriteViewModel, router: BottomBarRouter){
     ){
         Text(
             text = stringResource(R.string.favourite),
-            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
+            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.W700),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
         if (stateList.value.isEmpty()) {
-            Spacer(modifier = Modifier.height(64.dp))
+            Spacer(modifier = Modifier.height(100.dp))
             EmptyFavouriteScreen()
         }
 
@@ -88,8 +88,8 @@ fun FavoriteMoviesList(viewModel: FavoriteViewModel, router: BottomBarRouter){
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(vertical = 8.dp),
-                                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                                        .padding(top = 20.dp),
+                                    horizontalArrangement = Arrangement.spacedBy(15.dp)
                                 ) {
                                     MovieCardFavourite(
                                         movie = chunk[0],
@@ -106,7 +106,7 @@ fun FavoriteMoviesList(viewModel: FavoriteViewModel, router: BottomBarRouter){
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(vertical = 8.dp),
+                                        .padding(top = 20.dp),
                                 ) {
                                     MovieCardFavourite(
                                         movie = chunk[2],
@@ -119,7 +119,7 @@ fun FavoriteMoviesList(viewModel: FavoriteViewModel, router: BottomBarRouter){
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(vertical = 8.dp),
+                                        .padding(top = 20.dp),
                                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                                 ) {
                                     MovieCardFavourite(
@@ -138,7 +138,7 @@ fun FavoriteMoviesList(viewModel: FavoriteViewModel, router: BottomBarRouter){
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(vertical = 8.dp),
+                                        .padding(top = 20.dp),
                                 ) {
                                     MovieCardFavourite(
                                         movie = chunk[0],
