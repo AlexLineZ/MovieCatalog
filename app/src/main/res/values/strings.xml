@@ -57,4 +57,6 @@
     <string name="reviews">Отзывы</string>
     <string name="my_review">мой отзыв</string>
     <string name="anonymous">Анонимный пользователь</string>
+
+    <string name="leave">Выйти из аккаунта</string>
 </resources>

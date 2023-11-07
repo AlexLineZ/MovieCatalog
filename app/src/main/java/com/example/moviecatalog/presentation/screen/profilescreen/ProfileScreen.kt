@@ -116,7 +116,7 @@ fun ProfileItemsList(
         )
 
         Text(
-            text = "Выйти из аккаунта",
+            text = stringResource(id = R.string.leave),
             style = TextStyle(
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold

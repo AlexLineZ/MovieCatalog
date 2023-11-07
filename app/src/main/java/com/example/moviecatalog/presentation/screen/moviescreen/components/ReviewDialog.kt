@@ -49,6 +49,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.moviecatalog.R
 import com.example.moviecatalog.domain.state.MovieState
+import com.example.moviecatalog.presentation.screen.common.PairButtons
 import com.example.moviecatalog.presentation.screen.profilescreen.ProfileIntent
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
@@ -159,47 +160,14 @@ fun ReviewDialog(
                     )
                 }
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        Button(
-                            onClick = { onSaveClick() },
-                            shape = RoundedCornerShape(10.dp),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(IntrinsicSize.Min)
-                                .padding(top = 8.dp, bottom = 4.dp),
-                            colors = BaseButtonColor,
-                            enabled = isButtonAvailable
-                        ) {
-                            Text(
-                                text = stringResource(R.string.save)
-                            )
-                        }
-
-                        Button(
-                            onClick = { onCancelClick() },
-                            shape = RoundedCornerShape(10.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = SecondButtonColor,
-                                contentColor = AccentColor
-                            ),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(IntrinsicSize.Min)
-                                .padding(top = 8.dp, bottom = 4.dp)
-                        ) {
-                            Text(
-                                text = stringResource(R.string.cancel)
-                            )
-                        }
-                    }
-                }
+                PairButtons(
+                    firstLabel = stringResource(R.string.save),
+                    firstClick = { onSaveClick() },
+                    secondLabel = stringResource(R.string.cancel),
+                    secondClick = { onCancelClick() },
+                    modifier = Modifier.padding(top = 25.dp),
+                    firstEnabled = isButtonAvailable
+                )
             }
         }
     }

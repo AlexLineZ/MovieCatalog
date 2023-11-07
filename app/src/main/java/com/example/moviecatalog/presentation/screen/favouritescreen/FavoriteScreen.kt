@@ -92,14 +92,16 @@ fun FavoriteMoviesList(viewModel: FavoriteViewModel, router: BottomBarRouter){
                                     horizontalArrangement = Arrangement.spacedBy(15.dp)
                                 ) {
                                     MovieCardFavourite(
-                                        movie = chunk[0],
+                                        movie = chunk[0].movieElement,
                                         modifier = Modifier.weight(1f),
-                                        onClick = { router.toMovie(chunk[0].id) }
+                                        onClick = { router.toMovie(chunk[0].movieElement.id) },
+                                        mark = chunk[0].userMark
                                     )
                                     MovieCardFavourite(
-                                        movie = chunk[1],
+                                        movie = chunk[1].movieElement,
                                         modifier = Modifier.weight(1f),
-                                        onClick = { router.toMovie(chunk[1].id) }
+                                        onClick = { router.toMovie(chunk[1].movieElement.id) },
+                                        mark = chunk[1].userMark
                                     )
                                 }
 
@@ -109,9 +111,10 @@ fun FavoriteMoviesList(viewModel: FavoriteViewModel, router: BottomBarRouter){
                                         .padding(top = 20.dp),
                                 ) {
                                     MovieCardFavourite(
-                                        movie = chunk[2],
+                                        movie = chunk[2].movieElement,
                                         modifier = Modifier.weight(1f),
-                                        onClick = { router.toMovie(chunk[2].id) }
+                                        onClick = { router.toMovie(chunk[2].movieElement.id) },
+                                        mark = chunk[2].userMark
                                     )
                                 }
                             }
@@ -123,14 +126,16 @@ fun FavoriteMoviesList(viewModel: FavoriteViewModel, router: BottomBarRouter){
                                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                                 ) {
                                     MovieCardFavourite(
-                                        movie = chunk[0],
+                                        movie = chunk[0].movieElement,
                                         modifier = Modifier.weight(1f),
-                                        onClick = { router.toMovie(chunk[0].id) }
+                                        onClick = { router.toMovie(chunk[0].movieElement.id) },
+                                        mark = chunk[0].userMark
                                     )
                                     MovieCardFavourite(
-                                        movie = chunk[1],
+                                        movie = chunk[1].movieElement,
                                         modifier = Modifier.weight(1f),
-                                        onClick = { router.toMovie(chunk[1].id) }
+                                        onClick = { router.toMovie(chunk[1].movieElement.id) },
+                                        mark = chunk[1].userMark
                                     )
                                 }
                             }
@@ -141,9 +146,10 @@ fun FavoriteMoviesList(viewModel: FavoriteViewModel, router: BottomBarRouter){
                                         .padding(top = 20.dp),
                                 ) {
                                     MovieCardFavourite(
-                                        movie = chunk[0],
+                                        movie = chunk[0].movieElement,
                                         modifier = Modifier.weight(1f),
-                                        onClick = { router.toMovie(chunk[0].id) }
+                                        onClick = { router.toMovie(chunk[0].movieElement.id) },
+                                        mark = chunk[0].userMark
                                     )
                                 }
                             }

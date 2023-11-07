@@ -19,9 +19,9 @@ import com.example.moviecatalog.R
 import com.example.moviecatalog.common.MarkSelector
 
 @Composable
-fun MarkWithStar(value: Int){
+fun MarkWithStar(value: Int, modifier: Modifier = Modifier){
     Box(
-        modifier = Modifier
+        modifier = modifier
             .wrapContentSize()
             .background(
                 color = MarkSelector.setColorForMark(value.toFloat()),
