@@ -18,8 +18,8 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel (private val context: Context) : ViewModel() { //AndroidViewModel
     private val emptyState = LoginState(
-        "string",
-        "string",
+        Constants.EMPTY_STRING,
+        Constants.EMPTY_STRING,
         Constants.FALSE,
         Constants.FALSE,
         null,

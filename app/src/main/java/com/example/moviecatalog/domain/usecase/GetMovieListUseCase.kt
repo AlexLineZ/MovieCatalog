@@ -11,10 +11,8 @@ class GetMovieListUseCase() {
         return try {
             val response = movieRepository.getMovies(moviesPage)
             return if (response.isSuccessful) {
-                Log.d("YES", "I do it")
                 Result.success(response.body()!!)
             } else {
-                Log.d("NOOOO", "error: ${response.code()}")
                 Result.success(null)
             }
         } catch (e: Exception) {

@@ -7,16 +7,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import com.example.moviecatalog.R
 import com.example.moviecatalog.presentation.router.AppRouter
-import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(router: AppRouter) {
+fun SplashScreen(splashViewModel: SplashViewModel, router: AppRouter) {
+    val context = LocalContext.current
+
     LaunchedEffect(key1 = true){
-        delay(3000L)
-        router.toAuth()
+        splashViewModel.checkTokenToValid(
+            context = context,
+            isSuccess = { router.toMain() },
+            isFailure = { router.toAuth() }
+        )
     }
 
     Column(

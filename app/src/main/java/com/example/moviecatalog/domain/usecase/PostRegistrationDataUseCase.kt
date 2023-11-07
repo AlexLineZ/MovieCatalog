@@ -12,7 +12,7 @@ class PostRegistrationDataUseCase {
         return if (response.isSuccessful) {
             Result.success(response.body())
         } else {
-            Result.success(null)
+            Result.failure(Exception("Error: ${response.code()}"))
         }
     }
 

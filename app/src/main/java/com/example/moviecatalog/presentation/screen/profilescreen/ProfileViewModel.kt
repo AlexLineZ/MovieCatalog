@@ -117,38 +117,30 @@ class ProfileViewModel(val context: Context) : ViewModel() {
                 && _state.value.date.isNotEmpty()
     }
 
-    fun performData(){
+    fun performData() {
         viewModelScope.launch {
-            try {
-                val result = getProfileUseCase.invoke()
-                if (result.isSuccess) {
-                    val response = result.getOrNull()
-                    if (response != null) {
-                        Log.d("DebugProfile", response.toString())
-                        processIntent(ProfileIntent.ChangeId(response.id))
-                        processIntent(ProfileIntent.UpdateNickName(response.nickName))
-                        processIntent(ProfileIntent.UpdateEmail(response.email))
-                        processIntent(ProfileIntent.UpdateGender(response.gender))
-                        processIntent(ProfileIntent.UpdateAvatarLink(response.avatarLink))
-                        processIntent(ProfileIntent.UpdateName(response.name))
-                        processIntent(ProfileIntent.UpdateDate
-                            (
-                                formatDateToNormal(response.birthDate),
-                                response.birthDate
-                            )
+            val result = getProfileUseCase.invoke()
+            if (result.isSuccess) {
+                val response = result.getOrNull()
+                if (response != null) {
+                    processIntent(ProfileIntent.ChangeId(response.id))
+                    processIntent(ProfileIntent.UpdateNickName(response.nickName))
+                    processIntent(ProfileIntent.UpdateEmail(response.email))
+                    processIntent(ProfileIntent.UpdateGender(response.gender))
+                    processIntent(ProfileIntent.UpdateAvatarLink(response.avatarLink))
+                    processIntent(ProfileIntent.UpdateName(response.name))
+                    processIntent(
+                        ProfileIntent.UpdateDate(
+                            formatDateToNormal(response.birthDate),
+                            response.birthDate
                         )
-                        processIntent(ProfileIntent.UpdateChanges(isChange = false))
-                        initialProfileStateFlow.value = _state.value
-                    }
-                } else {
-                    Log.d("Mem", "hahaha")
+                    )
+                    processIntent(ProfileIntent.UpdateChanges(isChange = false))
+                    initialProfileStateFlow.value = _state.value
                 }
-            } catch (e: Exception) {
-                Log.d("ERROR", e.message.toString())
             }
         }
     }
-
 
     private fun changeData() {
         val newData = Profile(
@@ -162,7 +154,6 @@ class ProfileViewModel(val context: Context) : ViewModel() {
         )
 
         viewModelScope.launch {
-            Log.d("DebugSaveData", newData.toString())
             val result = putProfileDataUseCase.invoke(newData)
             if (result.isSuccess) {
                 Toast.makeText(

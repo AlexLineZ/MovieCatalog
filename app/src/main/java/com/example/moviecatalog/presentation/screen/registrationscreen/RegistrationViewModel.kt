@@ -141,7 +141,6 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
             gender = registrationState.gender
         )
 
-        Log.d("RegistrationDebug", registrationData.toString())
         processIntent(RegistrationIntent.UpdateLoading)
         viewModelScope.launch {
             try {

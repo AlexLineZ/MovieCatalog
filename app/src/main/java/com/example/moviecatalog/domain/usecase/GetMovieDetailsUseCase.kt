@@ -13,7 +13,6 @@ class GetMovieDetailsUseCase {
             if (response.isSuccessful) {
                 Result.success(response.body())
             } else {
-                Log.d("Details", response.code().toString())
                 Result.success(null)
             }
         } catch (e: Exception) {

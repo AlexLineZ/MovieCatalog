@@ -14,6 +14,7 @@ import com.example.moviecatalog.presentation.screen.registrationscreen.Registrat
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationSecondScreen
 import com.example.moviecatalog.presentation.screen.selectauthscreen.SelectAuthScreen
 import com.example.moviecatalog.presentation.screen.splashscreen.SplashScreen
+import com.example.moviecatalog.presentation.screen.splashscreen.SplashViewModel
 
 object Destinations {
     const val SPLASH_SCREEN = "splash"
@@ -32,6 +33,7 @@ fun Navigation(
     registrationViewModel: RegistrationViewModel
 ) {
     val navController = rememberNavController()
+    val splashViewModel = SplashViewModel()
     val profileViewModel = ProfileViewModel(LocalContext.current)
     NavHost(
         navController = navController,
@@ -40,6 +42,7 @@ fun Navigation(
     ) {
         authNavigationGraph(
             navController = navController,
+            splashViewModel = splashViewModel,
             loginViewModel = loginViewModel,
             registrationViewModel = registrationViewModel
         )

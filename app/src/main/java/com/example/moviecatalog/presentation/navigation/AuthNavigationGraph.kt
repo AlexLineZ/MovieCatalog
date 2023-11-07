@@ -12,11 +12,13 @@ import com.example.moviecatalog.presentation.screen.registrationscreen.Registrat
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel
 import com.example.moviecatalog.presentation.screen.selectauthscreen.SelectAuthScreen
 import com.example.moviecatalog.presentation.screen.splashscreen.SplashScreen
+import com.example.moviecatalog.presentation.screen.splashscreen.SplashViewModel
 
 const val AUTH_ROUTE = "auth_root"
 
 fun NavGraphBuilder.authNavigationGraph(
     navController: NavHostController,
+    splashViewModel: SplashViewModel,
     loginViewModel: LoginViewModel,
     registrationViewModel: RegistrationViewModel
 ) {
@@ -25,7 +27,7 @@ fun NavGraphBuilder.authNavigationGraph(
         route = AUTH_ROUTE
     ) {
         composable (Destinations.SPLASH_SCREEN){
-            SplashScreen(AppRouter(navController))
+            SplashScreen(splashViewModel, AppRouter(navController))
         }
         composable(Destinations.SELECT_AUTH_SCREEN) {
             SelectAuthScreen(AppRouter(navController))
@@ -41,6 +43,6 @@ fun NavGraphBuilder.authNavigationGraph(
         }
     }
     composable (Destinations.SPLASH_SCREEN){
-        SplashScreen(AppRouter(navController))
+        SplashScreen(splashViewModel, AppRouter(navController))
     }
 }
