@@ -47,14 +47,17 @@ fun FavouriteScreen(viewModel: FavoriteViewModel, router: BottomBarRouter) {
         }
     ) {
         Box(modifier = Modifier.padding(it)) {
-            FavoriteMoviesList(viewModel = viewModel)
+            FavoriteMoviesList(
+                viewModel = viewModel,
+                router = router
+            )
         }
     }
 }
 
 
 @Composable
-fun FavoriteMoviesList(viewModel: FavoriteViewModel){
+fun FavoriteMoviesList(viewModel: FavoriteViewModel, router: BottomBarRouter){
     val stateList = viewModel.state.collectAsState()
 
     Column(
@@ -90,11 +93,13 @@ fun FavoriteMoviesList(viewModel: FavoriteViewModel){
                                 ) {
                                     MovieCardFavourite(
                                         movie = chunk[0],
-                                        modifier = Modifier.weight(1f)
+                                        modifier = Modifier.weight(1f),
+                                        onClick = { router.toMovie(chunk[0].id) }
                                     )
                                     MovieCardFavourite(
                                         movie = chunk[1],
-                                        modifier = Modifier.weight(1f)
+                                        modifier = Modifier.weight(1f),
+                                        onClick = { router.toMovie(chunk[1].id) }
                                     )
                                 }
 
@@ -105,7 +110,8 @@ fun FavoriteMoviesList(viewModel: FavoriteViewModel){
                                 ) {
                                     MovieCardFavourite(
                                         movie = chunk[2],
-                                        modifier = Modifier.weight(1f)
+                                        modifier = Modifier.weight(1f),
+                                        onClick = { router.toMovie(chunk[2].id) }
                                     )
                                 }
                             }
@@ -118,11 +124,13 @@ fun FavoriteMoviesList(viewModel: FavoriteViewModel){
                                 ) {
                                     MovieCardFavourite(
                                         movie = chunk[0],
-                                        modifier = Modifier.weight(1f)
+                                        modifier = Modifier.weight(1f),
+                                        onClick = { router.toMovie(chunk[0].id) }
                                     )
                                     MovieCardFavourite(
                                         movie = chunk[1],
-                                        modifier = Modifier.weight(1f)
+                                        modifier = Modifier.weight(1f),
+                                        onClick = { router.toMovie(chunk[1].id) }
                                     )
                                 }
                             }
@@ -135,6 +143,7 @@ fun FavoriteMoviesList(viewModel: FavoriteViewModel){
                                     MovieCardFavourite(
                                         movie = chunk[0],
                                         modifier = Modifier.weight(1f),
+                                        onClick = { router.toMovie(chunk[0].id) }
                                     )
                                 }
                             }

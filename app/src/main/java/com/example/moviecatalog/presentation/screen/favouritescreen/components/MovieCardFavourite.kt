@@ -1,6 +1,7 @@
 package com.example.moviecatalog.presentation.screen.favouritescreen.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,10 +27,17 @@ import com.example.moviecatalog.domain.model.movie.MovieElement
 
 
 @Composable
-fun MovieCardFavourite(movie: MovieElement, modifier: Modifier = Modifier) {
+fun MovieCardFavourite(
+    movie: MovieElement,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .clickable {
+                onClick()
+            }
     ) {
         AsyncImage(
             model = movie.poster,
