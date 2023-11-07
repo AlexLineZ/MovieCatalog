@@ -15,10 +15,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -42,9 +44,11 @@ import com.example.moviecatalog.presentation.screen.common.AppBar
 import com.example.moviecatalog.presentation.screen.common.LoadingItem
 import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
 import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
+import com.example.moviecatalog.presentation.ui.theme.RedColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
     val loginState by viewModel.state.collectAsState()
@@ -119,7 +123,11 @@ fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
                             )
                         }
                     },
-                    isError = loginState.isErrorText != null
+                    isError = loginState.isErrorText != null,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        errorBorderColor = RedColor,
+                        errorContainerColor = RedColor.copy(alpha = 0.1f)
+                    )
                 )
             }
         }

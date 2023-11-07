@@ -64,7 +64,8 @@ fun ReviewDialog(
     onReviewTextChanged: (String) -> Unit,
     onAnonymousCheckedChanged: (Boolean) -> Unit,
     onSaveClick: () -> Unit,
-    onCancelClick: () -> Unit
+    onCancelClick: () -> Unit,
+    isButtonAvailable: Boolean
 ) {
     Dialog(
         onDismissRequest = { onCancelClick() },
@@ -173,7 +174,8 @@ fun ReviewDialog(
                                 .fillMaxWidth()
                                 .height(IntrinsicSize.Min)
                                 .padding(top = 8.dp, bottom = 4.dp),
-                            colors = BaseButtonColor
+                            colors = BaseButtonColor,
+                            enabled = isButtonAvailable
                         ) {
                             Text(
                                 text = stringResource(R.string.save)

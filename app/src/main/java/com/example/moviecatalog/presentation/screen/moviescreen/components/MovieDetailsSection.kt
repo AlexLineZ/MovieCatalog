@@ -11,6 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.common.Constants
+import com.example.moviecatalog.common.Formatter
 import com.example.moviecatalog.presentation.screen.moviescreen.components.items.MovieDetail
 import com.example.moviecatalog.presentation.screen.moviescreen.components.items.MovieDetailRow
 
@@ -39,11 +40,13 @@ fun MovieDetailsSection(
         )
 
         MovieDetailRow(MovieDetail("Год", "$year"))
-        MovieDetailRow(MovieDetail("Страна", country?: Constants.EMPTY_STRING))
-        MovieDetailRow(MovieDetail("Слоган", slogan?: Constants.EMPTY_STRING))
-        MovieDetailRow(MovieDetail("Режиссёр", director?: Constants.EMPTY_STRING))
-        MovieDetailRow(MovieDetail("Бюджет", "$$budget"))
-        MovieDetailRow(MovieDetail("Сборы в мире", "$$fees"))
+        MovieDetailRow(MovieDetail("Страна", country?: Constants.NOTHING))
+        MovieDetailRow(MovieDetail("Слоган", slogan?: Constants.NOTHING))
+        MovieDetailRow(MovieDetail("Режиссёр", director?: Constants.NOTHING))
+        MovieDetailRow(MovieDetail("Бюджет", if (budget == null) Constants.NOTHING
+            else "$${Formatter.splitNumber(budget.toString())}"))
+        MovieDetailRow(MovieDetail("Сборы в мире", if (fees == null) Constants.NOTHING
+            else "$${Formatter.splitNumber(fees.toString())}"))
         MovieDetailRow(MovieDetail("Возраст", "$age+"))
         MovieDetailRow(MovieDetail("Время", "$time мин"))
     }

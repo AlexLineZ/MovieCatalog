@@ -29,7 +29,7 @@ fun SplashScreen(splashViewModel: SplashViewModel, router: AppRouter) {
             .fillMaxSize()
     ) {
         Image(
-            painter = painterResource(id = R.drawable.launch_screen),
+            painter = painterResource(id = R.drawable.splash_screen),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize(),

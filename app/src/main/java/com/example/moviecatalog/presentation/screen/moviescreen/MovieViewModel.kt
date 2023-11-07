@@ -56,7 +56,7 @@ class MovieViewModel : ViewModel() {
         hasUserReview = Constants.FALSE,
         isReviewDialogOpen = Constants.FALSE,
         isDropDownMenuOpen = Constants.FALSE,
-        movieRating = Constants.ZERO,
+        movieRating = 1,
         reviewText = Constants.EMPTY_STRING,
         isAnonymous = Constants.FALSE
     )
@@ -161,6 +161,10 @@ class MovieViewModel : ViewModel() {
         }
     }
 
+    fun isButtonAvailable() : Boolean {
+        return state.value.reviewText.isNotEmpty()
+    }
+
     private fun checkMovieIsLiked(movieId: String) {
         viewModelScope.launch {
             val result = getFavoritesUseCase.invoke()
@@ -218,6 +222,7 @@ class MovieViewModel : ViewModel() {
             rating = state.value.movieRating,
             isAnonymous = state.value.isAnonymous
         )
+        Log.d("Review", review.toString())
         viewModelScope.launch {
             val result = postAddReviewUseCase.invoke(state.value.movieDetails.id, review)
             if (result.isSuccess) {

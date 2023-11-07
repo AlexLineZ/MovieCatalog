@@ -3,17 +3,10 @@ package com.example.moviecatalog.presentation.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.moviecatalog.presentation.router.AppRouter
-import com.example.moviecatalog.presentation.screen.loginscreen.LoginScreen
 import com.example.moviecatalog.presentation.screen.loginscreen.LoginViewModel
 import com.example.moviecatalog.presentation.screen.profilescreen.ProfileViewModel
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel
-import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationFirstScreen
-import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationSecondScreen
-import com.example.moviecatalog.presentation.screen.selectauthscreen.SelectAuthScreen
-import com.example.moviecatalog.presentation.screen.splashscreen.SplashScreen
 import com.example.moviecatalog.presentation.screen.splashscreen.SplashViewModel
 
 object Destinations {

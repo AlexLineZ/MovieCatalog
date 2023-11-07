@@ -41,7 +41,7 @@ fun MovieReviewCard(review: Review){
         ) {
 
             AsyncImage(
-                model = if (review.author?.avatar == null) R.drawable.anonymus
+                model = if (review.author?.avatar == null || review.isAnonymous) R.drawable.anonymus
                         else review.author?.avatar,
                 contentDescription = null,
                 modifier = Modifier
@@ -51,8 +51,8 @@ fun MovieReviewCard(review: Review){
             )
 
             Text(
-                text = review.author?.nickName
-                    ?: Constants.EMPTY_STRING,
+                text = if (review.author?.nickName == null || review.isAnonymous)
+                    "Анонимный пользователь" else review.author?.nickName!!,
                 fontSize = 14.sp,
                 color = Color.White,
                 fontWeight = FontWeight.Bold,

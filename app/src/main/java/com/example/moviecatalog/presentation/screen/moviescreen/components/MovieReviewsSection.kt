@@ -39,7 +39,8 @@ fun MovieReviewsSection(
     onAnonymousCheckedChanged: (Boolean) -> Unit,
     onReviewTextChanged: (String) -> Unit,
     onDeleteClick: () -> Unit,
-    onDropClick: () -> Unit
+    onDropClick: () -> Unit,
+    isButtonAvailable: Boolean
 ) {
 
     if (state.isReviewDialogOpen) {
@@ -49,7 +50,8 @@ fun MovieReviewsSection(
             onReviewTextChanged = {onReviewTextChanged(it) },
             onAnonymousCheckedChanged = { onAnonymousCheckedChanged(it) },
             onSaveClick = { onSaveClick() },
-            onCancelClick = { onClickDialog() }
+            onCancelClick = { onClickDialog() },
+            isButtonAvailable = isButtonAvailable
         )
     }
 
@@ -111,7 +113,8 @@ fun MovieReviewsSection(
                 onRatingSelected = { onRatingSelected(it) },
                 onAnonymousCheckedChanged = { onAnonymousCheckedChanged(it) },
                 onReviewTextChanged = { onReviewTextChanged(it) },
-                onClickDialog = { onClickDialog() }
+                onClickDialog = { onClickDialog() },
+                isButtonAvailable = isButtonAvailable
             )
         }
 

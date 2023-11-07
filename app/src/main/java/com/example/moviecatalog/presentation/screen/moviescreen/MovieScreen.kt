@@ -57,6 +57,9 @@ import com.example.moviecatalog.presentation.screen.moviescreen.components.Genre
 import com.example.moviecatalog.presentation.screen.moviescreen.components.MovieDescriptionSection
 import com.example.moviecatalog.presentation.screen.moviescreen.components.MovieDetailsSection
 import com.example.moviecatalog.presentation.screen.moviescreen.components.MovieReviewsSection
+import com.example.moviecatalog.presentation.screen.moviescreen.components.PosterWithGradient
+import com.example.moviecatalog.presentation.screen.moviescreen.components.items.LabelWithButtonAndMark
+import com.example.moviecatalog.presentation.screen.moviescreen.components.items.LikeButton
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
 import com.example.moviecatalog.presentation.ui.theme.BottomBarColor
@@ -93,7 +96,9 @@ fun MovieScreen(
                                 color = Color.White,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
-                                modifier = Modifier.widthIn(max = 250.dp).padding(end = 16.dp)
+                                modifier = Modifier
+                                    .widthIn(max = 250.dp)
+                                    .padding(end = 16.dp)
                             )
                             Spacer(modifier = Modifier.weight(0.5f))
                             LikeButton(
@@ -187,7 +192,8 @@ fun MovieScreen(
                             onAnonymousCheckedChanged = { viewModel.processIntent(MovieIntent.ChangeAnonymous(it)) },
                             onReviewTextChanged = { viewModel.processIntent(MovieIntent.ChangeReviewText(it)) },
                             onDeleteClick = { viewModel.processIntent(MovieIntent.DeleteReview) },
-                            onDropClick = { viewModel.processIntent(MovieIntent.ChangeDropDownMenuOpen) }
+                            onDropClick = { viewModel.processIntent(MovieIntent.ChangeDropDownMenuOpen) },
+                            isButtonAvailable = viewModel.isButtonAvailable()
                         )
                     }
                 }
@@ -195,126 +201,5 @@ fun MovieScreen(
         }
     )
 }
-
-@Composable
-fun PosterWithGradient(
-    url: String,
-    scrollState: LazyListState
-) {
-    val posterHeight = 497.dp
-    val posterHeightPx = with(LocalDensity.current) {
-        posterHeight.toPx()
-    }
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.6f)
-            .graphicsLayer {
-                translationY = scrollState.firstVisibleItemScrollOffset / 3f
-                alpha = (-1f / posterHeightPx) * scrollState.firstVisibleItemScrollOffset + 1
-            }
-    ) {
-        AsyncImage(
-            model = url,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxSize()
-                .drawWithCache {
-                    val gradient = Brush.verticalGradient(
-                        colors = listOf(Color.Transparent, BackgroundColor),
-                        startY = size.height * 0.7f,
-                        endY = size.height
-                    )
-                    onDrawWithContent {
-                        drawContent()
-                        drawRect(gradient)
-                    }
-                }
-        )
-    }
-}
-
-@Composable
-fun LabelWithButtonAndMark(
-    mark: Mark,
-    movieName: String,
-    isLiked: Boolean,
-    onClickToLikeButton: () -> Unit
-){
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-
-        Box(
-            modifier = Modifier
-                .wrapContentSize()
-                .background(
-                    color = mark.color,
-                    shape = RoundedCornerShape(5.dp)
-                )
-        ) {
-            Text(
-                text = mark.mark,
-                fontSize = 16.sp,
-                color = Color.Black,
-                modifier = Modifier.padding(start = 14.dp, top = 4.dp, end = 14.dp, bottom = 4.dp)
-            )
-        }
-
-        Text(
-            text = movieName,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            fontSize = 24.sp,
-            color = Color.White,
-            modifier = Modifier.weight(1f)
-        )
-
-        LikeButton(
-            isLiked = isLiked,
-            onClickToLikeButton = onClickToLikeButton
-        )
-    }
-}
-
-
-@Composable
-fun LikeButton(
-    isLiked: Boolean,
-    onClickToLikeButton: () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .background(
-                color = ChipColor,
-                shape = CircleShape
-            )
-            .wrapContentSize()
-    ) {
-        IconButton(
-            onClick = { onClickToLikeButton() },
-            modifier = Modifier
-                .size(40.dp),
-            content = {
-                Icon(
-                    imageVector = if (isLiked)
-                        ImageVector.vectorResource(id = R.drawable.like_focused)
-                    else
-                        ImageVector.vectorResource(id = R.drawable.like_unfocused),
-                    contentDescription = null,
-                    tint = if (isLiked) AccentColor else WhiteColor,
-                )
-            }
-        )
-    }
-}
-
 
 

@@ -54,7 +54,8 @@ fun MovieReviewCurrentUserCard(
     onRatingSelected: (Int) -> Unit,
     onAnonymousCheckedChanged: (Boolean) -> Unit,
     onReviewTextChanged: (String) -> Unit,
-    onClickDialog: () -> Unit
+    onClickDialog: () -> Unit,
+    isButtonAvailable: Boolean
 ){
 
     if (state.isReviewDialogOpen) {
@@ -64,7 +65,8 @@ fun MovieReviewCurrentUserCard(
             onReviewTextChanged = {onReviewTextChanged(it) },
             onAnonymousCheckedChanged = { onAnonymousCheckedChanged(it) },
             onSaveClick = { onSaveClick() },
-            onCancelClick = { onClickDialog() }
+            onCancelClick = { onClickDialog() },
+            isButtonAvailable = isButtonAvailable
         )
     }
 
@@ -110,7 +112,7 @@ fun MovieReviewCurrentUserCard(
                 )
             }
 
-            Row(){
+            Row{
                 MarkWithStar(review.rating)
 
                 Spacer(modifier = Modifier.width(10.dp))
