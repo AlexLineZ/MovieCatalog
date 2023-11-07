@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -52,13 +54,13 @@ fun MovieReviewCard(review: Review){
 
             Text(
                 text = if (review.author?.nickName == null || review.isAnonymous)
-                    "Анонимный пользователь" else review.author?.nickName!!,
+                    stringResource(id = R.string.anonymous) else review.author?.nickName!!,
                 fontSize = 14.sp,
                 color = Color.White,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.W500,
                 modifier = Modifier
                     .weight(1f)
-                    .padding(start = 8.dp)
+                    .padding(start = 10.dp)
             )
 
             MarkWithStar(review.rating)
@@ -70,16 +72,17 @@ fun MovieReviewCard(review: Review){
         ) {
             Text(
                 text = review.reviewText ?: Constants.EMPTY_STRING,
-                fontSize = 14.sp,
+                style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.W400),
                 color = Color.White,
                 textAlign = TextAlign.Start
             )
 
             Text(
                 text = formatDateToNormal(review.createDateTime),
-                fontSize = 12.sp,
+                style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.W500),
                 color = Gray400Color,
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
+                modifier = Modifier.padding(top = 5.dp)
             )
         }
     }

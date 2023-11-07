@@ -17,17 +17,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -74,7 +72,7 @@ fun MovieReviewCurrentUserCard(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(bottom = 16.dp)
+            .padding(bottom = 20.dp)
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -94,21 +92,20 @@ fun MovieReviewCurrentUserCard(
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(start = 8.dp)
+                    .padding(start = 10.dp)
             ) {
                 Text(
-                    text = review.author?.nickName
-                        ?: Constants.EMPTY_STRING,
-                    fontSize = 14.sp,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
+                    text = review.author?.nickName ?: Constants.EMPTY_STRING,
+                    style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.W500),
+                    color = Color.White
                 )
 
                 Text(
-                    text = "мой отзыв",
-                    fontSize = 12.sp,
+                    text = stringResource(id = R.string.my_review),
+                    style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.W400),
                     color = Gray400Color,
-                    textAlign = TextAlign.Start
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier.padding(top = 2.dp)
                 )
             }
 
@@ -162,16 +159,17 @@ fun MovieReviewCurrentUserCard(
         ) {
             Text(
                 text = review.reviewText ?: Constants.EMPTY_STRING,
-                fontSize = 14.sp,
+                style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.W400),
                 color = Color.White,
                 textAlign = TextAlign.Start
             )
 
             Text(
                 text = formatDateToNormal(review.createDateTime),
-                fontSize = 12.sp,
+                style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.W500),
                 color = Gray400Color,
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
+                modifier = Modifier.padding(top = 5.dp)
             )
         }
     }

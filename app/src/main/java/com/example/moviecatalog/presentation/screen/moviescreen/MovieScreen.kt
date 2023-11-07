@@ -90,7 +90,7 @@ fun MovieScreen(
                             Spacer(modifier = Modifier.weight(0.5f))
                             Text(
                                 text = state.value.movieDetails.name ?: Constants.EMPTY_STRING,
-                                fontWeight = FontWeight.Bold,
+                                fontWeight = FontWeight.W700,
                                 textAlign = TextAlign.Center,
                                 fontSize = 24.sp,
                                 color = Color.White,
@@ -154,17 +154,25 @@ fun MovieScreen(
                     }
                     item {
                         LabelWithButtonAndMark(
-                            mark = MarkSelector.markCalculation(state.value.movieDetails.reviews ?: arrayListOf()),
+                            mark = MarkSelector.markCalculation(
+                                state.value.movieDetails.reviews ?: arrayListOf()),
                             movieName = state.value.movieDetails.name ?: Constants.EMPTY_STRING,
                             isLiked = state.value.isLiked,
-                            onClickToLikeButton = { viewModel.processIntent(MovieIntent.ClickOnFavoriteButton(state.value.movieDetails.id)) }
+                            onClickToLikeButton = {
+                                viewModel.processIntent(
+                                    MovieIntent.ClickOnFavoriteButton(state.value.movieDetails.id)
+                                )
+                            }
                         )
                     }
                     item{
                         MovieDescriptionSection(
-                            description = state.value.movieDetails.description ?: Constants.EMPTY_STRING,
+                            description = state.value.movieDetails.description
+                                ?: Constants.EMPTY_STRING,
                             state = state.value.isDescriptionOpen,
-                            onClick = { viewModel.processIntent(MovieIntent.ChangeDescriptionVisibility) }
+                            onClick = {
+                                viewModel.processIntent(MovieIntent.ChangeDescriptionVisibility)
+                            }
                         )
                     }
                     item{
