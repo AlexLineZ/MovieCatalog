@@ -43,16 +43,15 @@ import com.example.moviecatalog.presentation.router.AppRouter
 import com.example.moviecatalog.presentation.screen.common.AppBar
 import com.example.moviecatalog.presentation.screen.common.LoadingItem
 import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
+import com.example.moviecatalog.presentation.screen.common.PasswordTextField
 import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
 import com.example.moviecatalog.presentation.ui.theme.RedColor
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
     val loginState by viewModel.state.collectAsState()
-
     val focusManager = LocalFocusManager.current
 
     Column(
@@ -71,70 +70,29 @@ fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
         }
 
         Text(
-            text = stringResource(R.string.catalog),
-            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
+            text = stringResource(R.string.login_to),
+            style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.W700),
             textAlign = TextAlign.Left,
-            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+            modifier = Modifier.padding(top = 20.dp, bottom = 15.dp)
         )
 
         OutlinedTextFieldWithLabel(
             label = stringResource(R.string.login),
             value = loginState.login,
             onValueChange = { viewModel.processIntent(LoginIntent.UpdateLogin(it)) },
-            error = loginState.isErrorText
+            error = loginState.isErrorText,
+            modifier = Modifier
         )
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, bottom = 8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.password)
+        PasswordTextField(
+            label = stringResource(R.string.password),
+            value = loginState.password,
+            onValueChange = { viewModel.processIntent(LoginIntent.UpdatePassword(it)) },
+            transformationState = loginState.isPasswordHide,
+            onButtonClick = { viewModel.processIntent(LoginIntent.UpdatePasswordVisibility) },
+            modifier = Modifier.padding(top = 15.dp)
+        )
 
-                )
-                OutlinedTextField(
-                    value = loginState.password,
-                    onValueChange = {
-                        viewModel.processIntent(LoginIntent.UpdatePassword(it))
-                    },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                        .height(IntrinsicSize.Min),
-                    shape = RoundedCornerShape(10.dp),
-                    visualTransformation = if (loginState.isPasswordHide)
-                        VisualTransformation.None else PasswordVisualTransformation(),
-                    trailingIcon = {
-                        IconButton(
-                            onClick = {
-                                viewModel.processIntent(LoginIntent.UpdatePasswordVisibility)
-                            }
-                        ) {
-                            Icon(
-                                imageVector = if (loginState.isPasswordHide) Icons.Default.Visibility
-                                else Icons.Default.VisibilityOff,
-                                contentDescription = null
-                            )
-                        }
-                    },
-                    isError = loginState.isErrorText != null,
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        errorBorderColor = RedColor,
-                        errorContainerColor = RedColor.copy(alpha = 0.1f)
-                    )
-                )
-            }
-        }
-
-        if (loginState.isLoading){
-            LoadingItem()
-        }
 
         Button(
             onClick = {
@@ -143,14 +101,19 @@ fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp, bottom = 16.dp)
-                .height(IntrinsicSize.Min),
+                .height(IntrinsicSize.Min)
+                .padding(top = 20.dp),
             enabled = !loginState.isLoading && viewModel.isLoginButtonAvailable(),
             colors = BaseButtonColor
         ) {
             Text(
-                text = stringResource(R.string.login_button)
+                text = stringResource(R.string.login_button),
+                style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.W600)
             )
+        }
+
+        if (loginState.isLoading){
+            LoadingItem()
         }
 
 

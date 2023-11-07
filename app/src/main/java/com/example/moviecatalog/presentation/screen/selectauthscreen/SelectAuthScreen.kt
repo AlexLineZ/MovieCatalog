@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.presentation.router.AppRouter
+import com.example.moviecatalog.presentation.screen.common.PairButtons
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
 
@@ -41,12 +42,12 @@ fun SelectAuthScreen(router: AppRouter) {
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(top = 56.dp)
         )
 
         Box(
             modifier = Modifier
-                .padding(top = 16.dp, bottom = 16.dp)
+                .padding(vertical = 35.dp)
                 .fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
@@ -55,58 +56,25 @@ fun SelectAuthScreen(router: AppRouter) {
             ) {
                 Text(
                     text = stringResource(R.string.auth_description_first),
-                    style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(4.dp)
+                    style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.W700),
+                    textAlign = TextAlign.Center
                 )
 
                 Text(
                     text = stringResource(R.string.auth_description_second),
+                    style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.W400),
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(8.dp)
+                    modifier = Modifier.padding(top = 8.dp)
                 )
             }
         }
 
-        Box(
-            modifier = Modifier
-                .padding(top = 16.dp, bottom = 16.dp)
-                .fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Button(
-                    onClick = { router.toRegistration() },
-                    shape = RoundedCornerShape(10.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(IntrinsicSize.Min)
-                        .padding(top = 8.dp, bottom = 8.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.registration)
-                    )
-                }
-
-                Button(
-                    onClick = { router.toLogin() },
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = SecondButtonColor,
-                        contentColor = AccentColor
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(IntrinsicSize.Min)
-                        .padding(top = 8.dp, bottom = 8.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.login_button)
-                    )
-                }
-            }
-        }
+        PairButtons(
+            firstLabel = stringResource(R.string.registration),
+            firstClick = { router.toRegistration() },
+            secondLabel = stringResource(R.string.login_button),
+            secondClick = { router.toLogin() },
+            modifier = Modifier.padding(top = 20.dp, bottom = 16.dp)
+        )
     }
 }

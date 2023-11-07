@@ -43,6 +43,7 @@ import com.example.moviecatalog.presentation.router.BottomBarRouter
 import com.example.moviecatalog.presentation.screen.profilescreen.components.DatePickerFieldForProfile
 import com.example.moviecatalog.presentation.screen.common.GenderSelectionButton
 import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
+import com.example.moviecatalog.presentation.screen.common.PairButtons
 import com.example.moviecatalog.presentation.screen.favouritescreen.FavoriteMoviesList
 import com.example.moviecatalog.presentation.screen.moviescreen.MovieIntent
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
@@ -108,10 +109,10 @@ fun ProfileItemsList(
             text = state.nickName ?: Constants.EMPTY_STRING,
             style = TextStyle(
                 fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.W700
             ),
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 12.dp)
+            modifier = Modifier.padding(top = 6.dp)
         )
 
         Text(
@@ -137,73 +138,44 @@ fun ProfileItemsList(
                     onValueChange = {
                         viewModel.processIntent(ProfileIntent.UpdateEmail(it))
                     },
-                    error = state.emailError?.let { stringResource(it) }
+                    error = state.emailError?.let { stringResource(it) },
+                    modifier = Modifier
                 )
 
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.avatar_link),
                     value = state.avatarLink ?: Constants.EMPTY_STRING,
-                    onValueChange = { viewModel.processIntent(ProfileIntent.UpdateAvatarLink(it)) }
+                    onValueChange = { viewModel.processIntent(ProfileIntent.UpdateAvatarLink(it)) },
+                    modifier = Modifier.padding(top = 15.dp)
                 )
 
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.name),
                     value = state.name,
-                    onValueChange = { viewModel.processIntent(ProfileIntent.UpdateName(it)) }
+                    onValueChange = { viewModel.processIntent(ProfileIntent.UpdateName(it)) },
+                    modifier = Modifier.padding(top = 15.dp)
                 )
 
                 GenderSelectionButton(
                     updateGender = { viewModel.processIntent(ProfileIntent.UpdateGender(it)) },
-                    state = state.gender
+                    state = state.gender,
+                    modifier = Modifier.padding(top = 15.dp)
                 )
 
                 DatePickerFieldForProfile(
                     viewModel = viewModel,
-                    state = state
+                    state = state,
+                    modifier = Modifier.padding(top = 15.dp)
                 )
 
-                Box(
-                    modifier = Modifier
-                        .padding(top = 16.dp, bottom = 16.dp)
-                        .fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        Button(
-                            onClick = { viewModel.processIntent(ProfileIntent.SaveData) },
-                            shape = RoundedCornerShape(10.dp),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(IntrinsicSize.Min)
-                                .padding(top = 8.dp, bottom = 8.dp),
-                            enabled = viewModel.isSaveButtonAvailable(),
-                            colors = BaseButtonColor
-                        ) {
-                            Text(
-                                text = stringResource(R.string.save)
-                            )
-                        }
-
-                        Button(
-                            onClick = { viewModel.processIntent(ProfileIntent.Cancel) },
-                            shape = RoundedCornerShape(10.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = SecondButtonColor,
-                                contentColor = AccentColor
-                            ),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(IntrinsicSize.Min)
-                                .padding(top = 8.dp, bottom = 8.dp)
-                        ) {
-                            Text(
-                                text = stringResource(R.string.cancel)
-                            )
-                        }
-                    }
-                }
+                PairButtons(
+                    firstLabel = stringResource(R.string.save),
+                    firstClick = { viewModel.processIntent(ProfileIntent.SaveData) },
+                    secondLabel = stringResource(R.string.cancel),
+                    secondClick = { viewModel.processIntent(ProfileIntent.Cancel) },
+                    modifier = Modifier.padding(top = 20.dp, bottom = 16.dp),
+                    firstEnabled = state.changesInProfile
+                )
             }
         }
     }

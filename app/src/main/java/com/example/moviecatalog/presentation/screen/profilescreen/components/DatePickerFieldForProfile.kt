@@ -19,7 +19,10 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.common.formatDate
 import com.example.moviecatalog.common.formatDateToISO8601
@@ -32,20 +35,19 @@ import java.util.Date
 @Composable
 fun DatePickerFieldForProfile(
     viewModel: ProfileViewModel,
-    state: ProfileState
+    state: ProfileState,
+    modifier: Modifier
 ) {
-
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp, bottom = 8.dp)
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = stringResource(R.string.date_of_birthday)
+                text = stringResource(R.string.date_of_birthday),
+                style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.W500)
             )
 
             OutlinedTextField(
@@ -71,6 +73,7 @@ fun DatePickerFieldForProfile(
                         )
                     }
                 },
+                textStyle = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.W400)
             )
 
             if (viewModel.isDatePickerOpen()) {

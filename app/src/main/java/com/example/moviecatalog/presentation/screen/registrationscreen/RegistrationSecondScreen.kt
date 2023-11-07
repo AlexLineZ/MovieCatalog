@@ -45,6 +45,7 @@ import com.example.moviecatalog.domain.validator.PasswordValidator
 import com.example.moviecatalog.presentation.router.AppRouter
 import com.example.moviecatalog.presentation.screen.common.AppBar
 import com.example.moviecatalog.presentation.screen.common.LoadingItem
+import com.example.moviecatalog.presentation.screen.common.PasswordTextField
 import com.example.moviecatalog.presentation.ui.theme.ErrorAccentColor
 import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
 import com.example.moviecatalog.presentation.ui.theme.RedColor
@@ -78,148 +79,51 @@ fun RegistrationSecondScreen (
 
         Text(
             text = stringResource(R.string.registration),
-            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
+            style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.W700),
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+            modifier = Modifier.padding(top = 20.dp, bottom = 15.dp)
         )
 
-        Box(
+        PasswordTextField(
+            label = stringResource(R.string.password),
+            value = state.password,
+            onValueChange = {
+                viewModel.processIntent(RegistrationIntent.UpdatePassword(it))
+                viewModel.processIntent(
+                    RegistrationIntent.UpdateErrorText(
+                        PasswordValidator(),
+                        it
+                    )
+                )
+            },
+            transformationState = state.isPasswordHide,
+            onButtonClick = {viewModel.processIntent(RegistrationIntent.UpdatePasswordVisibility)},
+            errorText = state.isErrorPasswordText,
             modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, bottom = 8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.password),
-                    style = TextStyle(fontSize = 16.sp),
-                    color = Color.White
-
-                )
-                OutlinedTextField(
-                    value = state.password,
-                    onValueChange = {
-                        viewModel.processIntent(RegistrationIntent.UpdatePassword(it))
-                        viewModel.processIntent(
-                            RegistrationIntent.UpdateErrorText(
-                                PasswordValidator(),
-                                it
-                            )
-                        )
-                    },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                        .height(IntrinsicSize.Min),
-                    shape = RoundedCornerShape(10.dp),
-                    visualTransformation = if (state.isPasswordHide)
-                        VisualTransformation.None else PasswordVisualTransformation(),
-                    trailingIcon = {
-                        IconButton(
-                            onClick = {
-                                viewModel.processIntent(RegistrationIntent.UpdatePasswordVisibility)
-                            }
-                        ) {
-                            Icon(
-                                imageVector =
-                                    if (state.isPasswordHide)
-                                        Icons.Default.Visibility
-                                    else
-                                        Icons.Default.VisibilityOff,
-                                contentDescription = null
-                            )
-                        }
-                    },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        errorBorderColor = RedColor,
-                        errorContainerColor = RedColor.copy(alpha = 0.1f)
-                    )
-                )
-                state.isErrorPasswordText?.let {
-                    Text (
-                        text = it,
-                        modifier = Modifier
-                            .padding(top = 4.dp),
-                        color = ErrorAccentColor,
-                        fontSize = 14.sp
-                    )
-                }
-            }
-        }
+        )
 
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, bottom = 8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.confirm_password),
-                    style = TextStyle(fontSize = 16.sp),
-                    color = Color.White
+        PasswordTextField(
+            label = stringResource(R.string.confirm_password),
+            value = state.confirmPassword,
+            onValueChange = {
+                viewModel.processIntent(RegistrationIntent.UpdateConfirmPassword(it))
+                viewModel.processIntent(
+                    RegistrationIntent.UpdateErrorText(
+                        ConfirmPasswordValidator(),
+                        state.password,
+                        it
+                    )
+                )
+            },
+            transformationState = state.isConfirmPasswordHide,
+            onButtonClick = {
+                viewModel.processIntent(RegistrationIntent.UpdateConfirmPasswordVisibility)
+            },
+            errorText = state.isErrorConfirmPasswordText,
+            modifier = Modifier.padding(top = 15.dp)
+        )
 
-                )
-                OutlinedTextField(
-                    value = state.confirmPassword,
-                    onValueChange = {
-                        viewModel.processIntent(RegistrationIntent.UpdateConfirmPassword(it))
-                        viewModel.processIntent(
-                            RegistrationIntent.UpdateErrorText(
-                                ConfirmPasswordValidator(),
-                                state.password,
-                                it
-                            )
-                        )
-                    },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                        .height(IntrinsicSize.Min),
-                    shape = RoundedCornerShape(10.dp),
-                    visualTransformation = if (state.isConfirmPasswordHide)
-                        VisualTransformation.None else PasswordVisualTransformation(),
-                    trailingIcon = {
-                        IconButton(
-                            onClick = {
-                                viewModel.processIntent(
-                                    RegistrationIntent.UpdateConfirmPasswordVisibility
-                                )
-                            }
-                        ) {
-                            Icon(
-                                imageVector =
-                                    if (state.isConfirmPasswordHide)
-                                        Icons.Default.Visibility
-                                    else
-                                        Icons.Default.VisibilityOff,
-                                contentDescription = null
-                            )
-                        }
-                    },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        errorBorderColor = RedColor,
-                        errorContainerColor = RedColor.copy(alpha = 0.1f)
-                    )
-                )
-                state.isErrorConfirmPasswordText?.let {
-                    Text (
-                        text = it,
-                        modifier = Modifier
-                            .padding(top = 4.dp),
-                        color = ErrorAccentColor,
-                        fontSize = 14.sp
-                    )
-                }
-            }
-        }
 
         if (state.isLoading){
             LoadingItem()

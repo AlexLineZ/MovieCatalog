@@ -4,6 +4,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -67,33 +68,36 @@ fun RegistrationFirstScreen(
         Text(
             text = stringResource(R.string.registration),
             style = TextStyle(
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
+                fontSize = 20.sp,
+                fontWeight = FontWeight.W700
             ),
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+            modifier = Modifier.padding(top = 20.dp, bottom = 15.dp)
         )
+        
         LazyColumn {
             item {
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.name),
                     value = registrationState.name,
                     onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateName(it)) },
-                    error = null
+                    error = null,
+                    modifier = Modifier
                 )
 
                 GenderSelectionButton(
                     updateGender = { viewModel.processIntent(RegistrationIntent.UpdateGender(it)) },
-                    state = registrationState.gender
+                    state = registrationState.gender,
+                    modifier = Modifier.padding(top = 15.dp)
                 )
 
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.login),
                     value = registrationState.login,
                     onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateLogin(it)) },
-                    error = null
+                    error = null,
+                    modifier = Modifier.padding(top = 15.dp)
                 )
-
 
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.email),
@@ -108,7 +112,8 @@ fun RegistrationFirstScreen(
                         )
 
                     },
-                    error = registrationState.isErrorEmailText
+                    error = registrationState.isErrorEmailText,
+                    modifier = Modifier.padding(top = 15.dp)
                 )
 
                 DatePickerField(
@@ -121,18 +126,18 @@ fun RegistrationFirstScreen(
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 16.dp, bottom = 16.dp)
+                        .padding(top = 20.dp)
                         .height(IntrinsicSize.Min),
                     enabled = viewModel.isContinueButtonAvailable(),
                     colors = BaseButtonColor
                 ) {
                     Text(
-                        text = stringResource(R.string.continue_)
+                        text = stringResource(R.string.continue_),
+                        style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.W600)
                     )
                 }
             }
         }
-
 
         Box(
             modifier = Modifier
