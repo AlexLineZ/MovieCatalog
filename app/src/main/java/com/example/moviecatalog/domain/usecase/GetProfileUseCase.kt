@@ -11,9 +11,11 @@ class GetProfileUseCase {
         return try {
             val response = profileRepository.getProfileData()
             return if (response.isSuccessful) {
+                Log.d("ProfileSuccessful", response.code().toString())
                 Result.success(response.body()!!)
             } else {
-                Result.success(null)
+                Log.d("ProfileElse", response.code().toString())
+                Result.failure(exception = Throwable())
             }
         } catch (e: Exception) {
             Result.failure(e)

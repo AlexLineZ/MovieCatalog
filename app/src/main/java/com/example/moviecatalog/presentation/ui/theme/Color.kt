@@ -25,6 +25,8 @@ val ChipColor = Color(0xFF404040)
 val DisabledButtonColor = Color(0xFFFC315E)
 val Gray400Color = Color(0xFF909499)
 val YellowStarColor = Color(0xFFFFD54F)
+val MenuGrayColor = Color(0xFF55595D)
+val RedColor = Color(0xFFE64646)
 
 val GoodMarkColor = Color(0xFF4BB34B)
 val NormalMarkColor = Color(0xFFA3CD4A)

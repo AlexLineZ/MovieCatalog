@@ -1,9 +1,9 @@
-package com.example.moviecatalog.data.model
+package com.example.moviecatalog.domain.model.movie
 
 import com.example.moviecatalog.domain.model.movie.Genre
-import com.example.moviecatalog.domain.model.movie.Review
+import com.example.moviecatalog.domain.model.review.Review
 
-data class MovieDetailsResponse(
+data class MovieDetails(
     val id: String,
     val name: String?,
     val poster: String?,

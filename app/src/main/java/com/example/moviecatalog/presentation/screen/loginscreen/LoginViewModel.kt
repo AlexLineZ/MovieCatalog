@@ -18,8 +18,8 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel (private val context: Context) : ViewModel() { //AndroidViewModel
     private val emptyState = LoginState(
-        "string",
-        "string",
+        Constants.EMPTY_STRING,
+        Constants.EMPTY_STRING,
         Constants.FALSE,
         Constants.FALSE,
         null,
@@ -54,6 +54,8 @@ class LoginViewModel (private val context: Context) : ViewModel() { //AndroidVie
             LoginIntent.UpdateLoading -> {
                 _state.value = state.value.copy(isLoading = !_state.value.isLoading)
             }
+
+            else -> {}
         }
     }
 

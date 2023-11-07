@@ -1,0 +1,42 @@
+package com.example.moviecatalog.presentation.screen.splashscreen
+
+import android.content.Context
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.moviecatalog.data.network.NetworkService
+import com.example.moviecatalog.domain.usecase.GetProfileUseCase
+import com.example.moviecatalog.domain.usecase.GetTokenFromLocalStorageUseCase
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+class SplashViewModel: ViewModel() {
+    private val getProfileUseCase = GetProfileUseCase()
+
+    fun checkTokenToValid(
+        context: Context,
+        isSuccess: () -> Unit,
+        isFailure: () -> Unit
+    ){
+        val getTokenFromLocalStorageUseCase = GetTokenFromLocalStorageUseCase(context)
+
+        viewModelScope.launch {
+            val token = getTokenFromLocalStorageUseCase.invoke()
+            NetworkService.setAuthToken(token.token)
+        }
+
+        viewModelScope.launch{
+            val result = getProfileUseCase.invoke()
+            if (result.isSuccess){
+                launch {
+                    delay(1000L)
+                    isSuccess()
+                }
+            } else {
+                launch {
+                    delay(1000L)
+                    isFailure()
+                }
+            }
+        }
+    }
+}

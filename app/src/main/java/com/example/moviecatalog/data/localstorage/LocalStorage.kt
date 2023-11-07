@@ -28,4 +28,8 @@ class LocalStorage(context: Context) {
     fun hasToken() : Boolean {
         return sharedPreferences.contains(TOKEN_KEY)
     }
+
+    fun removeToken() {
+        sharedPreferences.edit().remove(TOKEN_KEY).apply()
+    }
 }

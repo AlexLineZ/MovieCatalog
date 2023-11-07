@@ -1,5 +1,6 @@
 package com.example.moviecatalog.data.network.interceptor
 
+import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -12,6 +13,7 @@ class AuthInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
+        var response: Response? = null
 
         authToken?.let {
             val authHeader = "Bearer $it"
@@ -20,6 +22,13 @@ class AuthInterceptor : Interceptor {
                 .build()
         }
 
-        return chain.proceed(request)
+        return try{
+            response = chain.proceed(request)
+            Log.d("Interceptor", response.message)
+            response
+        } catch (e: Exception){
+            response?.close()
+            chain.proceed(request)
+        }
     }
 }

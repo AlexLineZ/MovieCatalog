@@ -23,7 +23,7 @@ import coil.compose.AsyncImage
 import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.formatDateToNormal
-import com.example.moviecatalog.domain.model.movie.Review
+import com.example.moviecatalog.domain.model.review.Review
 import com.example.moviecatalog.presentation.screen.common.MarkWithStar
 import com.example.moviecatalog.presentation.ui.theme.Gray400Color
 

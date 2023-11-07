@@ -1,5 +1,7 @@
 package com.example.moviecatalog.domain.model.movie
 
+import com.example.moviecatalog.domain.model.review.Review
+
 
 data class MovieElement (
     val id: String,
