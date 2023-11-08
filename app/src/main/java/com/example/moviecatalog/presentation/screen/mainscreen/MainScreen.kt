@@ -1,6 +1,6 @@
 package com.example.moviecatalog.presentation.screen.mainscreen
 
-import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -85,8 +85,9 @@ fun MovieListScreen(viewModel: MainViewModel, router: BottomBarRouter){
             if (movie !in 0..3){
                 movies[movie]?.let {
                     MovieCard (
-                        movie = it,
-                        onClick = { router.toMovie(it.id) }
+                        movie = it.movieElement,
+                        onClick = { router.toMovie(it.movieElement.id) },
+                        userMark = it.userMark
                     )
                 }
             }

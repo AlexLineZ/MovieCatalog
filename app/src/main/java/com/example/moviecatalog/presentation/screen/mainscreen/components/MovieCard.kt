@@ -26,17 +26,18 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.moviecatalog.common.MarkSelector
 import com.example.moviecatalog.domain.model.movie.MovieElement
+import com.example.moviecatalog.presentation.screen.common.MarkWithStar
 import com.example.moviecatalog.presentation.ui.theme.ChipColor
 
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun MovieCard(movie: MovieElement, onClick: () -> Unit) {
+fun MovieCard(movie: MovieElement, onClick: () -> Unit, userMark: Int?) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp, top = 12.dp)
-            .clickable (
+            .clickable(
                 onClick = onClick
             )
     ) {
@@ -84,12 +85,22 @@ fun MovieCard(movie: MovieElement, onClick: () -> Unit) {
                 .padding(start = 16.dp)
                 .fillMaxWidth()
         ) {
-            movie.name?.let {
-                Text(
-                    text = it,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.W700
-                )
+            Row() {
+                movie.name?.let {
+                    Text(
+                        text = it,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.W700,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+
+                if (userMark != null) {
+                    MarkWithStar(
+                        value = userMark,
+                        modifier = Modifier
+                    )
+                }
             }
 
             Text(

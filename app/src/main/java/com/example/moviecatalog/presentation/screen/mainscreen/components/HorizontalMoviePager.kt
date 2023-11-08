@@ -29,12 +29,12 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import coil.compose.AsyncImage
 import com.example.moviecatalog.R
-import com.example.moviecatalog.domain.model.movie.MovieElement
+import com.example.moviecatalog.presentation.screen.favouritescreen.MovieUserMark
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HorizontalMoviePager(movies: LazyPagingItems<MovieElement>, onClick: (String) -> Unit) {
+fun HorizontalMoviePager(movies: LazyPagingItems<MovieUserMark>, onClick: (String) -> Unit) {
     val state = rememberPagerState(initialPage = 0, pageCount = { 4 })
 
     LaunchedEffect(Unit) {
@@ -69,12 +69,12 @@ fun HorizontalMoviePager(movies: LazyPagingItems<MovieElement>, onClick: (String
                     contentAlignment = Alignment.TopCenter
                 ) {
                     AsyncImage(
-                        model = movies[page]?.poster,
+                        model = movies[page]?.movieElement?.poster,
                         contentDescription = null,
                         modifier = Modifier
                             .fillMaxSize()
                             .clickable (
-                                onClick = { movies[page]?.id?.let { onClick(it) } }
+                                onClick = { movies[page]?.movieElement?.id?.let { onClick(it) } }
                             ),
                         contentScale = ContentScale.Crop
                     )

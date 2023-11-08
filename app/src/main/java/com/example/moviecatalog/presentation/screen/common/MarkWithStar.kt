@@ -13,6 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
@@ -37,13 +39,13 @@ fun MarkWithStar(value: Int, modifier: Modifier = Modifier){
                 imageVector = ImageVector.vectorResource(R.drawable.star_mark),
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(start = 4.dp, end = 4.dp)
+                    .padding(start = 4.dp, end = 2.dp)
             )
             Text(
                 text = value.toString(),
-                fontSize = 16.sp,
+                style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.W500),
                 modifier = Modifier
-                    .padding(start = 2.dp, end = 4.dp)
+                    .padding(4.dp)
             )
         }
     }
