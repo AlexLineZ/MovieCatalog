@@ -27,6 +27,7 @@ import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.domain.model.movie.MovieElement
 import com.example.moviecatalog.presentation.screen.common.MarkWithStar
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 
 
 @Composable
@@ -67,7 +68,7 @@ fun MovieCardFavourite(
             text = movie.name ?: Constants.EMPTY_STRING,
             style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.W500),
             modifier = Modifier
-                .padding(top = 8.dp)
+                .padding(top = MiddlePadding)
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .align(Alignment.Start)

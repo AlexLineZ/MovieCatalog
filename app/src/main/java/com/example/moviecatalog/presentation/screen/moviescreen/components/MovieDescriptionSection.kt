@@ -8,10 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
@@ -23,11 +19,13 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MoreSpaceBetweenObjects
 import org.w3c.dom.Text
 
 @Composable
@@ -39,7 +37,11 @@ fun MovieDescriptionSection(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, top = 20.dp)
+            .padding(
+                start = BasePadding,
+                end = BasePadding,
+                top = MoreSpaceBetweenObjects
+            )
     ) {
         Text(
             text = description,
@@ -74,7 +76,11 @@ fun MovieDescriptionSection(
                     else stringResource(id = R.string.more),
                 fontSize = 15.sp,
                 color = AccentColor,
-                modifier = Modifier.padding(top = 8.dp, bottom = 8.dp, end = 16.dp)
+                modifier = Modifier.padding(
+                    top = MiddlePadding,
+                    bottom = MiddlePadding,
+                    end = BasePadding
+                )
             )
 
             Icon(

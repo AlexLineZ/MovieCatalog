@@ -32,6 +32,9 @@ import com.example.moviecatalog.presentation.screen.registrationscreen.Registrat
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel
 import com.example.moviecatalog.common.formatDate
 import com.example.moviecatalog.common.formatDateToISO8601
+import com.example.moviecatalog.presentation.ui.theme.Values.BigRound
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.SpaceBetweenObjects
 import java.time.LocalDate
 import java.util.Date
 
@@ -48,7 +51,7 @@ fun DatePickerField(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 15.dp)
+                .padding(top = SpaceBetweenObjects)
         ) {
             Text(
                 text = stringResource(R.string.date_of_birthday),
@@ -64,8 +67,8 @@ fun DatePickerField(
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp),
-                shape = RoundedCornerShape(10.dp),
+                    .padding(top = MiddlePadding),
+                shape = RoundedCornerShape(BigRound),
                 trailingIcon = {
                     IconButton(
                         onClick = {

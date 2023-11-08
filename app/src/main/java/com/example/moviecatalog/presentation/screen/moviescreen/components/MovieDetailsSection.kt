@@ -9,13 +9,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.Formatter
 import com.example.moviecatalog.presentation.screen.moviescreen.components.items.MovieDetail
 import com.example.moviecatalog.presentation.screen.moviescreen.components.items.MovieDetailRow
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MoreSpaceBetweenObjects
 
 @Composable
 fun MovieDetailsSection(
@@ -31,7 +32,11 @@ fun MovieDetailsSection(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, top = 20.dp)
+            .padding(
+                start = BasePadding,
+                end = BasePadding,
+                top = MoreSpaceBetweenObjects
+            )
     ) {
         Text(
             text = stringResource(id = R.string.about_movie),

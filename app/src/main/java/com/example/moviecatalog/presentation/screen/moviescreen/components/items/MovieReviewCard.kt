@@ -28,6 +28,8 @@ import com.example.moviecatalog.common.formatDateToNormal
 import com.example.moviecatalog.domain.model.review.Review
 import com.example.moviecatalog.presentation.screen.common.MarkWithStar
 import com.example.moviecatalog.presentation.ui.theme.Gray400Color
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 
 @Composable
 fun MovieReviewCard(review: Review){
@@ -35,7 +37,7 @@ fun MovieReviewCard(review: Review){
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(bottom = 16.dp)
+            .padding(bottom = BasePadding)
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -68,7 +70,7 @@ fun MovieReviewCard(review: Review){
 
 
         Column(
-            modifier = Modifier.padding(top = 8.dp)
+            modifier = Modifier.padding(top = MiddlePadding)
         ) {
             Text(
                 text = review.reviewText ?: Constants.EMPTY_STRING,

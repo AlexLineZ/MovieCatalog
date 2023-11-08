@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
+import com.example.moviecatalog.presentation.ui.theme.Values.BigRound
+import com.example.moviecatalog.presentation.ui.theme.Values.SpaceBetweenObjects
 
 @Composable
 fun PairButtons(
@@ -40,7 +42,7 @@ fun PairButtons(
         ) {
             Button(
                 onClick = { firstClick() },
-                shape = RoundedCornerShape(10.dp),
+                shape = RoundedCornerShape(BigRound),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(IntrinsicSize.Min),
@@ -58,7 +60,7 @@ fun PairButtons(
 
             Button(
                 onClick = { secondClick() },
-                shape = RoundedCornerShape(10.dp),
+                shape = RoundedCornerShape(BigRound),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = SecondButtonColor,
                     contentColor = AccentColor
@@ -66,7 +68,7 @@ fun PairButtons(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(IntrinsicSize.Min)
-                    .padding(top = 15.dp)
+                    .padding(top = SpaceBetweenObjects)
             ) {
                 Text(
                     text = secondLabel,

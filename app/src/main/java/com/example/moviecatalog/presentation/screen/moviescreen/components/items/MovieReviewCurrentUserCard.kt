@@ -41,6 +41,8 @@ import com.example.moviecatalog.presentation.screen.moviescreen.components.Revie
 import com.example.moviecatalog.presentation.screen.moviescreen.components.ReviewDropDownMenu
 import com.example.moviecatalog.presentation.ui.theme.ChipColor
 import com.example.moviecatalog.presentation.ui.theme.Gray400Color
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MoreSpaceBetweenObjects
 
 @Composable
 fun MovieReviewCurrentUserCard(
@@ -72,7 +74,7 @@ fun MovieReviewCurrentUserCard(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(bottom = 20.dp)
+            .padding(bottom = MoreSpaceBetweenObjects)
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -155,7 +157,7 @@ fun MovieReviewCurrentUserCard(
         }
 
         Column(
-            modifier = Modifier.padding(top = 8.dp)
+            modifier = Modifier.padding(top = MiddlePadding)
         ) {
             Text(
                 text = review.reviewText ?: Constants.EMPTY_STRING,

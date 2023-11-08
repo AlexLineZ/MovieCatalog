@@ -24,12 +24,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
-import com.example.moviecatalog.domain.model.movie.MovieElement
 import com.example.moviecatalog.presentation.navigation.bottombar.BottomBar
 import com.example.moviecatalog.presentation.navigation.bottombar.Routes
 import com.example.moviecatalog.presentation.router.BottomBarRouter
 import com.example.moviecatalog.presentation.screen.favouritescreen.components.MovieCardFavourite
-import com.example.moviecatalog.presentation.screen.mainscreen.MovieListScreen
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MoreSpaceBetweenObjects
+import com.example.moviecatalog.presentation.ui.theme.Values.SpaceBetweenObjects
 
 @Composable
 fun FavouriteScreen(viewModel: FavoriteViewModel, router: BottomBarRouter) {
@@ -63,14 +65,14 @@ fun FavoriteMoviesList(viewModel: FavoriteViewModel, router: BottomBarRouter){
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(BasePadding),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Text(
             text = stringResource(R.string.favourite),
             style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.W700),
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = BasePadding)
         )
 
         if (stateList.value.isEmpty()) {
@@ -88,8 +90,10 @@ fun FavoriteMoviesList(viewModel: FavoriteViewModel, router: BottomBarRouter){
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(top = 20.dp),
-                                    horizontalArrangement = Arrangement.spacedBy(15.dp)
+                                        .padding(top = MoreSpaceBetweenObjects),
+                                    horizontalArrangement = Arrangement.spacedBy(
+                                        SpaceBetweenObjects
+                                    )
                                 ) {
                                     MovieCardFavourite(
                                         movie = chunk[0].movieElement,
@@ -108,7 +112,7 @@ fun FavoriteMoviesList(viewModel: FavoriteViewModel, router: BottomBarRouter){
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(top = 20.dp),
+                                        .padding(top = MoreSpaceBetweenObjects),
                                 ) {
                                     MovieCardFavourite(
                                         movie = chunk[2].movieElement,
@@ -122,8 +126,8 @@ fun FavoriteMoviesList(viewModel: FavoriteViewModel, router: BottomBarRouter){
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(top = 20.dp),
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                        .padding(top = MoreSpaceBetweenObjects),
+                                    horizontalArrangement = Arrangement.spacedBy(MiddlePadding)
                                 ) {
                                     MovieCardFavourite(
                                         movie = chunk[0].movieElement,
@@ -143,7 +147,7 @@ fun FavoriteMoviesList(viewModel: FavoriteViewModel, router: BottomBarRouter){
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(top = 20.dp),
+                                        .padding(top = MoreSpaceBetweenObjects),
                                 ) {
                                     MovieCardFavourite(
                                         movie = chunk[0].movieElement,

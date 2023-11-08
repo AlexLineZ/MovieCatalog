@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.presentation.ui.theme.ErrorAccentColor
 import com.example.moviecatalog.presentation.ui.theme.RedColor
+import com.example.moviecatalog.presentation.ui.theme.Values.BigRound
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,8 +51,8 @@ fun OutlinedTextFieldWithLabel(
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp),
-                shape = RoundedCornerShape(10.dp),
+                    .padding(top = MiddlePadding),
+                shape = RoundedCornerShape(BigRound),
                 isError = error != null,
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     errorBorderColor = RedColor,

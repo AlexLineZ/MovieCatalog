@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.data.model.Mark
 import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.LittleRound
 
 @Composable
 fun LabelWithButtonAndMark(
@@ -33,7 +35,7 @@ fun LabelWithButtonAndMark(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+            .padding(top = BasePadding, start = BasePadding, end = BasePadding),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -43,14 +45,17 @@ fun LabelWithButtonAndMark(
                 .wrapContentSize()
                 .background(
                     color = mark.color,
-                    shape = RoundedCornerShape(5.dp)
+                    shape = RoundedCornerShape(LittleRound)
                 )
         ) {
             Text(
                 text = mark.mark,
                 style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.W500),
                 color = BackgroundColor,
-                modifier = Modifier.padding(start = 14.dp, top = 4.dp, end = 14.dp, bottom = 4.dp)
+                modifier = Modifier.padding(
+                    horizontal = 14.dp,
+                    vertical = 4.dp
+                )
             )
         }
 

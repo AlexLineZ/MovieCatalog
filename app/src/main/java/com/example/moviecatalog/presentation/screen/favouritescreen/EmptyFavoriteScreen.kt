@@ -14,6 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
+import com.example.moviecatalog.presentation.ui.theme.Values.MoreSpaceBetweenObjects
 
 @Composable
 fun EmptyFavouriteScreen() {
@@ -32,7 +33,7 @@ fun EmptyFavouriteScreen() {
             text = stringResource(R.string.empty_favourite2),
             textAlign = TextAlign.Center,
             style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.W400),
-            modifier = Modifier.padding(horizontal = 20.dp)
+            modifier = Modifier.padding(horizontal = MoreSpaceBetweenObjects)
         )
     }
 }

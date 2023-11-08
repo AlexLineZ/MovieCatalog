@@ -29,6 +29,10 @@ import com.example.moviecatalog.domain.state.MovieState
 import com.example.moviecatalog.presentation.screen.moviescreen.components.items.MovieReviewCard
 import com.example.moviecatalog.presentation.screen.moviescreen.components.items.MovieReviewCurrentUserCard
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.LittlePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MoreSpaceBetweenObjects
+import com.example.moviecatalog.presentation.ui.theme.Values.SpaceBetweenObjects
 
 @Composable
 fun MovieReviewsSection(
@@ -59,13 +63,13 @@ fun MovieReviewsSection(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, top = 20.dp)
+            .padding(start = BasePadding, end = BasePadding , top = MoreSpaceBetweenObjects)
     ) {
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 4.dp, bottom = 15.dp),
+                .padding(top = LittlePadding, bottom = SpaceBetweenObjects),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {

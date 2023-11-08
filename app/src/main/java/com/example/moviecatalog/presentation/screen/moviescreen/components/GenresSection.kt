@@ -18,6 +18,8 @@ import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.domain.model.movie.Genre
 import com.example.moviecatalog.presentation.screen.moviescreen.components.items.GenreItem
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -25,7 +27,7 @@ fun GenresSection(genres: ArrayList<Genre>) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+            .padding(start = BasePadding, end = BasePadding , top = BasePadding)
     ) {
 
         Text(
@@ -37,8 +39,8 @@ fun GenresSection(genres: ArrayList<Genre>) {
         )
 
         FlowRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(MiddlePadding),
+            verticalArrangement = Arrangement.spacedBy(MiddlePadding)
         ) {
             genres.forEach { genre ->
                 GenreItem(

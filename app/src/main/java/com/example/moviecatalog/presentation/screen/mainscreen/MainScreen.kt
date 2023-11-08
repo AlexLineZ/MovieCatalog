@@ -1,15 +1,11 @@
 package com.example.moviecatalog.presentation.screen.mainscreen
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -23,10 +19,10 @@ import com.example.moviecatalog.R
 import com.example.moviecatalog.presentation.navigation.bottombar.BottomBar
 import com.example.moviecatalog.presentation.navigation.bottombar.Routes
 import com.example.moviecatalog.presentation.router.BottomBarRouter
-import com.example.moviecatalog.presentation.screen.common.LoadingFullScreen
 import com.example.moviecatalog.presentation.screen.common.LoadingItem
 import com.example.moviecatalog.presentation.screen.mainscreen.components.HorizontalMoviePager
 import com.example.moviecatalog.presentation.screen.mainscreen.components.MovieCard
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
 
 @Composable
 fun MainScreen(viewModel: MainViewModel, router: BottomBarRouter) {
@@ -67,13 +63,13 @@ fun MovieListScreen(viewModel: MainViewModel, router: BottomBarRouter){
         item {
             Text(
                 text = stringResource(R.string.catalog),
-                style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
+                style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.W700),
                 textAlign = TextAlign.Start,
                 modifier = Modifier.padding(
-                    top = 16.dp,
+                    top = BasePadding,
                     bottom = 3.dp,
-                    start = 16.dp,
-                    end = 16.dp
+                    start = BasePadding,
+                    end = BasePadding
                 )
             )
         }

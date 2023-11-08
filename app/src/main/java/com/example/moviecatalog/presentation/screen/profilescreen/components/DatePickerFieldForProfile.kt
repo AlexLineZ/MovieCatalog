@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,6 +30,8 @@ import com.example.moviecatalog.common.formatDateToISO8601
 import com.example.moviecatalog.domain.state.ProfileState
 import com.example.moviecatalog.presentation.screen.profilescreen.ProfileIntent
 import com.example.moviecatalog.presentation.screen.profilescreen.ProfileViewModel
+import com.example.moviecatalog.presentation.ui.theme.Values.BigRound
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,8 +62,8 @@ fun DatePickerFieldForProfile(
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp),
-                shape = RoundedCornerShape(10.dp),
+                    .padding(top = MiddlePadding),
+                shape = RoundedCornerShape(BigRound),
                 trailingIcon = {
                     IconButton(
                         onClick = {

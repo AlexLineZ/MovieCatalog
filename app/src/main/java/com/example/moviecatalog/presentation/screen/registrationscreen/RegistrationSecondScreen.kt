@@ -1,7 +1,6 @@
 package com.example.moviecatalog.presentation.screen.registrationscreen
 
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
@@ -9,36 +8,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.domain.validator.ConfirmPasswordValidator
@@ -48,11 +32,11 @@ import com.example.moviecatalog.presentation.screen.common.AdviceText
 import com.example.moviecatalog.presentation.screen.common.AppBar
 import com.example.moviecatalog.presentation.screen.common.LoadingItem
 import com.example.moviecatalog.presentation.screen.common.PasswordTextField
-import com.example.moviecatalog.presentation.ui.theme.ErrorAccentColor
 import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
-import com.example.moviecatalog.presentation.ui.theme.RedColor
-import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
-import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.BigRound
+import com.example.moviecatalog.presentation.ui.theme.Values.MoreSpaceBetweenObjects
+import com.example.moviecatalog.presentation.ui.theme.Values.SpaceBetweenObjects
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -66,7 +50,7 @@ fun RegistrationSecondScreen (
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(BasePadding)
             .pointerInput(Unit) {
                 detectTapGestures(onTap = {
                     focusManager.clearFocus()
@@ -83,7 +67,10 @@ fun RegistrationSecondScreen (
             text = stringResource(R.string.registration),
             style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.W700),
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 20.dp, bottom = 15.dp)
+            modifier = Modifier.padding(
+                top = MoreSpaceBetweenObjects,
+                bottom = SpaceBetweenObjects
+            )
         )
 
         PasswordTextField(
@@ -123,17 +110,17 @@ fun RegistrationSecondScreen (
                 viewModel.processIntent(RegistrationIntent.UpdateConfirmPasswordVisibility)
             },
             errorText = state.isErrorConfirmPasswordText,
-            modifier = Modifier.padding(top = 15.dp)
+            modifier = Modifier.padding(top = SpaceBetweenObjects)
         )
 
         Button(
             onClick = {
                 viewModel.processIntent(RegistrationIntent.Registration(state) { router.toMain() })
             },
-            shape = RoundedCornerShape(10.dp),
+            shape = RoundedCornerShape(BigRound),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp, bottom = 16.dp)
+                .padding(top = BasePadding, bottom = BasePadding)
                 .height(IntrinsicSize.Min),
             enabled = viewModel.isRegisterButtonAvailable(),
             colors = BaseButtonColor
@@ -144,7 +131,7 @@ fun RegistrationSecondScreen (
         }
 
         if (state.isLoading){
-            Spacer(modifier = Modifier.fillMaxWidth().padding(top = 16.dp))
+            Spacer(modifier = Modifier.fillMaxWidth().padding(top = BasePadding))
             LoadingItem()
         }
 

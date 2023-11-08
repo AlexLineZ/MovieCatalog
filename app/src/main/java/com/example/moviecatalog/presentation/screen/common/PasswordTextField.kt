@@ -28,6 +28,8 @@ import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.presentation.ui.theme.ErrorAccentColor
 import com.example.moviecatalog.presentation.ui.theme.RedColor
+import com.example.moviecatalog.presentation.ui.theme.Values.BigRound
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,9 +61,9 @@ fun PasswordTextField(
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp)
+                    .padding(top = MiddlePadding)
                     .height(IntrinsicSize.Min),
-                shape = RoundedCornerShape(10.dp),
+                shape = RoundedCornerShape(BigRound),
                 visualTransformation = if (transformationState)
                     VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
@@ -88,7 +90,7 @@ fun PasswordTextField(
                 Text (
                     text = it,
                     modifier = Modifier
-                        .padding(top = 8.dp),
+                        .padding(top = MiddlePadding),
                     color = ErrorAccentColor,
                     style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.W400)
                 )

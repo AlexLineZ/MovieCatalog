@@ -13,6 +13,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.example.moviecatalog.R
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
 import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
 import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
 
@@ -27,7 +28,7 @@ fun AdviceText(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentSize(Alignment.BottomCenter)
-            .padding(16.dp),
+            .padding(BasePadding),
     ){
         val highlightedText = buildAnnotatedString {
             withStyle(style = spanStyleGray){

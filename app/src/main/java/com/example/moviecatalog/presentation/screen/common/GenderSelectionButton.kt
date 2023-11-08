@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
 import com.example.moviecatalog.presentation.ui.theme.SuperDarkGrayColor
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddleRound
 
 @Composable
 fun GenderSelectionButton(
@@ -47,10 +49,10 @@ fun GenderSelectionButton(
 
             Row(
                 modifier = Modifier
-                    .padding(top = 8.dp)
+                    .padding(top = MiddlePadding)
                     .background(
                         color = SecondButtonColor,
-                        shape = RoundedCornerShape(8.dp)
+                        shape = RoundedCornerShape(MiddleRound)
                     )
             ) {
                 Button(
