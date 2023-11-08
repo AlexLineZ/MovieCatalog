@@ -28,12 +28,12 @@ class SplashViewModel: ViewModel() {
             val result = getProfileUseCase.invoke()
             if (result.isSuccess){
                 launch {
-                    delay(1000L)
+                    delay(800L)
                     isSuccess()
                 }
             } else {
                 launch {
-                    delay(1000L)
+                    delay(800L)
                     isFailure()
                 }
             }

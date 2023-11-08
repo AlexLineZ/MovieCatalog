@@ -2,6 +2,7 @@ package com.example.moviecatalog.presentation.screen.loginscreen
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.R
@@ -81,7 +82,11 @@ class LoginViewModel (private val context: Context) : ViewModel() { //AndroidVie
                     processIntent(LoginIntent.UpdateErrorText(context.getString(R.string.auth_error)))
                 }
             } catch (e: Exception) {
-                Log.d("ERROR", e.message.toString())
+                Toast.makeText(
+                    context,
+                    "Ошибка соединения с сервером",
+                    Toast.LENGTH_SHORT
+                ).show()
             } finally {
                 processIntent(LoginIntent.UpdateLoading)
             }

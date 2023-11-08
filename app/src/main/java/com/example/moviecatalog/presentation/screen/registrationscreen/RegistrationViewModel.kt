@@ -149,7 +149,6 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                     val tokenResponse = result.getOrNull()
                     LocalStorage(context).saveToken(tokenResponse!!)
                     NetworkService.setAuthToken(tokenResponse.token)
-                    Log.d("register", tokenResponse.token)
                     afterRegistration()
                 } else {
                     Toast.makeText(
@@ -159,7 +158,11 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                     ).show()
                 }
             } catch (e: Exception) {
-                Log.d("ERROR", e.message.toString())
+                Toast.makeText(
+                    context,
+                    "Ошибка соединения с сервером",
+                    Toast.LENGTH_SHORT
+                ).show()
             } finally {
                 processIntent(RegistrationIntent.UpdateLoading)
             }

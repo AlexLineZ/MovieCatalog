@@ -90,6 +90,7 @@ fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
             onValueChange = { viewModel.processIntent(LoginIntent.UpdatePassword(it)) },
             transformationState = loginState.isPasswordHide,
             onButtonClick = { viewModel.processIntent(LoginIntent.UpdatePasswordVisibility) },
+            errorText = loginState.isErrorText,
             modifier = Modifier.padding(top = 15.dp)
         )
 
