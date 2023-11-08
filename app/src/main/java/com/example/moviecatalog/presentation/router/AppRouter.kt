@@ -35,7 +35,7 @@ class AppRouter(
 
     fun toMain() {
         navController.navigate(Routes.HomeScreen.route) {
-            popUpTo(Destinations.SPLASH_SCREEN) {
+            popUpTo(navController.graph.id){
                 inclusive = true
             }
         }
