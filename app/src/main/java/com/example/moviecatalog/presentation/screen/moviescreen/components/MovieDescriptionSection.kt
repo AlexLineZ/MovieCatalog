@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -69,10 +70,11 @@ fun MovieDescriptionSection(
             }
         ) {
             Text(
-                text = if (state) "Свернуть " else "Подробнее ",
+                text = if (state) stringResource(id = R.string.less)
+                    else stringResource(id = R.string.more),
                 fontSize = 15.sp,
                 color = AccentColor,
-                modifier = Modifier.padding(top = 8.dp, bottom = 8.dp, end = 8.dp)
+                modifier = Modifier.padding(top = 8.dp, bottom = 8.dp, end = 16.dp)
             )
 
             Icon(

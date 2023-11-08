@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -47,16 +48,17 @@ fun ReviewDropDownMenu(
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { onDropClick() },
-            modifier = Modifier.background(
-                color = ChipColor,
-                shape = RoundedCornerShape(10.dp)
-            )
+            modifier = Modifier
+                .background(
+                    color = ChipColor,
+                    shape = RoundedCornerShape(10.dp)
+                )
                 .width(IntrinsicSize.Min)
         ) {
             DropdownMenuItem(
                 text = {
                     Text(
-                        text = "Редактировать",
+                        text = stringResource(id = R.string.edit),
                         color = WhiteColor,
                         fontSize = 14.sp,
                         modifier = Modifier.padding(end = 16.dp)
@@ -81,7 +83,7 @@ fun ReviewDropDownMenu(
             DropdownMenuItem(
                 text = {
                     Text(
-                        text = "Удалить",
+                        text = stringResource(id = R.string.delete),
                         color = RedColor,
                         fontSize = 14.sp,
                         modifier = Modifier.padding(end = 16.dp)

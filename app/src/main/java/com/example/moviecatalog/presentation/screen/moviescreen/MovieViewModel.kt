@@ -209,6 +209,7 @@ class MovieViewModel : ViewModel() {
                             processIntent(MovieIntent.ChangeUserReview(review))
                             processIntent(MovieIntent.ChangeReviewText(review.reviewText!!))
                             processIntent(MovieIntent.ChangeRating(review.rating))
+                            _state.value.isAnonymous = review.isAnonymous
                         }
                     }
                 }

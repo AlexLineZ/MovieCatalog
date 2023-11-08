@@ -4,6 +4,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -43,6 +44,7 @@ import com.example.moviecatalog.R
 import com.example.moviecatalog.domain.validator.ConfirmPasswordValidator
 import com.example.moviecatalog.domain.validator.PasswordValidator
 import com.example.moviecatalog.presentation.router.AppRouter
+import com.example.moviecatalog.presentation.screen.common.AdviceText
 import com.example.moviecatalog.presentation.screen.common.AppBar
 import com.example.moviecatalog.presentation.screen.common.LoadingItem
 import com.example.moviecatalog.presentation.screen.common.PasswordTextField
@@ -124,11 +126,6 @@ fun RegistrationSecondScreen (
             modifier = Modifier.padding(top = 15.dp)
         )
 
-
-        if (state.isLoading){
-            LoadingItem()
-        }
-
         Button(
             onClick = {
                 viewModel.processIntent(RegistrationIntent.Registration(state) { router.toMain() })
@@ -146,31 +143,16 @@ fun RegistrationSecondScreen (
             )
         }
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .wrapContentSize(Alignment.BottomCenter)
-                .padding(16.dp),
-        ){
-            val highlightedText = buildAnnotatedString {
-                withStyle(style = spanStyleGray){
-                    append(stringResource(R.string.need_login) + " ")
-                }
-
-                withStyle(style = spanStyleAccent) {
-                    append(stringResource(R.string.need_login_clickable))
-                }
-            }
-
-            ClickableText(
-                onClick ={ offset ->
-                    if (offset >= 16){
-                        router.toLogin()
-                    }
-                },
-                text = highlightedText
-            )
+        if (state.isLoading){
+            Spacer(modifier = Modifier.fillMaxWidth().padding(top = 16.dp))
+            LoadingItem()
         }
+
+        AdviceText(
+            baseText = stringResource(R.string.need_login),
+            clickableText = stringResource(R.string.need_login_clickable),
+            onClick = { router.toLogin() },
+            modifier = Modifier.weight(1f)
+        )
     }
 }

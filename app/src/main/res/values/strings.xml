@@ -59,4 +59,14 @@
     <string name="anonymous">Анонимный пользователь</string>
 
     <string name="leave">Выйти из аккаунта</string>
+
+    <string name="delete">Удалить</string>
+    <string name="edit">Редактировать</string>
+    <string name="write_review">Напишите отзыв</string>
+    <string name="leave_review">Оставить отзыв</string>
+    <string name="anon_review">Анонимный отзыв</string>
+
+    <string name="more">Подробнее</string>
+    <string name="less">Свернуть</string>
+
 </resources>

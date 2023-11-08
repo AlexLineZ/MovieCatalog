@@ -86,7 +86,7 @@ fun ReviewDialog(
                 verticalArrangement = Arrangement.Absolute.spacedBy(10.dp)
             ) {
                 Text(
-                    text = "Оставить отзыв",
+                    text = stringResource(id = R.string.leave_review),
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp,
@@ -130,7 +130,7 @@ fun ReviewDialog(
                     onValueChange = {
                         onReviewTextChanged(it)
                     },
-                    label = { Text("Напишите отзыв") },
+                    label = { Text(stringResource(id = R.string.write_review)) },
                     shape = RoundedCornerShape(5.dp),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -150,7 +150,7 @@ fun ReviewDialog(
                     Spacer(modifier = Modifier.width(8.dp))
 
                     Text(
-                        text = "Анонимный отзыв",
+                        text = stringResource(id = R.string.anon_review),
                         style = TextStyle(
                             fontWeight = FontWeight.W500,
                             fontSize = 15.sp,

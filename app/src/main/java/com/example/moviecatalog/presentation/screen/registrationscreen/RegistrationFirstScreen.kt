@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.domain.validator.EmailValidator
 import com.example.moviecatalog.presentation.router.AppRouter
+import com.example.moviecatalog.presentation.screen.common.AdviceText
 import com.example.moviecatalog.presentation.screen.common.AppBar
 import com.example.moviecatalog.presentation.screen.common.DatePickerField
 import com.example.moviecatalog.presentation.screen.common.GenderSelectionButton
@@ -139,32 +140,11 @@ fun RegistrationFirstScreen(
             }
         }
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .wrapContentSize(Alignment.BottomCenter)
-                .padding(16.dp),
-        ){
-            val highlightedText = buildAnnotatedString {
-                withStyle(style = spanStyleGray){
-                    append(stringResource(R.string.need_login) + " ")
-                }
-
-                withStyle(style = spanStyleAccent) {
-                    append(stringResource(R.string.need_login_clickable))
-                }
-            }
-
-            ClickableText(
-                onClick ={ offset ->
-                    if (offset >= 16){
-                        router.toLogin()
-                    }
-                },
-                text = highlightedText
-            )
-        }
-
+        AdviceText(
+            baseText = stringResource(R.string.need_login),
+            clickableText = stringResource(R.string.need_login_clickable),
+            onClick = { router.toLogin() },
+            modifier = Modifier.weight(1f)
+        )
     }
 }

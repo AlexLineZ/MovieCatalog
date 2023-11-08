@@ -4,6 +4,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -40,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
 import com.example.moviecatalog.R
 import com.example.moviecatalog.presentation.router.AppRouter
+import com.example.moviecatalog.presentation.screen.common.AdviceText
 import com.example.moviecatalog.presentation.screen.common.AppBar
 import com.example.moviecatalog.presentation.screen.common.LoadingItem
 import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
@@ -114,35 +116,17 @@ fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
         }
 
         if (loginState.isLoading){
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp))
             LoadingItem()
         }
 
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .wrapContentSize(Alignment.BottomCenter)
-                .padding(16.dp),
-        ){
-            val highlightedText = buildAnnotatedString {
-                withStyle(style = spanStyleGray){
-                    append(stringResource(R.string.need_register) + " ")
-                }
-
-                withStyle(style = spanStyleAccent) {
-                    append(stringResource(R.string.need_register_clickable))
-                }
-            }
-
-            ClickableText(
-                onClick = { offset ->
-                    if (offset >= 16){
-                        router.toRegistration()
-                    }
-                },
-                text = highlightedText
-            )
-        }
+        AdviceText(
+            baseText = stringResource(R.string.need_register),
+            clickableText = stringResource(R.string.need_register_clickable),
+            onClick = { router.toRegistration() },
+            modifier = Modifier.weight(1f)
+        )
     }
 }
