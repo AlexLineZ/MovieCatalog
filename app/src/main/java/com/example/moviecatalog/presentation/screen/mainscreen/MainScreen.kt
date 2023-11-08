@@ -23,6 +23,7 @@ import com.example.moviecatalog.R
 import com.example.moviecatalog.presentation.navigation.bottombar.BottomBar
 import com.example.moviecatalog.presentation.navigation.bottombar.Routes
 import com.example.moviecatalog.presentation.router.BottomBarRouter
+import com.example.moviecatalog.presentation.screen.common.LoadingFullScreen
 import com.example.moviecatalog.presentation.screen.common.LoadingItem
 import com.example.moviecatalog.presentation.screen.mainscreen.components.HorizontalMoviePager
 import com.example.moviecatalog.presentation.screen.mainscreen.components.MovieCard
@@ -59,9 +60,7 @@ fun MovieListScreen(viewModel: MainViewModel, router: BottomBarRouter){
                     }
                 }
                 is LoadState.Error -> Unit
-                LoadState.Loading -> {
-                    LoadingItem()
-                }
+                LoadState.Loading -> Unit
             }
         }
 
@@ -107,12 +106,7 @@ fun MovieListScreen(viewModel: MainViewModel, router: BottomBarRouter){
             is LoadState.Error -> Unit
             LoadState.Loading -> {
                 item {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
+                    LoadingItem()
                 }
             }
             is LoadState.NotLoading -> Unit

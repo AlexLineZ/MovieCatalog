@@ -15,6 +15,7 @@ import com.example.moviecatalog.domain.usecase.GetProfileUseCase
 import com.example.moviecatalog.domain.usecase.PostAddFavoriteMovieUseCase
 import com.example.moviecatalog.domain.usecase.PostAddReviewUseCase
 import com.example.moviecatalog.domain.usecase.PutReviewUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -146,8 +147,8 @@ class MovieViewModel : ViewModel() {
 
     fun performDetails(movieId: String) {
         resetStateToEmpty()
-        processIntent(MovieIntent.ChangeIsLoading)
         viewModelScope.launch {
+            processIntent(MovieIntent.ChangeIsLoading)
             val result = getMovieDetailsUseCase.invoke(movieId)
             if (result.isSuccess) {
                 val response = result.getOrNull()
