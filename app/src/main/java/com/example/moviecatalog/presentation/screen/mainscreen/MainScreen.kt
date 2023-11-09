@@ -1,5 +1,6 @@
 package com.example.moviecatalog.presentation.screen.mainscreen
 
+import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,9 +31,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavBackStackEntry
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.moviecatalog.R
+import com.example.moviecatalog.data.model.CurrentReview
 import com.example.moviecatalog.presentation.navigation.bottombar.BottomBar
 import com.example.moviecatalog.presentation.navigation.bottombar.Routes
 import com.example.moviecatalog.presentation.router.BottomBarRouter
@@ -49,7 +54,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun MainScreen(viewModel: MainViewModel, router: BottomBarRouter) {
+fun MainScreen(
+    viewModel: MainViewModel,
+    router: BottomBarRouter,
+    navBackStackEntry: NavBackStackEntry
+) {
     Scaffold(
         bottomBar = {
             BottomBar(
@@ -61,15 +70,27 @@ fun MainScreen(viewModel: MainViewModel, router: BottomBarRouter) {
         Box(modifier = Modifier.padding(it)) {
             MovieListScreen(
                 viewModel = viewModel,
-                router = router
+                router = router,
+                navBackStackEntry = navBackStackEntry
             )
         }
     }
 }
 
 @Composable
-fun MovieListScreen(viewModel: MainViewModel, router: BottomBarRouter){
+fun MovieListScreen(
+    viewModel: MainViewModel,
+    router: BottomBarRouter,
+    navBackStackEntry: NavBackStackEntry
+){
     val movies = viewModel.movies.collectAsLazyPagingItems()
+    val changes = viewModel.state.collectAsState()
+
+    LaunchedEffect(Unit){
+        navBackStackEntry.savedStateHandle.get<CurrentReview>("info")?.let {
+            viewModel.changeState(it)
+        }
+    }
 
     Box(
         Modifier.fillMaxSize()
@@ -106,11 +127,19 @@ fun MovieListScreen(viewModel: MainViewModel, router: BottomBarRouter){
             ){ movie ->
                 if (movie !in 0..3){
                     movies[movie]?.let {
-                        MovieCard (
-                            movie = it.movieElement,
-                            onClick = { router.toMovie(it.movieElement.id) },
-                            userMark = it.userMark
-                        )
+                        if (it.movieElement.id == changes.value.movieId){
+                            MovieCard (
+                                movie = it.movieElement,
+                                onClick = { router.toMovie(it.movieElement.id) },
+                                userMark = changes.value.userRating
+                            )
+                        } else {
+                            MovieCard (
+                                movie = it.movieElement,
+                                onClick = { router.toMovie(it.movieElement.id) },
+                                userMark = it.userMark
+                            )
+                        }
                     }
                 }
             }

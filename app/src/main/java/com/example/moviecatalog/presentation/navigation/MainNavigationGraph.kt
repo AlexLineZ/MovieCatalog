@@ -4,6 +4,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.example.moviecatalog.common.Constants
+import com.example.moviecatalog.data.model.CurrentReview
 import com.example.moviecatalog.presentation.navigation.bottombar.Routes
 import com.example.moviecatalog.presentation.router.BottomBarRouter
 import com.example.moviecatalog.presentation.screen.favouritescreen.FavoriteViewModel
@@ -29,8 +31,8 @@ fun NavGraphBuilder.mainNavigationGraph(
         startDestination = Routes.HomeScreen.route,
         route = MAIN_ROUTE
     ) {
-        composable(Routes.HomeScreen.route){
-            MainScreen(mainViewModel, BottomBarRouter(navController))
+        composable(Routes.HomeScreen.route){navBackResult ->
+            MainScreen(mainViewModel, BottomBarRouter(navController), navBackResult)
         }
         composable(Routes.Favourite.route) {
             FavouriteScreen(favoriteViewModel, BottomBarRouter(navController))
@@ -40,7 +42,11 @@ fun NavGraphBuilder.mainNavigationGraph(
         }
         composable(Destinations.MOVIE_SCREEN){ backStackEntry ->
             val movieId = backStackEntry.arguments?.getString("movieId")
-            MovieScreen({ navController.popBackStack() }, movieViewModel, movieId ?: "")
+            MovieScreen(
+                navController = navController,
+                viewModel = movieViewModel,
+                movieId = movieId ?: Constants.EMPTY_STRING
+            )
         }
     }
 }

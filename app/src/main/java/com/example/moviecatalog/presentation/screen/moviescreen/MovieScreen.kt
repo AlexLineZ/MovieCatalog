@@ -31,9 +31,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.moviecatalog.R
+import com.example.moviecatalog.common.BackHandler
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.MarkSelector
+import com.example.moviecatalog.data.model.CurrentReview
 import com.example.moviecatalog.presentation.screen.common.LoadingFullScreen
 import com.example.moviecatalog.presentation.screen.moviescreen.components.GenresSection
 import com.example.moviecatalog.presentation.screen.moviescreen.components.MovieDescriptionSection
@@ -50,11 +53,20 @@ import com.example.moviecatalog.presentation.ui.theme.Values.SpaceBetweenObjects
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieScreen(
-    backTo: () -> Unit,
+    navController: NavHostController,
     viewModel: MovieViewModel,
     movieId: String
 ) {
     val state = viewModel.state.collectAsState()
+    BackHandler {
+        navController.popBackStack()
+        navController.currentBackStackEntry
+            ?.savedStateHandle
+            ?.set("info", CurrentReview(
+                movieId = movieId,
+                userRating = state.value.userReview?.rating
+            ))
+    }
     val showName = remember { mutableStateOf(false) }
 
     Scaffold(
@@ -91,7 +103,15 @@ fun MovieScreen(
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = { backTo() }) {
+                    IconButton(onClick = {
+                        navController.popBackStack()
+                        navController.currentBackStackEntry
+                            ?.savedStateHandle
+                            ?.set("info", CurrentReview(
+                                movieId = movieId,
+                                userRating = state.value.userReview?.rating
+                            ))
+                    }) {
                         Icon (
                             imageVector = ImageVector.vectorResource(id = R.drawable.arrow_back),
                             contentDescription = null
@@ -117,7 +137,6 @@ fun MovieScreen(
                         showName.value = firstVisibleIndex > 1
                     }
             }
-
 
             if (state.value.isLoading) {
                 LoadingFullScreen()
@@ -203,5 +222,6 @@ fun MovieScreen(
         }
     )
 }
+
 
 
