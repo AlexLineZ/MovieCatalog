@@ -67,101 +67,73 @@ fun MainScreen(viewModel: MainViewModel, router: BottomBarRouter) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieListScreen(viewModel: MainViewModel, router: BottomBarRouter){
     val movies = viewModel.movies.collectAsLazyPagingItems()
 
-    val refreshScope = rememberCoroutineScope()
-    var refreshing by remember { mutableStateOf(false) }
-
-    fun refresh() = refreshScope.launch {
-        refreshing = true
-        movies.refresh()
-        delay(1500)
-        refreshing = false
-    }
-
-    val state = rememberPullRefreshState(refreshing, ::refresh)
-    val rotation = animateFloatAsState(state.progress * 120)
-
     Box(
-        Modifier
-            .fillMaxSize()
-            .pullRefresh(state)
+        Modifier.fillMaxSize()
     ) {
-        if (!refreshing){
-            LazyColumn {
-                item {
-                    when(movies.loadState.refresh) {
-                        is LoadState.NotLoading -> {
-                            HorizontalMoviePager(movies) {
-                                router.toMovie(it)
-                            }
-                        }
-                        is LoadState.Error -> Unit
-                        LoadState.Loading -> Unit
-                    }
-                }
-
-                item {
-                    Text(
-                        text = stringResource(R.string.catalog),
-                        style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.W700),
-                        textAlign = TextAlign.Start,
-                        modifier = Modifier.padding(
-                            top = BasePadding,
-                            bottom = 3.dp,
-                            start = BasePadding,
-                            end = BasePadding
-                        )
-                    )
-                }
-
-                items(
-                    count = movies.itemCount,
-                ){ movie ->
-                    if (movie !in 0..3){
-                        movies[movie]?.let {
-                            MovieCard (
-                                movie = it.movieElement,
-                                onClick = { router.toMovie(it.movieElement.id) },
-                                userMark = it.userMark
-                            )
-                        }
-                    }
-                }
-
-                when(movies.loadState.append) {
-                    is LoadState.NotLoading -> Unit
-                    is LoadState.Error -> Unit
-                    LoadState.Loading -> {
-                        item {
-                            LoadingFullScreen()
-                        }
-                    }
-                }
-
+        LazyColumn {
+            item {
                 when(movies.loadState.refresh) {
-                    is LoadState.Error -> Unit
-                    LoadState.Loading -> {
-                        item {
-                            LoadingFullScreen()
+                    is LoadState.NotLoading -> {
+                        HorizontalMoviePager(movies) {
+                            router.toMovie(it)
                         }
                     }
-                    is LoadState.NotLoading -> Unit
+                    is LoadState.Error -> Unit
+                    LoadState.Loading -> Unit
                 }
             }
-        }
-        else {
-            LoadingFullScreen()
-        }
 
-        PullIndicator(
-            pullState = state,
-            rotation = rotation.value,
-            refreshing = refreshing,
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
+            item {
+                Text(
+                    text = stringResource(R.string.catalog),
+                    style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.W700),
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier.padding(
+                        top = BasePadding,
+                        bottom = 3.dp,
+                        start = BasePadding,
+                        end = BasePadding
+                    )
+                )
+            }
+
+            items(
+                count = movies.itemCount,
+            ){ movie ->
+                if (movie !in 0..3){
+                    movies[movie]?.let {
+                        MovieCard (
+                            movie = it.movieElement,
+                            onClick = { router.toMovie(it.movieElement.id) },
+                            userMark = it.userMark
+                        )
+                    }
+                }
+            }
+
+            when(movies.loadState.append) {
+                is LoadState.NotLoading -> Unit
+                is LoadState.Error -> Unit
+                LoadState.Loading -> {
+                    item {
+                        LoadingFullScreen()
+                    }
+                }
+            }
+
+            when(movies.loadState.refresh) {
+                is LoadState.Error -> Unit
+                LoadState.Loading -> {
+                    item {
+                        LoadingFullScreen()
+                    }
+                }
+                is LoadState.NotLoading -> Unit
+            }
+        }
     }
 }
