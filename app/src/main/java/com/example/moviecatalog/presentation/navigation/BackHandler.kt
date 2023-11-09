@@ -1,4 +1,4 @@
-package com.example.moviecatalog.common
+package com.example.moviecatalog.presentation.navigation
 
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner

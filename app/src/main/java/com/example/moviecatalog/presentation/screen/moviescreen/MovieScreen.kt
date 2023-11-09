@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.moviecatalog.R
-import com.example.moviecatalog.common.BackHandler
+import com.example.moviecatalog.presentation.navigation.BackHandler
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.MarkSelector
 import com.example.moviecatalog.data.model.CurrentReview

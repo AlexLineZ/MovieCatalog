@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
-import com.example.moviecatalog.common.formatDateToNormal
+import com.example.moviecatalog.common.Formatter.formatDateToNormal
 import com.example.moviecatalog.domain.model.review.Review
 import com.example.moviecatalog.domain.state.MovieState
 import com.example.moviecatalog.presentation.screen.common.MarkWithStar

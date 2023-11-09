@@ -25,8 +25,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
-import com.example.moviecatalog.common.formatDate
-import com.example.moviecatalog.common.formatDateToISO8601
+import com.example.moviecatalog.common.Formatter.formatDate
+import com.example.moviecatalog.common.Formatter.formatDateToISO8601
 import com.example.moviecatalog.domain.state.ProfileState
 import com.example.moviecatalog.presentation.screen.profilescreen.ProfileIntent
 import com.example.moviecatalog.presentation.screen.profilescreen.ProfileViewModel

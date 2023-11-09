@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,15 +25,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
+import com.example.moviecatalog.common.Formatter.formatDate
+import com.example.moviecatalog.common.Formatter.formatDateToISO8601
 import com.example.moviecatalog.domain.state.RegistrationState
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationIntent
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel
-import com.example.moviecatalog.common.formatDate
-import com.example.moviecatalog.common.formatDateToISO8601
 import com.example.moviecatalog.presentation.ui.theme.Values.BigRound
 import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 import com.example.moviecatalog.presentation.ui.theme.Values.SpaceBetweenObjects
-import java.time.LocalDate
 import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)

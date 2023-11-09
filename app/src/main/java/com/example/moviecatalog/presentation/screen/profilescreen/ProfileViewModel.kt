@@ -1,12 +1,11 @@
 package com.example.moviecatalog.presentation.screen.profilescreen
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.common.Constants
-import com.example.moviecatalog.common.formatDateToNormal
+import com.example.moviecatalog.common.Formatter.formatDateToNormal
 import com.example.moviecatalog.domain.model.profile.Profile
 import com.example.moviecatalog.domain.state.ProfileState
 import com.example.moviecatalog.domain.usecase.DataValidateUseCase

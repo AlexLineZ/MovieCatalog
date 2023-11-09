@@ -166,7 +166,7 @@ fun ProfileItemsList(
                     secondLabel = stringResource(R.string.cancel),
                     secondClick = { viewModel.processIntent(ProfileIntent.Cancel) },
                     modifier = Modifier.padding(top = MoreSpaceBetweenObjects, bottom = BasePadding),
-                    firstEnabled = state.changesInProfile
+                    firstEnabled = viewModel.isSaveButtonAvailable()
                 )
             }
         }
