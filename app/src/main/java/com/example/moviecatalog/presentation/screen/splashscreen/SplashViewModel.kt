@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.data.network.NetworkService
 import com.example.moviecatalog.domain.usecase.GetProfileUseCase
-import com.example.moviecatalog.domain.usecase.GetTokenFromLocalStorageUseCase
+import com.example.moviecatalog.domain.usecase.GetTokenUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -17,10 +17,10 @@ class SplashViewModel: ViewModel() {
         isSuccess: () -> Unit,
         isFailure: () -> Unit
     ){
-        val getTokenFromLocalStorageUseCase = GetTokenFromLocalStorageUseCase(context)
+        val getTokenUseCase = GetTokenUseCase(context)
 
         viewModelScope.launch {
-            val token = getTokenFromLocalStorageUseCase.invoke()
+            val token = getTokenUseCase.invoke()
             NetworkService.setAuthToken(token.token)
         }
 

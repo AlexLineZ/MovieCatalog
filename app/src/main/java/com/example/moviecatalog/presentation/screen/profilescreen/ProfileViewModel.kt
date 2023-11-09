@@ -9,7 +9,7 @@ import com.example.moviecatalog.common.Formatter.formatDateToNormal
 import com.example.moviecatalog.domain.model.profile.Profile
 import com.example.moviecatalog.domain.state.ProfileState
 import com.example.moviecatalog.domain.usecase.DataValidateUseCase
-import com.example.moviecatalog.domain.usecase.DeleteTokenFromLocalStorageUseCase
+import com.example.moviecatalog.domain.usecase.DeleteTokenUseCase
 import com.example.moviecatalog.domain.usecase.GetProfileUseCase
 import com.example.moviecatalog.domain.usecase.PostLogoutUseCase
 import com.example.moviecatalog.domain.usecase.PutProfileDataUseCase
@@ -23,7 +23,7 @@ class ProfileViewModel(val context: Context) : ViewModel() {
     private val putProfileDataUseCase = PutProfileDataUseCase()
     private val dataValidateUseCase = DataValidateUseCase()
     private val postLogoutUseCase = PostLogoutUseCase()
-    private val deleteTokenFromLocalStorageUseCase = DeleteTokenFromLocalStorageUseCase(context)
+    private val deleteTokenUseCase = DeleteTokenUseCase(context)
 
     private val emptyState = ProfileState (
         id = Constants.EMPTY_STRING,
@@ -176,7 +176,7 @@ class ProfileViewModel(val context: Context) : ViewModel() {
         viewModelScope.launch {
             val result = postLogoutUseCase.invoke()
             if (result.isSuccess) {
-                deleteTokenFromLocalStorageUseCase.invoke()
+                deleteTokenUseCase.invoke()
                 toAfterLogout()
             }
         }

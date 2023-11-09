@@ -62,6 +62,7 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.2.0-alpha10")
     implementation("androidx.compose.material:material-icons-extended")
     implementation ("androidx.navigation:navigation-compose:2.7.4")
+
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.11.0")
@@ -70,7 +71,8 @@ dependencies {
     implementation("androidx.paging:paging-common-android:3.3.0-alpha02")
     implementation ("androidx.paging:paging-compose:3.3.0-alpha02")
     implementation("io.coil-kt:coil-compose:2.4.0")
-    implementation("eu.bambooapps:compose-material3-pullrefresh:1.0.1")
+    //implementation("eu.bambooapps:compose-material3-pullrefresh:1.0.1")
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

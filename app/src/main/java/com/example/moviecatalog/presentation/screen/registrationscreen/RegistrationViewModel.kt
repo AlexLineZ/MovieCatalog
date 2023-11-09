@@ -1,17 +1,16 @@
 package com.example.moviecatalog.presentation.screen.registrationscreen
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.data.localstorage.LocalStorage
 import com.example.moviecatalog.data.network.NetworkService
-import com.example.moviecatalog.domain.model.authorization.RegistrationData
+import com.example.moviecatalog.domain.model.authorization.Registration
 import com.example.moviecatalog.domain.state.RegistrationState
 import com.example.moviecatalog.domain.usecase.DataValidateUseCase
-import com.example.moviecatalog.domain.usecase.PostRegistrationDataUseCase
+import com.example.moviecatalog.domain.usecase.PostRegistrationUseCase
 import com.example.moviecatalog.domain.validator.ConfirmPasswordValidator
 import com.example.moviecatalog.domain.validator.EmailValidator
 import com.example.moviecatalog.domain.validator.PasswordValidator
@@ -41,7 +40,7 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
     private val _state = MutableStateFlow(emptyState)
     val state: StateFlow<RegistrationState> get() = _state
 
-    private val postRegistrationDataUseCase = PostRegistrationDataUseCase()
+    private val postRegistrationUseCase = PostRegistrationUseCase()
     private val dataValidateUseCase = DataValidateUseCase()
 
     fun processIntent(intent: RegistrationIntent) {
@@ -132,7 +131,7 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
         registrationState: RegistrationState,
         afterRegistration: () -> Unit
     ) {
-        val registrationData = RegistrationData(
+        val registration = Registration(
             userName = registrationState.login,
             name = registrationState.name,
             password = registrationState.password,
@@ -144,7 +143,7 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
         processIntent(RegistrationIntent.UpdateLoading)
         viewModelScope.launch {
             try {
-                val result = postRegistrationDataUseCase.invoke(registrationData)
+                val result = postRegistrationUseCase.invoke(registration)
                 if (result.isSuccess) {
                     val tokenResponse = result.getOrNull()
                     LocalStorage(context).saveToken(tokenResponse!!)
