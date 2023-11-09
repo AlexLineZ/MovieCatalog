@@ -64,7 +64,9 @@ fun MovieScreen(
             ?.savedStateHandle
             ?.set("info", CurrentReview(
                 movieId = movieId,
-                userRating = state.value.userReview?.rating
+                userRating = state.value.userReview?.rating,
+                fullRating = MarkSelector.markCalculation(
+                    state.value.movieDetails.reviews ?: arrayListOf()).mark
             ))
     }
     val showName = remember { mutableStateOf(false) }
@@ -109,7 +111,9 @@ fun MovieScreen(
                             ?.savedStateHandle
                             ?.set("info", CurrentReview(
                                 movieId = movieId,
-                                userRating = state.value.userReview?.rating
+                                userRating = state.value.userReview?.rating,
+                                fullRating = MarkSelector.markCalculation(
+                                    state.value.movieDetails.reviews ?: arrayListOf()).mark
                             ))
                     }) {
                         Icon (

@@ -7,5 +7,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class CurrentReview(
     val movieId: String = EMPTY_STRING,
-    val userRating: Int? = null
+    val userRating: Int? = null,
+    val fullRating: String = EMPTY_STRING,
 ) : Parcelable

@@ -131,7 +131,8 @@ fun MovieListScreen(
                             MovieCard (
                                 movie = it.movieElement,
                                 onClick = { router.toMovie(it.movieElement.id) },
-                                userMark = changes.value.userRating
+                                userMark = changes.value.userRating,
+                                anotherMark = changes.value.fullRating.toFloat()
                             )
                         } else {
                             MovieCard (

@@ -25,18 +25,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.moviecatalog.common.MarkSelector
+import com.example.moviecatalog.common.MarkSelector.setColorForMark
 import com.example.moviecatalog.domain.model.movie.MovieElement
 import com.example.moviecatalog.presentation.screen.common.MarkWithStar
 import com.example.moviecatalog.presentation.ui.theme.ChipColor
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
 
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun MovieCard(movie: MovieElement, onClick: () -> Unit, userMark: Int?) {
+fun MovieCard(
+    movie: MovieElement,
+    onClick: () -> Unit,
+    userMark: Int?,
+    anotherMark: Float? = null
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, top = 12.dp)
+            .padding(start = BasePadding, end = BasePadding, top = 12.dp)
             .clickable(
                 onClick = onClick
             )
@@ -63,11 +70,14 @@ fun MovieCard(movie: MovieElement, onClick: () -> Unit, userMark: Int?) {
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(5.dp))
-                            .background(mark.color),
+                            .background(
+                                if (anotherMark != null) setColorForMark(anotherMark)
+                                else mark.color
+                            ),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = mark.mark,
+                            text = anotherMark?.toString() ?: mark.mark,
                             style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.W700),
                             color = Color.Black,
                             modifier = Modifier.padding(
@@ -82,10 +92,10 @@ fun MovieCard(movie: MovieElement, onClick: () -> Unit, userMark: Int?) {
 
         Column(
             modifier = Modifier
-                .padding(start = 16.dp)
+                .padding(start = BasePadding)
                 .fillMaxWidth()
         ) {
-            Row() {
+            Row {
                 movie.name?.let {
                     Text(
                         text = it,
