@@ -60,13 +60,13 @@ fun ErrorScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = "Произошла ошибка соединения",
+                    text = stringResource(id = R.string.error_connection),
                     style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.W700),
                     textAlign = TextAlign.Center
                 )
 
                 Text(
-                    text = "Попробуйте проверить интернет-соединение или перезайдите в аккаунт",
+                    text = stringResource(id = R.string.error_description),
                     style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.W400),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(top = Values.MiddlePadding)
@@ -86,7 +86,7 @@ fun ErrorScreen(
             colors = BaseButtonColor
         ) {
             Text(
-                text = "На главный",
+                text = stringResource(id = R.string.to_main),
                 style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.W600)
             )
         }
