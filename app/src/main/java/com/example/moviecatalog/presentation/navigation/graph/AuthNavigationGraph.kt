@@ -1,9 +1,10 @@
-package com.example.moviecatalog.presentation.navigation
+package com.example.moviecatalog.presentation.navigation.graph
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.example.moviecatalog.presentation.navigation.Destinations
 import com.example.moviecatalog.presentation.router.AppRouter
 import com.example.moviecatalog.presentation.screen.loginscreen.LoginScreen
 import com.example.moviecatalog.presentation.screen.loginscreen.LoginViewModel

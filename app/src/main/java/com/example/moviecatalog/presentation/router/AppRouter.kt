@@ -1,10 +1,7 @@
 package com.example.moviecatalog.presentation.router
 
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import com.example.moviecatalog.presentation.navigation.AUTH_ROUTE
 import com.example.moviecatalog.presentation.navigation.Destinations
-import com.example.moviecatalog.presentation.navigation.ROOT_ROUTE
 import com.example.moviecatalog.presentation.navigation.bottombar.Routes
 
 

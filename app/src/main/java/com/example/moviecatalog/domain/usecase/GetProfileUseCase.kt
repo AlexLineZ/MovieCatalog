@@ -15,7 +15,7 @@ class GetProfileUseCase {
                 Result.success(response.body()!!)
             } else {
                 Log.d("ProfileElse", response.code().toString())
-                Result.failure(exception = Throwable())
+                Result.failure(Exception("Error: ${response.code()}"))
             }
         } catch (e: Exception) {
             Result.failure(e)

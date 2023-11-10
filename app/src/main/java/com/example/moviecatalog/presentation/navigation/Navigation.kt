@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.example.moviecatalog.presentation.navigation.graph.authNavigationGraph
+import com.example.moviecatalog.presentation.navigation.graph.mainNavigationGraph
 import com.example.moviecatalog.presentation.screen.loginscreen.LoginViewModel
 import com.example.moviecatalog.presentation.screen.profilescreen.ProfileViewModel
 import com.example.moviecatalog.presentation.screen.registrationscreen.RegistrationViewModel

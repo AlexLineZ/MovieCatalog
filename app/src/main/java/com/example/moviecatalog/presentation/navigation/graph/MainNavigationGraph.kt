@@ -1,11 +1,11 @@
-package com.example.moviecatalog.presentation.navigation
+package com.example.moviecatalog.presentation.navigation.graph
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.moviecatalog.common.Constants
-import com.example.moviecatalog.data.model.CurrentReview
+import com.example.moviecatalog.presentation.navigation.Destinations
 import com.example.moviecatalog.presentation.navigation.bottombar.Routes
 import com.example.moviecatalog.presentation.router.BottomBarRouter
 import com.example.moviecatalog.presentation.screen.favouritescreen.FavoriteViewModel

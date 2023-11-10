@@ -94,6 +94,17 @@ class MovieViewModel : ViewModel() {
                 _state.value = state.value.copy(
                     isReviewDialogOpen = !_state.value.isReviewDialogOpen
                 )
+                if (_state.value.userReview != null) {
+                    _state.value = state.value.copy(
+                        isAnonymous = _state.value.userReview!!.isAnonymous
+                    )
+                    _state.value = state.value.copy(
+                        movieRating = _state.value.userReview!!.rating
+                    )
+                    _state.value = state.value.copy(
+                        reviewText = _state.value.userReview!!.reviewText!!
+                    )
+                }
             }
             is MovieIntent.ClickOnFavoriteButton -> {
                 if (state.value.isLiked) {
@@ -130,7 +141,6 @@ class MovieViewModel : ViewModel() {
                 }
             }
             is MovieIntent.DeleteReview -> {
-                Log.d("Delete", "yes")
                 deleteReview()
             }
             MovieIntent.ChangeDropDownMenuOpen -> {
@@ -248,6 +258,7 @@ class MovieViewModel : ViewModel() {
             rating = state.value.movieRating,
             isAnonymous = state.value.isAnonymous
         )
+
         viewModelScope.launch {
             val result = putReviewUseCase.invoke(
                 state.value.movieDetails.id,
