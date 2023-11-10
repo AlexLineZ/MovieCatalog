@@ -7,7 +7,10 @@ import androidx.navigation.navigation
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.presentation.navigation.Destinations
 import com.example.moviecatalog.presentation.navigation.bottombar.Routes
+import com.example.moviecatalog.presentation.router.AppRouter
 import com.example.moviecatalog.presentation.router.BottomBarRouter
+import com.example.moviecatalog.presentation.router.LogoutRouter
+import com.example.moviecatalog.presentation.screen.errorscreen.ErrorScreen
 import com.example.moviecatalog.presentation.screen.favouritescreen.FavoriteViewModel
 import com.example.moviecatalog.presentation.screen.favouritescreen.FavouriteScreen
 import com.example.moviecatalog.presentation.screen.mainscreen.MainScreen
@@ -25,7 +28,7 @@ fun NavGraphBuilder.mainNavigationGraph(
 ) {
     val mainViewModel = MainViewModel()
     val favoriteViewModel = FavoriteViewModel()
-    val movieViewModel = MovieViewModel()
+    val movieViewModel = MovieViewModel(LogoutRouter(navController))
 
     navigation(
         startDestination = Routes.HomeScreen.route,
@@ -39,6 +42,9 @@ fun NavGraphBuilder.mainNavigationGraph(
         }
         composable(Routes.Profile.route) {
             ProfileScreen(profileViewModel, BottomBarRouter(navController))
+        }
+        composable(Destinations.ERROR_SCREEN) {
+            ErrorScreen{ LogoutRouter(navController).toAuthAfterOut() }
         }
         composable(Destinations.MOVIE_SCREEN){ backStackEntry ->
             val movieId = backStackEntry.arguments?.getString("movieId")

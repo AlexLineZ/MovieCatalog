@@ -69,6 +69,7 @@ fun MovieScreen(
                     state.value.movieDetails.reviews ?: arrayListOf()).mark
             ))
     }
+
     val showName = remember { mutableStateOf(false) }
 
     Scaffold(

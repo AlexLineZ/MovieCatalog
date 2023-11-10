@@ -6,7 +6,11 @@ import com.example.moviecatalog.domain.validator.PasswordValidator
 import com.example.moviecatalog.domain.validator.Validator
 
 class DataValidateUseCase {
-    fun invoke (validator: Validator, data: String, secondData: String = Constants.EMPTY_STRING): Int? {
+    fun invoke(
+        validator: Validator,
+        data: String,
+        secondData: String = Constants.EMPTY_STRING
+    ): Int? {
         return validator.validate(data, secondData)
     }
 }
