@@ -69,4 +69,7 @@
     <string name="more">Подробнее</string>
     <string name="less">Свернуть</string>
 
+    <string name="error_connection">Произошла ошибка соединения</string>
+    <string name="error_description">Попробуйте проверить интернет-соединение или перезайдите в аккаунт</string>
+    <string name="to_main">На главный</string>
 </resources>

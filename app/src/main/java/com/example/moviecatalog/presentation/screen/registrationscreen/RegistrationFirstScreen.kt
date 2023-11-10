@@ -57,7 +57,7 @@ fun RegistrationFirstScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        AppBar{
+        AppBar {
             router.toAuth()
         }
 

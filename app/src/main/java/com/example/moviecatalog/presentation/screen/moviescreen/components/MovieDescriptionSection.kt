@@ -46,7 +46,7 @@ fun MovieDescriptionSection(
         Text(
             text = description,
             style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.W400),
-            maxLines = if (state) Int.MAX_VALUE else 4,
+            maxLines = if (state) Int.MAX_VALUE else 2,
             overflow = TextOverflow.Ellipsis,
             color = Color.White,
             modifier = Modifier

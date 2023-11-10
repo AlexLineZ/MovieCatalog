@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.Formatter.formatDateToNormal
+import com.example.moviecatalog.data.network.NetworkService
 import com.example.moviecatalog.domain.model.profile.Profile
 import com.example.moviecatalog.domain.state.ProfileState
 import com.example.moviecatalog.domain.usecase.DataValidateUseCase
@@ -14,11 +15,15 @@ import com.example.moviecatalog.domain.usecase.GetProfileUseCase
 import com.example.moviecatalog.domain.usecase.PostLogoutUseCase
 import com.example.moviecatalog.domain.usecase.PutProfileDataUseCase
 import com.example.moviecatalog.domain.validator.EmailValidator
+import com.example.moviecatalog.presentation.router.LogoutRouter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class ProfileViewModel(val context: Context) : ViewModel() {
+class ProfileViewModel(
+    val context: Context,
+    val router: LogoutRouter
+) : ViewModel() {
     private val getProfileUseCase = GetProfileUseCase()
     private val putProfileDataUseCase = PutProfileDataUseCase()
     private val dataValidateUseCase = DataValidateUseCase()
@@ -137,6 +142,8 @@ class ProfileViewModel(val context: Context) : ViewModel() {
                     processIntent(ProfileIntent.UpdateChanges(isChange = false))
                     initialProfileStateFlow.value = _state.value
                 }
+            } else if (result.isFailure){
+                userOutLogin { router.toErrorAfterOut() }
             }
         }
     }
@@ -174,12 +181,23 @@ class ProfileViewModel(val context: Context) : ViewModel() {
 
     private fun logoutUser(toAfterLogout: () -> Unit) {
         viewModelScope.launch {
-            val result = postLogoutUseCase.invoke()
-            if (result.isSuccess) {
-                deleteTokenUseCase.invoke()
-                toAfterLogout()
+            try {
+                val result = postLogoutUseCase.invoke()
+                if (result.isSuccess) {
+                    deleteTokenUseCase.invoke()
+                    toAfterLogout()
+                } else {
+                    userOutLogin { router.toErrorAfterOut() }
+                }
+            } catch (e: Exception) {
+                userOutLogin { router.toErrorAfterOut() }
             }
         }
+    }
+
+    private fun userOutLogin(goTo: () -> Unit){
+        NetworkService.setAuthToken(Constants.EMPTY_STRING)
+        goTo()
     }
 }
 

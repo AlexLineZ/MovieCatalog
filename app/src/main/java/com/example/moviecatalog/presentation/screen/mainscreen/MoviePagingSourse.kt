@@ -48,7 +48,6 @@ class MoviePagingSource(
                     val movieDetailsResponse = getMovieDetailsUseCase.invoke(movie.id)
                     if (movieDetailsResponse.isSuccess) {
                         val movieDetails = movieDetailsResponse.getOrNull()
-                        Log.d("DEBUGGGG", userId.toString())
                         val userReview = movieDetails?.reviews?.find { review ->
                             review.author?.userId == userId
                         }

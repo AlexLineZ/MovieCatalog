@@ -1,4 +1,4 @@
-package com.example.moviecatalog.data.network
+package com.example.moviecatalog.data.network.api
 
 import com.example.moviecatalog.domain.model.favorite.Favorite
 import retrofit2.Response
