@@ -16,6 +16,7 @@ import com.example.moviecatalog.domain.usecase.PostLogoutUseCase
 import com.example.moviecatalog.domain.usecase.PutProfileDataUseCase
 import com.example.moviecatalog.domain.validator.EmailValidator
 import com.example.moviecatalog.presentation.router.LogoutRouter
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -41,7 +42,8 @@ class ProfileViewModel(
         birthday = Constants.EMPTY_STRING,
         emailError = null,
         isDatePickerOpened = Constants.FALSE,
-        changesInProfile = Constants.FALSE
+        changesInProfile = Constants.FALSE,
+        isLoading = Constants.FALSE
     )
 
     private val initialProfileStateFlow = MutableStateFlow(emptyState)
@@ -101,6 +103,12 @@ class ProfileViewModel(
             }
             is ProfileIntent.Logout -> {
                 logoutUser { intent.toAfterLogout() }
+            }
+
+            ProfileIntent.UpdateLoading -> {
+                _state.value = state.value.copy(
+                    isLoading = !_state.value.isLoading
+                )
             }
         }
     }

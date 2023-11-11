@@ -13,5 +13,6 @@ data class ProfileState (
     val emailError: Int?,
 
     val isDatePickerOpened: Boolean,
-    val changesInProfile: Boolean
+    val changesInProfile: Boolean,
+    val isLoading: Boolean
 )
