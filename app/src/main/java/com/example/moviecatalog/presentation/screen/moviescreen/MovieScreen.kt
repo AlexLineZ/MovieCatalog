@@ -1,6 +1,7 @@
 package com.example.moviecatalog.presentation.screen.moviescreen
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -99,7 +100,9 @@ fun MovieScreen(
                             LikeButton(
                                 isLiked = state.value.isLiked,
                                 onClickToLikeButton = {
-                                    viewModel.processIntent(MovieIntent.ChangeLiked)
+                                    viewModel.processIntent(
+                                        MovieIntent.ClickOnFavoriteButton(state.value.movieDetails.id)
+                                    )
                                 }
                             )
                         }
