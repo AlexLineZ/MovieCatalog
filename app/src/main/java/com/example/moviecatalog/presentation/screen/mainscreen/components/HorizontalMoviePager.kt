@@ -99,9 +99,15 @@ fun HorizontalMoviePager(movies: LazyPagingItems<MovieUserMark>, onClick: (Strin
                                 .size(8.dp)
                         ){
                             if(state.currentPage == index) {
-                                Icon(painterResource(R.drawable.dotactive), contentDescription = null)
+                                Icon(
+                                    painterResource(R.drawable.dotactive),
+                                    contentDescription = null
+                                )
                             } else {
-                                Icon(painterResource(R.drawable.dotcircle), contentDescription = null)
+                                Icon(
+                                    painterResource(R.drawable.dotcircle),
+                                    contentDescription = null
+                                )
                             }
                         }
                     }

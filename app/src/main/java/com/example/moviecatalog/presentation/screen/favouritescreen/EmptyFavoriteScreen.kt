@@ -3,6 +3,7 @@ package com.example.moviecatalog.presentation.screen.favouritescreen
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,22 +19,24 @@ import com.example.moviecatalog.presentation.ui.theme.Values.MoreSpaceBetweenObj
 
 @Composable
 fun EmptyFavouriteScreen() {
-    Column(
+    LazyColumn(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text (
-            text = stringResource(R.string.empty_favourite1),
-            textAlign = TextAlign.Center,
-            style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.W700),
-            modifier = Modifier.padding(bottom = 5.dp, start = 32.dp, end = 32.dp)
-        )
+        item{
+            Text (
+                text = stringResource(R.string.empty_favourite1),
+                textAlign = TextAlign.Center,
+                style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.W700),
+                modifier = Modifier.padding(bottom = 5.dp, start = 32.dp, end = 32.dp)
+            )
 
-        Text (
-            text = stringResource(R.string.empty_favourite2),
-            textAlign = TextAlign.Center,
-            style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.W400),
-            modifier = Modifier.padding(horizontal = MoreSpaceBetweenObjects)
-        )
+            Text (
+                text = stringResource(R.string.empty_favourite2),
+                textAlign = TextAlign.Center,
+                style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.W400),
+                modifier = Modifier.padding(horizontal = MoreSpaceBetweenObjects)
+            )
+        }
     }
 }
