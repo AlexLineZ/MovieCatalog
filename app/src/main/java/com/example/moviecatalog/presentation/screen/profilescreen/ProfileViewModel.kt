@@ -115,6 +115,7 @@ class ProfileViewModel(
 
     private fun rollbackToInitialState() {
         _state.value = initialProfileStateFlow.value
+        _state.value.isLoading = Constants.FALSE
     }
 
     fun isDatePickerOpen() : Boolean {

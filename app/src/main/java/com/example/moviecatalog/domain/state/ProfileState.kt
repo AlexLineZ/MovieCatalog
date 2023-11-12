@@ -14,5 +14,5 @@ data class ProfileState (
 
     val isDatePickerOpened: Boolean,
     val changesInProfile: Boolean,
-    val isLoading: Boolean
+    var isLoading: Boolean
 )
