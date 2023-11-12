@@ -16,13 +16,12 @@ import com.example.moviecatalog.presentation.screen.splashscreen.SplashViewModel
 const val ROOT_ROUTE = "root"
 
 @Composable
-fun Navigation(
-    loginViewModel: LoginViewModel,
-    registrationViewModel: RegistrationViewModel
-) {
+fun Navigation() {
     val navController = rememberNavController()
 
     val splashViewModel = SplashViewModel()
+    val loginViewModel = LoginViewModel(LocalContext.current)
+    val registrationViewModel = RegistrationViewModel(LocalContext.current)
     val profileViewModel = ProfileViewModel(
         context = LocalContext.current,
         router = LogoutRouter(navController)
