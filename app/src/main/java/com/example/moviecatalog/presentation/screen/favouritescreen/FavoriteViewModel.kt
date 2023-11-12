@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.common.Constants
+import com.example.moviecatalog.data.model.MovieUserMark
 import com.example.moviecatalog.domain.model.movie.MovieElement
 import com.example.moviecatalog.domain.state.FavoriteState
 import com.example.moviecatalog.domain.state.RegistrationState
@@ -16,11 +17,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-
-data class MovieUserMark(
-    val movieElement: MovieElement,
-    var userMark: Int? = null
-)
 
 class FavoriteViewModel: ViewModel() {
     private val getFavoritesUseCase = GetFavoritesUseCase()

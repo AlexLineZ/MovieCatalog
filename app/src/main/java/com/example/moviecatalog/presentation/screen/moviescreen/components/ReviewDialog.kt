@@ -56,6 +56,8 @@ import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
 import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
 import com.example.moviecatalog.presentation.ui.theme.Gray400Color
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 import com.example.moviecatalog.presentation.ui.theme.YellowStarColor
 
 @Composable
@@ -69,7 +71,9 @@ fun ReviewDialog(
     isButtonAvailable: Boolean
 ) {
     Dialog(
-        onDismissRequest = { onCancelClick() },
+        onDismissRequest = {
+            onCancelClick()
+        },
         properties = DialogProperties(
             usePlatformDefaultWidth = false
         ),
@@ -77,7 +81,7 @@ fun ReviewDialog(
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(BasePadding),
             shape = RoundedCornerShape(5.dp),
             color = MaterialTheme.colorScheme.background
         ) {
@@ -147,7 +151,7 @@ fun ReviewDialog(
                         onCheckedChange = null
                     )
 
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(MiddlePadding))
 
                     Text(
                         text = stringResource(id = R.string.anon_review),

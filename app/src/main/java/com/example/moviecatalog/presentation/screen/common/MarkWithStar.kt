@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.common.MarkSelector
 import com.example.moviecatalog.presentation.ui.theme.Values.LittlePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MicroPadding
 
 @Composable
 fun MarkWithStar(value: Int, modifier: Modifier = Modifier){
@@ -33,14 +34,17 @@ fun MarkWithStar(value: Int, modifier: Modifier = Modifier){
     ){
         Row(
             modifier = Modifier
-                .padding(2.dp),
+                .padding(MicroPadding),
             verticalAlignment = Alignment.CenterVertically
         ){
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.star_mark),
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(start = LittlePadding, end = 2.dp)
+                    .padding(
+                        start = LittlePadding,
+                        end = MicroPadding
+                    )
             )
             Text(
                 text = value.toString(),

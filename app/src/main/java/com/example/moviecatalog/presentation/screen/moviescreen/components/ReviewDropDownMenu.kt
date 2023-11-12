@@ -33,6 +33,7 @@ import com.example.moviecatalog.R
 import com.example.moviecatalog.presentation.ui.theme.ChipColor
 import com.example.moviecatalog.presentation.ui.theme.MenuGrayColor
 import com.example.moviecatalog.presentation.ui.theme.RedColor
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
 import com.example.moviecatalog.presentation.ui.theme.WhiteColor
 
 @Composable
@@ -53,7 +54,6 @@ fun ReviewDropDownMenu(
                     color = ChipColor,
                     shape = RoundedCornerShape(10.dp)
                 )
-                .width(IntrinsicSize.Min)
         ) {
             DropdownMenuItem(
                 text = {
@@ -61,7 +61,7 @@ fun ReviewDropDownMenu(
                         text = stringResource(id = R.string.edit),
                         color = WhiteColor,
                         fontSize = 14.sp,
-                        modifier = Modifier.padding(end = 16.dp)
+                        modifier = Modifier.padding(end = BasePadding)
                     )
                 },
                 trailingIcon =
@@ -86,7 +86,7 @@ fun ReviewDropDownMenu(
                         text = stringResource(id = R.string.delete),
                         color = RedColor,
                         fontSize = 14.sp,
-                        modifier = Modifier.padding(end = 16.dp)
+                        modifier = Modifier.padding(end = BasePadding)
                     )
                 },
                 trailingIcon =

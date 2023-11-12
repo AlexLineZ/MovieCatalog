@@ -15,6 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
+import com.example.moviecatalog.presentation.ui.theme.Values.BigPadding
 import com.example.moviecatalog.presentation.ui.theme.Values.MoreSpaceBetweenObjects
 
 @Composable
@@ -23,12 +24,16 @@ fun EmptyFavouriteScreen() {
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item{
+        item {
             Text (
                 text = stringResource(R.string.empty_favourite1),
                 textAlign = TextAlign.Center,
                 style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.W700),
-                modifier = Modifier.padding(bottom = 5.dp, start = 32.dp, end = 32.dp)
+                modifier = Modifier.padding(
+                    bottom = 5.dp,
+                    start = BigPadding,
+                    end = BigPadding
+                )
             )
 
             Text (

@@ -68,7 +68,10 @@ fun RegistrationFirstScreen(
                 fontWeight = FontWeight.W700
             ),
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = MoreSpaceBetweenObjects, bottom = SpaceBetweenObjects)
+            modifier = Modifier.padding(
+                top = MoreSpaceBetweenObjects,
+                bottom = SpaceBetweenObjects
+            )
         )
         
         LazyColumn {

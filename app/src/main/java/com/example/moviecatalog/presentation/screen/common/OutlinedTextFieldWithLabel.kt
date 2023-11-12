@@ -65,7 +65,7 @@ fun OutlinedTextFieldWithLabel(
                 Text (
                     text = it,
                     modifier = Modifier
-                        .padding(top = 8.dp),
+                        .padding(top = MiddlePadding),
                     color = ErrorAccentColor,
                     style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.W400)
                 )

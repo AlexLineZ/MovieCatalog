@@ -43,7 +43,6 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun FavouriteScreen(viewModel: FavoriteViewModel, router: BottomBarRouter) {
-
     LaunchedEffect(Unit) {
         viewModel.performData()
     }

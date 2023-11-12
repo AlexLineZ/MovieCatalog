@@ -264,7 +264,10 @@ class MovieViewModel(val router: LogoutRouter) : ViewModel() {
     private fun deleteReview() {
         viewModelScope.launch {
             try {
-                val result = deleteReviewUseCase.invoke(state.value.movieDetails.id, state.value.userReview!!.id)
+                val result = deleteReviewUseCase.invoke(
+                    state.value.movieDetails.id,
+                    state.value.userReview!!.id
+                )
                 if (result.isSuccess){
                     processIntent(MovieIntent.ChangeUserReview(null))
                 } else if (result.isFailure){

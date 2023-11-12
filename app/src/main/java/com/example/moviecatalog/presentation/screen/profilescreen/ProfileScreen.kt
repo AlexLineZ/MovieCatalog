@@ -44,6 +44,7 @@ import com.example.moviecatalog.presentation.screen.favouritescreen.FavoriteInte
 import com.example.moviecatalog.presentation.screen.mainscreen.components.PullIndicator
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.BigPadding
 import com.example.moviecatalog.presentation.ui.theme.Values.MoreSpaceBetweenObjects
 import com.example.moviecatalog.presentation.ui.theme.Values.SpaceBetweenObjects
 import eu.bambooapps.material3.pullrefresh.pullRefresh
@@ -144,7 +145,7 @@ fun ProfileItemsList(
                 color = AccentColor,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .padding(top = 12.dp, bottom = 32.dp)
+                    .padding(top = 12.dp, bottom = BigPadding)
                     .clickable {
                         viewModel.processIntent(ProfileIntent.Logout { router.toAuth() })
                     }
@@ -165,7 +166,7 @@ fun ProfileItemsList(
                     OutlinedTextFieldWithLabel(
                         label = stringResource(R.string.avatar_link),
                         value = state.avatarLink ?: Constants.EMPTY_STRING,
-                        onValueChange = { viewModel.processIntent(ProfileIntent.UpdateAvatarLink(it)) },
+                        onValueChange = {viewModel.processIntent(ProfileIntent.UpdateAvatarLink(it))},
                         modifier = Modifier.padding(top = SpaceBetweenObjects)
                     )
 
@@ -193,7 +194,10 @@ fun ProfileItemsList(
                         firstClick = { viewModel.processIntent(ProfileIntent.SaveData) },
                         secondLabel = stringResource(R.string.cancel),
                         secondClick = { viewModel.processIntent(ProfileIntent.Cancel) },
-                        modifier = Modifier.padding(top = MoreSpaceBetweenObjects, bottom = BasePadding),
+                        modifier = Modifier.padding(
+                            top = MoreSpaceBetweenObjects,
+                            bottom = BasePadding
+                        ),
                         firstEnabled = viewModel.isSaveButtonAvailable()
                     )
                 }
