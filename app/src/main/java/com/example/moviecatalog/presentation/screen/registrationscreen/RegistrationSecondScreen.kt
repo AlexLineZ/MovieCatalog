@@ -30,7 +30,7 @@ import com.example.moviecatalog.domain.validator.PasswordValidator
 import com.example.moviecatalog.presentation.router.AppRouter
 import com.example.moviecatalog.presentation.screen.common.AdviceText
 import com.example.moviecatalog.presentation.screen.common.AppBar
-import com.example.moviecatalog.presentation.screen.common.LoadingItem
+import com.example.moviecatalog.presentation.screen.common.loading.LoadingItem
 import com.example.moviecatalog.presentation.screen.common.PasswordTextField
 import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
 import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding

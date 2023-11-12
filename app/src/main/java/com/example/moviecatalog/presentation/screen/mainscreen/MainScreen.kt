@@ -1,6 +1,5 @@
 package com.example.moviecatalog.presentation.screen.mainscreen
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -25,7 +24,9 @@ import com.example.moviecatalog.data.model.CurrentReview
 import com.example.moviecatalog.presentation.navigation.bottombar.BottomBar
 import com.example.moviecatalog.presentation.navigation.bottombar.Routes
 import com.example.moviecatalog.presentation.router.BottomBarRouter
-import com.example.moviecatalog.presentation.screen.common.LoadingFullScreen
+import com.example.moviecatalog.presentation.screen.common.loading.AnimatedShimmerForPager
+import com.example.moviecatalog.presentation.screen.common.loading.AnimatedShimmerForMainItem
+import com.example.moviecatalog.presentation.screen.common.loading.LoadingFullScreen
 import com.example.moviecatalog.presentation.screen.mainscreen.components.HorizontalMoviePager
 import com.example.moviecatalog.presentation.screen.mainscreen.components.MovieCard
 import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
@@ -81,7 +82,9 @@ fun MovieListScreen(
                         }
                     }
                     is LoadState.Error -> Unit
-                    LoadState.Loading -> Unit
+                    LoadState.Loading -> {
+                        AnimatedShimmerForPager()
+                    }
                 }
             }
 
@@ -136,7 +139,7 @@ fun MovieListScreen(
                 is LoadState.Error -> Unit
                 LoadState.Loading -> {
                     item {
-                        LoadingFullScreen()
+                        AnimatedShimmerForMainItem()
                     }
                 }
                 is LoadState.NotLoading -> Unit

@@ -1,4 +1,4 @@
-package com.example.moviecatalog.presentation.screen.common
+package com.example.moviecatalog.presentation.screen.common.loading
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
