@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.example.moviecatalog.presentation.navigation.graph.authNavigationGraph
 import com.example.moviecatalog.presentation.navigation.graph.mainNavigationGraph
+import com.example.moviecatalog.presentation.router.AppRouter
 import com.example.moviecatalog.presentation.router.LogoutRouter
 import com.example.moviecatalog.presentation.screen.loginscreen.LoginViewModel
 import com.example.moviecatalog.presentation.screen.profilescreen.ProfileViewModel
@@ -20,7 +21,10 @@ fun Navigation() {
     val navController = rememberNavController()
 
     val splashViewModel = SplashViewModel()
-    val loginViewModel = LoginViewModel(LocalContext.current)
+    val loginViewModel = LoginViewModel(
+        context = LocalContext.current,
+        router = AppRouter(navController)
+    )
     val registrationViewModel = RegistrationViewModel(LocalContext.current)
     val profileViewModel = ProfileViewModel(
         context = LocalContext.current,

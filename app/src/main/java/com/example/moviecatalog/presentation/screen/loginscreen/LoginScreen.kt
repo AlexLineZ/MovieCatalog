@@ -53,7 +53,7 @@ fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AppBar {
-            router.toAuth()
+            viewModel.processIntent(LoginIntent.GoBack)
         }
 
         Text(
@@ -84,7 +84,7 @@ fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
 
         Button(
             onClick = {
-                viewModel.processIntent(LoginIntent.Login(loginState) { router.toMain() })
+                viewModel.processIntent(LoginIntent.Login)
             },
             shape = RoundedCornerShape(BigRound),
             modifier = Modifier

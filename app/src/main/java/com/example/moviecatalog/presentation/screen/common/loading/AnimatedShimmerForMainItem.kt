@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.Values
@@ -94,4 +95,10 @@ fun ShimmerMovieItem(brush: Brush) {
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AnimatedShimmerForMainItemPreview() {
+    AnimatedShimmerForMainItem()
 }

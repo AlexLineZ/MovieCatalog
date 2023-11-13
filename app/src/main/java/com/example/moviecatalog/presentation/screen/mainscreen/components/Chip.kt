@@ -14,12 +14,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.presentation.ui.theme.ChipColor
+import com.example.moviecatalog.presentation.ui.theme.Values.LittleRound
+import com.example.moviecatalog.presentation.ui.theme.Values.MicroPadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 
 @Composable
 fun Chip(text: String) {
     Box(
         modifier = Modifier
-            .clip(RoundedCornerShape(5.dp))
+            .clip(RoundedCornerShape(LittleRound))
             .background(ChipColor)
     ) {
         Text(
@@ -27,7 +30,10 @@ fun Chip(text: String) {
             color = Color.White,
             style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.W400),
             modifier = Modifier
-                .padding(horizontal = 8.dp, vertical = 2.dp)
+                .padding(
+                    horizontal = MiddlePadding,
+                    vertical = MicroPadding
+                )
         )
     }
 }
