@@ -6,16 +6,17 @@ import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.data.network.NetworkService
 import com.example.moviecatalog.domain.usecase.GetProfileUseCase
 import com.example.moviecatalog.domain.usecase.GetTokenUseCase
+import com.example.moviecatalog.presentation.router.AppRouter
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SplashViewModel: ViewModel() {
+class SplashViewModel(
+    private val router: AppRouter
+): ViewModel() {
     private val getProfileUseCase = GetProfileUseCase()
 
     fun checkTokenToValid(
-        context: Context,
-        isSuccess: () -> Unit,
-        isFailure: () -> Unit
+        context: Context
     ){
         val getTokenUseCase = GetTokenUseCase(context)
 
@@ -29,12 +30,12 @@ class SplashViewModel: ViewModel() {
             if (result.isSuccess){
                 launch {
                     delay(800L)
-                    isSuccess()
+                    router.toMain()
                 }
             } else {
                 launch {
                     delay(800L)
-                    isFailure()
+                    router.toAuth()
                 }
             }
         }

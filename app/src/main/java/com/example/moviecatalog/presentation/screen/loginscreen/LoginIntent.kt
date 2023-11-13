@@ -5,6 +5,7 @@ import com.example.moviecatalog.domain.state.LoginState
 sealed class LoginIntent {
     object Login : LoginIntent()
     object GoBack: LoginIntent()
+    object GoToRegistration: LoginIntent()
     data class UpdateLogin(val login: String) : LoginIntent()
     data class UpdatePassword(val password: String) : LoginIntent()
     object UpdatePasswordVisibility : LoginIntent()

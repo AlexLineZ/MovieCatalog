@@ -37,7 +37,7 @@ import com.example.moviecatalog.presentation.ui.theme.Values.MoreSpaceBetweenObj
 import com.example.moviecatalog.presentation.ui.theme.Values.SpaceBetweenObjects
 
 @Composable
-fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
+fun LoginScreen(viewModel: LoginViewModel) {
     val loginState by viewModel.state.collectAsState()
     val focusManager = LocalFocusManager.current
 
@@ -110,7 +110,7 @@ fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
         AdviceText(
             baseText = stringResource(R.string.need_register),
             clickableText = stringResource(R.string.need_register_clickable),
-            onClick = { router.toRegistration() },
+            onClick = { viewModel.processIntent(LoginIntent.GoToRegistration) },
             modifier = Modifier.weight(1f)
         )
     }

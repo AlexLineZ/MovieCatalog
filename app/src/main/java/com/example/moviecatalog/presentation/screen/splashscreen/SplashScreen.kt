@@ -13,14 +13,12 @@ import com.example.moviecatalog.R
 import com.example.moviecatalog.presentation.router.AppRouter
 
 @Composable
-fun SplashScreen(splashViewModel: SplashViewModel, router: AppRouter) {
+fun SplashScreen(splashViewModel: SplashViewModel) {
     val context = LocalContext.current
 
     LaunchedEffect(key1 = true){
         splashViewModel.checkTokenToValid(
-            context = context,
-            isSuccess = { router.toMain() },
-            isFailure = { router.toAuth() }
+            context = context
         )
     }
 

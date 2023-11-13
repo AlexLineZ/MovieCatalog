@@ -20,16 +20,22 @@ const val ROOT_ROUTE = "root"
 fun Navigation() {
     val navController = rememberNavController()
 
-    val splashViewModel = SplashViewModel()
+    val splashViewModel = SplashViewModel(
+        router = AppRouter(navController)
+    )
     val loginViewModel = LoginViewModel(
         context = LocalContext.current,
         router = AppRouter(navController)
     )
-    val registrationViewModel = RegistrationViewModel(LocalContext.current)
+    val registrationViewModel = RegistrationViewModel(
+        context = LocalContext.current,
+        router = AppRouter(navController)
+    )
     val profileViewModel = ProfileViewModel(
         context = LocalContext.current,
         router = LogoutRouter(navController)
     )
+
     NavHost(
         navController = navController,
         startDestination = Destinations.SPLASH_SCREEN,

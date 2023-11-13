@@ -28,22 +28,22 @@ fun NavGraphBuilder.authNavigationGraph(
         route = AUTH_ROUTE
     ) {
         composable (Destinations.SPLASH_SCREEN){
-            SplashScreen(splashViewModel, AppRouter(navController))
+            SplashScreen(splashViewModel)
         }
         composable(Destinations.SELECT_AUTH_SCREEN) {
             SelectAuthScreen(AppRouter(navController))
         }
         composable(Destinations.LOGIN_SCREEN) {
-            LoginScreen(AppRouter(navController), loginViewModel)
+            LoginScreen(loginViewModel)
         }
         composable(Destinations.REGISTRATION_FIRST_SCREEN) {
-            RegistrationFirstScreen(AppRouter(navController), registrationViewModel)
+            RegistrationFirstScreen(registrationViewModel)
         }
         composable(Destinations.REGISTRATION_SECOND_SCREEN) {
-            RegistrationSecondScreen(AppRouter(navController), registrationViewModel)
+            RegistrationSecondScreen(registrationViewModel)
         }
     }
     composable (Destinations.SPLASH_SCREEN){
-        SplashScreen(splashViewModel, AppRouter(navController))
+        SplashScreen(splashViewModel)
     }
 }

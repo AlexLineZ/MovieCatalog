@@ -31,6 +31,7 @@ import com.example.moviecatalog.presentation.screen.common.AppBar
 import com.example.moviecatalog.presentation.screen.common.DatePickerField
 import com.example.moviecatalog.presentation.screen.common.GenderSelectionButton
 import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
+import com.example.moviecatalog.presentation.screen.loginscreen.LoginIntent
 import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
 import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
 import com.example.moviecatalog.presentation.ui.theme.Values.BigRound
@@ -39,7 +40,6 @@ import com.example.moviecatalog.presentation.ui.theme.Values.SpaceBetweenObjects
 
 @Composable
 fun RegistrationFirstScreen(
-    router: AppRouter,
     viewModel: RegistrationViewModel
 ) {
     val focusManager = LocalFocusManager.current
@@ -58,7 +58,7 @@ fun RegistrationFirstScreen(
     ) {
 
         AppBar {
-            router.toAuth()
+            viewModel.processIntent(RegistrationIntent.GoBackToAuth)
         }
 
         Text(
@@ -121,7 +121,7 @@ fun RegistrationFirstScreen(
                 )
 
                 Button(
-                    onClick = { router.toPasswordRegistration() },
+                    onClick = { viewModel.processIntent(RegistrationIntent.GoToSecondScreen) },
                     shape = RoundedCornerShape(BigRound),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -141,7 +141,7 @@ fun RegistrationFirstScreen(
         AdviceText(
             baseText = stringResource(R.string.need_login),
             clickableText = stringResource(R.string.need_login_clickable),
-            onClick = { router.toLogin() },
+            onClick = { viewModel.processIntent(RegistrationIntent.GoToLogin) },
             modifier = Modifier.weight(1f)
         )
     }

@@ -14,11 +14,15 @@ import com.example.moviecatalog.domain.usecase.PostRegistrationUseCase
 import com.example.moviecatalog.domain.validator.ConfirmPasswordValidator
 import com.example.moviecatalog.domain.validator.EmailValidator
 import com.example.moviecatalog.domain.validator.PasswordValidator
+import com.example.moviecatalog.presentation.router.AppRouter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class RegistrationViewModel (private val context: Context) : ViewModel() {
+class RegistrationViewModel (
+    private val context: Context,
+    private val router: AppRouter
+) : ViewModel() {
     private val emptyState = RegistrationState(
         Constants.EMPTY_STRING,
         Constants.ZERO,
@@ -83,10 +87,10 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                 )
             }
             is RegistrationIntent.Registration -> {
-                performRegistration(state.value, intent.afterRegistration)
+                performRegistration(state.value) { router.toMain() }
             }
             is RegistrationIntent.UpdateErrorText -> {
-                var result = dataValidateUseCase.invoke(intent.validator, intent.data, intent.secondData)
+                val result = dataValidateUseCase.invoke(intent.validator, intent.data, intent.secondData)
                 when (intent.validator) {
                     is EmailValidator -> _state.value = state.value.copy (
                         isErrorEmailText = result?.let { context.getString(it) }
@@ -99,11 +103,26 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                     )
                 }
             }
-
             RegistrationIntent.UpdateLoading -> {
                 _state.value = state.value.copy(
                     isLoading = !_state.value.isLoading
                 )
+            }
+
+            RegistrationIntent.GoToSecondScreen -> {
+                router.toPasswordRegistration()
+            }
+
+            RegistrationIntent.GoBackToAuth -> {
+                router.toAuth()
+            }
+
+            RegistrationIntent.GoBackToFirst -> {
+                router.toRegistration()
+            }
+
+            RegistrationIntent.GoToLogin -> {
+                router.toLogin()
             }
         }
     }

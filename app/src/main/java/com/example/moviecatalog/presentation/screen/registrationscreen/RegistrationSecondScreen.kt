@@ -38,10 +38,8 @@ import com.example.moviecatalog.presentation.ui.theme.Values.BigRound
 import com.example.moviecatalog.presentation.ui.theme.Values.MoreSpaceBetweenObjects
 import com.example.moviecatalog.presentation.ui.theme.Values.SpaceBetweenObjects
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegistrationSecondScreen (
-    router: AppRouter,
     viewModel: RegistrationViewModel
 ) {
     val focusManager = LocalFocusManager.current
@@ -60,7 +58,7 @@ fun RegistrationSecondScreen (
     ) {
 
         AppBar {
-            router.toRegistration()
+            viewModel.processIntent(RegistrationIntent.GoBackToFirst)
         }
 
         Text(
@@ -115,7 +113,7 @@ fun RegistrationSecondScreen (
 
         Button(
             onClick = {
-                viewModel.processIntent(RegistrationIntent.Registration(state) { router.toMain() })
+                viewModel.processIntent(RegistrationIntent.Registration(state))
             },
             shape = RoundedCornerShape(BigRound),
             modifier = Modifier
@@ -131,14 +129,18 @@ fun RegistrationSecondScreen (
         }
 
         if (state.isLoading){
-            Spacer(modifier = Modifier.fillMaxWidth().padding(top = BasePadding))
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = BasePadding)
+            )
             LoadingItem()
         }
 
         AdviceText(
             baseText = stringResource(R.string.need_login),
             clickableText = stringResource(R.string.need_login_clickable),
-            onClick = { router.toLogin() },
+            onClick = { viewModel.processIntent(RegistrationIntent.GoToLogin) },
             modifier = Modifier.weight(1f)
         )
     }

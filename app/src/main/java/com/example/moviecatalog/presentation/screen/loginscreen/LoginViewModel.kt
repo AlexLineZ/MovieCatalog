@@ -65,6 +65,9 @@ class LoginViewModel (
             LoginIntent.UpdateLoading -> {
                 _state.value = state.value.copy(isLoading = !_state.value.isLoading)
             }
+            LoginIntent.GoToRegistration -> {
+                router.toRegistration()
+            }
         }
     }
 
