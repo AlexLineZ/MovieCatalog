@@ -63,7 +63,11 @@ fun MovieReviewsSection(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = BasePadding, end = BasePadding , top = MoreSpaceBetweenObjects)
+            .padding(
+                start = BasePadding,
+                end = BasePadding,
+                top = MoreSpaceBetweenObjects
+            )
     ) {
 
         Row(

@@ -22,7 +22,9 @@ class AppRouter(
 
     fun toAuth() {
         navController.navigate(Destinations.SELECT_AUTH_SCREEN) {
-            popUpTo(Destinations.SPLASH_SCREEN) { inclusive = true }
+            popUpTo(navController.graph.id){
+                inclusive = true
+            }
         }
     }
 

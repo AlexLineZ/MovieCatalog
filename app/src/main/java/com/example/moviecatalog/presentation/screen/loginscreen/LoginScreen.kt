@@ -21,14 +21,12 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
 import com.example.moviecatalog.R
-import com.example.moviecatalog.presentation.router.AppRouter
 import com.example.moviecatalog.presentation.screen.common.AdviceText
 import com.example.moviecatalog.presentation.screen.common.AppBar
-import com.example.moviecatalog.presentation.screen.common.LoadingItem
+import com.example.moviecatalog.presentation.screen.common.loading.LoadingItem
 import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
 import com.example.moviecatalog.presentation.screen.common.PasswordTextField
 import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
@@ -38,7 +36,7 @@ import com.example.moviecatalog.presentation.ui.theme.Values.MoreSpaceBetweenObj
 import com.example.moviecatalog.presentation.ui.theme.Values.SpaceBetweenObjects
 
 @Composable
-fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
+fun LoginScreen(viewModel: LoginViewModel) {
     val loginState by viewModel.state.collectAsState()
     val focusManager = LocalFocusManager.current
 
@@ -54,7 +52,7 @@ fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AppBar {
-            router.toAuth()
+            viewModel.processIntent(LoginIntent.GoBack)
         }
 
         Text(
@@ -85,7 +83,7 @@ fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
 
         Button(
             onClick = {
-                viewModel.processIntent(LoginIntent.Login(loginState) { router.toMain() })
+                viewModel.processIntent(LoginIntent.Login)
             },
             shape = RoundedCornerShape(BigRound),
             modifier = Modifier
@@ -111,7 +109,7 @@ fun LoginScreen(router: AppRouter, viewModel: LoginViewModel) {
         AdviceText(
             baseText = stringResource(R.string.need_register),
             clickableText = stringResource(R.string.need_register_clickable),
-            onClick = { router.toRegistration() },
+            onClick = { viewModel.processIntent(LoginIntent.GoToRegistration) },
             modifier = Modifier.weight(1f)
         )
     }

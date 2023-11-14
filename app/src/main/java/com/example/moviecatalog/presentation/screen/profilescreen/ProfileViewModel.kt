@@ -15,7 +15,9 @@ import com.example.moviecatalog.domain.usecase.GetProfileUseCase
 import com.example.moviecatalog.domain.usecase.PostLogoutUseCase
 import com.example.moviecatalog.domain.usecase.PutProfileDataUseCase
 import com.example.moviecatalog.domain.validator.EmailValidator
+import com.example.moviecatalog.domain.validator.NameValidator
 import com.example.moviecatalog.presentation.router.LogoutRouter
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -40,8 +42,10 @@ class ProfileViewModel(
         date = Constants.EMPTY_STRING,
         birthday = Constants.EMPTY_STRING,
         emailError = null,
+        nameError = null,
         isDatePickerOpened = Constants.FALSE,
-        changesInProfile = Constants.FALSE
+        changesInProfile = Constants.FALSE,
+        isLoading = Constants.FALSE
     )
 
     private val initialProfileStateFlow = MutableStateFlow(emptyState)
@@ -58,7 +62,7 @@ class ProfileViewModel(
                 _state.value = state.value.copy(nickName = intent.nickName)
             }
             is ProfileIntent.UpdateEmail -> {
-                _state.value = state.value.copy(email = intent.email)
+                _state.value = state.value.copy(email = intent.email.trim())
                 processIntent(
                     ProfileIntent.UpdateEmailError(
                         dataValidateUseCase.invoke(EmailValidator(), intent.email)
@@ -67,11 +71,16 @@ class ProfileViewModel(
                 processIntent(ProfileIntent.UpdateChanges(isChange = true))
             }
             is ProfileIntent.UpdateAvatarLink -> {
-                _state.value = state.value.copy(avatarLink = intent.link)
+                _state.value = state.value.copy(avatarLink = intent.link?.trim())
                 processIntent(ProfileIntent.UpdateChanges(isChange = true))
             }
             is ProfileIntent.UpdateName -> {
                 _state.value = state.value.copy(name = intent.name)
+                processIntent(
+                    ProfileIntent.UpdateNameError(
+                        dataValidateUseCase.invoke(NameValidator(), intent.name)
+                    )
+                )
                 processIntent(ProfileIntent.UpdateChanges(isChange = true))
             }
             is ProfileIntent.UpdateGender -> {
@@ -90,6 +99,9 @@ class ProfileViewModel(
             is ProfileIntent.UpdateEmailError -> {
                 _state.value = state.value.copy(emailError = intent.error)
             }
+            is ProfileIntent.UpdateNameError -> {
+                _state.value = state.value.copy(nameError = intent.error)
+            }
             is ProfileIntent.SaveData -> {
                 changeData()
             }
@@ -102,11 +114,18 @@ class ProfileViewModel(
             is ProfileIntent.Logout -> {
                 logoutUser { intent.toAfterLogout() }
             }
+
+            ProfileIntent.UpdateLoading -> {
+                _state.value = state.value.copy(
+                    isLoading = !_state.value.isLoading
+                )
+            }
         }
     }
 
     private fun rollbackToInitialState() {
         _state.value = initialProfileStateFlow.value
+        _state.value.isLoading = Constants.FALSE
     }
 
     fun isDatePickerOpen() : Boolean {
@@ -116,6 +135,7 @@ class ProfileViewModel(
     fun isSaveButtonAvailable(): Boolean {
         return _state.value.changesInProfile
                 && _state.value.emailError == null
+                && _state.value.nameError == null
                 && _state.value.email.isNotEmpty()
                 && _state.value.name.isNotEmpty()
                 && _state.value.date.isNotEmpty()

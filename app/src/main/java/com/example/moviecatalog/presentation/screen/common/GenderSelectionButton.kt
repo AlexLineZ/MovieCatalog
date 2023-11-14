@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
 import com.example.moviecatalog.presentation.ui.theme.SuperDarkGrayColor
+import com.example.moviecatalog.presentation.ui.theme.Values.MicroPadding
 import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 import com.example.moviecatalog.presentation.ui.theme.Values.MiddleRound
 
@@ -62,7 +63,12 @@ fun GenderSelectionButton(
                     modifier = Modifier
                         .weight(1f)
                         .height(IntrinsicSize.Min)
-                        .padding(start = 2.dp, top = 2.dp, bottom = 2.dp, end = 0.dp),
+                        .padding(
+                            start = MicroPadding,
+                            top = MicroPadding,
+                            bottom = MicroPadding,
+                            end = 0.dp
+                        ),
                     shape = RoundedCornerShape(7.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (state == 0)
@@ -80,7 +86,12 @@ fun GenderSelectionButton(
                     modifier = Modifier
                         .weight(1f)
                         .height(IntrinsicSize.Min)
-                        .padding(start = 0.dp, top = 2.dp, bottom = 2.dp, end = 2.dp),
+                        .padding(
+                            start = 0.dp,
+                            top = MicroPadding,
+                            bottom = MicroPadding,
+                            end = MicroPadding
+                        ),
                     shape = RoundedCornerShape(7.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (state == 1)

@@ -1,15 +1,12 @@
 package com.example.moviecatalog.presentation.screen.mainscreen
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateOf
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.moviecatalog.common.Constants
-import com.example.moviecatalog.domain.model.movie.MovieElement
+import com.example.moviecatalog.data.model.MovieUserMark
 import com.example.moviecatalog.domain.usecase.GetMovieDetailsUseCase
 import com.example.moviecatalog.domain.usecase.GetMovieListUseCase
 import com.example.moviecatalog.domain.usecase.GetProfileUseCase
-import com.example.moviecatalog.presentation.screen.favouritescreen.MovieUserMark
 
 class MoviePagingSource(
     private val getMovieListUseCase: GetMovieListUseCase,
@@ -60,7 +57,7 @@ class MoviePagingSource(
                 LoadResult.Page(
                     data = updatedMovies,
                     prevKey = if (page > 1) page - 1 else null,
-                    nextKey = if (movies.isNotEmpty()) page + 1 else null
+                    nextKey = if (updatedMovies.isNotEmpty()) page + 1 else null
                 )
             } else {
                 LoadResult.Error(Exception("Failed to load data"))

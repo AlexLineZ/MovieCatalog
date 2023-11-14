@@ -16,13 +16,14 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
+import com.example.moviecatalog.presentation.ui.theme.Values
 
 @Composable
 fun PosterWithGradient(
     url: String,
     scrollState: LazyListState
 ) {
-    val posterHeight = 497.dp
+    val posterHeight = Values.imageHeight
     val posterHeightPx = with(LocalDensity.current) {
         posterHeight.toPx()
     }

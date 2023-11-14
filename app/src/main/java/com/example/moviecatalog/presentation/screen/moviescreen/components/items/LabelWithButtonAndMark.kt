@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.data.model.Mark
 import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
 import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.LittlePadding
 import com.example.moviecatalog.presentation.ui.theme.Values.LittleRound
 
 @Composable
@@ -54,7 +55,7 @@ fun LabelWithButtonAndMark(
                 color = BackgroundColor,
                 modifier = Modifier.padding(
                     horizontal = 14.dp,
-                    vertical = 4.dp
+                    vertical = LittlePadding
                 )
             )
         }

@@ -25,7 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.domain.validator.EmailValidator
-import com.example.moviecatalog.presentation.router.AppRouter
+import com.example.moviecatalog.domain.validator.NameValidator
 import com.example.moviecatalog.presentation.screen.common.AdviceText
 import com.example.moviecatalog.presentation.screen.common.AppBar
 import com.example.moviecatalog.presentation.screen.common.DatePickerField
@@ -39,7 +39,6 @@ import com.example.moviecatalog.presentation.ui.theme.Values.SpaceBetweenObjects
 
 @Composable
 fun RegistrationFirstScreen(
-    router: AppRouter,
     viewModel: RegistrationViewModel
 ) {
     val focusManager = LocalFocusManager.current
@@ -58,7 +57,7 @@ fun RegistrationFirstScreen(
     ) {
 
         AppBar {
-            router.toAuth()
+            viewModel.processIntent(RegistrationIntent.GoBackToAuth)
         }
 
         Text(
@@ -68,7 +67,10 @@ fun RegistrationFirstScreen(
                 fontWeight = FontWeight.W700
             ),
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = MoreSpaceBetweenObjects, bottom = SpaceBetweenObjects)
+            modifier = Modifier.padding(
+                top = MoreSpaceBetweenObjects,
+                bottom = SpaceBetweenObjects
+            )
         )
         
         LazyColumn {
@@ -76,8 +78,16 @@ fun RegistrationFirstScreen(
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.name),
                     value = registrationState.name,
-                    onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateName(it)) },
-                    error = null,
+                    onValueChange = {
+                        viewModel.processIntent(RegistrationIntent.UpdateName(it))
+                        viewModel.processIntent(
+                            RegistrationIntent.UpdateErrorText(
+                                NameValidator(),
+                                it
+                            )
+                        )
+                    },
+                    error = registrationState.isErrorNameText,
                     modifier = Modifier
                 )
 
@@ -118,7 +128,7 @@ fun RegistrationFirstScreen(
                 )
 
                 Button(
-                    onClick = { router.toPasswordRegistration() },
+                    onClick = { viewModel.processIntent(RegistrationIntent.GoToSecondScreen) },
                     shape = RoundedCornerShape(BigRound),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -138,7 +148,7 @@ fun RegistrationFirstScreen(
         AdviceText(
             baseText = stringResource(R.string.need_login),
             clickableText = stringResource(R.string.need_login_clickable),
-            onClick = { router.toLogin() },
+            onClick = { viewModel.processIntent(RegistrationIntent.GoToLogin) },
             modifier = Modifier.weight(1f)
         )
     }

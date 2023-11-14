@@ -19,6 +19,7 @@ import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.domain.model.movie.Genre
 import com.example.moviecatalog.presentation.screen.moviescreen.components.items.GenreItem
 import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.LittlePadding
 import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -35,7 +36,7 @@ fun GenresSection(genres: ArrayList<Genre>) {
             fontSize = 16.sp,
             fontWeight = FontWeight.W700,
             color = Color.White,
-            modifier = Modifier.padding(top = 4.dp, bottom = 10.dp)
+            modifier = Modifier.padding(top = LittlePadding, bottom = 10.dp)
         )
 
         FlowRow(

@@ -1,7 +1,6 @@
 package com.example.moviecatalog.presentation.screen.moviescreen
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -38,7 +37,7 @@ import com.example.moviecatalog.presentation.navigation.BackHandler
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.common.MarkSelector
 import com.example.moviecatalog.data.model.CurrentReview
-import com.example.moviecatalog.presentation.screen.common.LoadingFullScreen
+import com.example.moviecatalog.presentation.screen.common.loading.AnimatedShimmerForMovie
 import com.example.moviecatalog.presentation.screen.moviescreen.components.GenresSection
 import com.example.moviecatalog.presentation.screen.moviescreen.components.MovieDescriptionSection
 import com.example.moviecatalog.presentation.screen.moviescreen.components.MovieDetailsSection
@@ -147,7 +146,7 @@ fun MovieScreen(
             }
 
             if (state.value.isLoading) {
-                LoadingFullScreen()
+                AnimatedShimmerForMovie()
             } else {
                 LazyColumn(
                     state = lazyListState,

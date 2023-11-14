@@ -27,6 +27,7 @@ import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.domain.model.movie.MovieElement
 import com.example.moviecatalog.presentation.screen.common.MarkWithStar
+import com.example.moviecatalog.presentation.ui.theme.Values.MicroPadding
 import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 
 
@@ -60,7 +61,12 @@ fun MovieCardFavourite(
             )
 
             if (mark != null) {
-                MarkWithStar(value = mark, modifier = Modifier.align(Alignment.TopEnd).padding(2.dp))
+                MarkWithStar(
+                    value = mark,
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(MicroPadding)
+                )
             }
         }
 

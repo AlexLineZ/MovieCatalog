@@ -7,14 +7,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.presentation.ui.theme.ErrorAccentColor
 import com.example.moviecatalog.presentation.ui.theme.RedColor
@@ -65,7 +63,7 @@ fun OutlinedTextFieldWithLabel(
                 Text (
                     text = it,
                     modifier = Modifier
-                        .padding(top = 8.dp),
+                        .padding(top = MiddlePadding),
                     color = ErrorAccentColor,
                     style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.W400)
                 )

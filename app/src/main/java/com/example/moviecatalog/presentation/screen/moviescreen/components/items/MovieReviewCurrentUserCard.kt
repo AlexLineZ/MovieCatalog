@@ -41,6 +41,7 @@ import com.example.moviecatalog.presentation.screen.moviescreen.components.Revie
 import com.example.moviecatalog.presentation.screen.moviescreen.components.ReviewDropDownMenu
 import com.example.moviecatalog.presentation.ui.theme.ChipColor
 import com.example.moviecatalog.presentation.ui.theme.Gray400Color
+import com.example.moviecatalog.presentation.ui.theme.Values.MicroPadding
 import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 import com.example.moviecatalog.presentation.ui.theme.Values.MoreSpaceBetweenObjects
 
@@ -107,7 +108,7 @@ fun MovieReviewCurrentUserCard(
                     style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.W400),
                     color = Gray400Color,
                     textAlign = TextAlign.Start,
-                    modifier = Modifier.padding(top = 2.dp)
+                    modifier = Modifier.padding(top = MicroPadding)
                 )
             }
 

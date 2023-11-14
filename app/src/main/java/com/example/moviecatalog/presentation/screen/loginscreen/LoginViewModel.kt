@@ -11,12 +11,16 @@ import com.example.moviecatalog.data.network.NetworkService
 import com.example.moviecatalog.domain.model.authorization.Login
 import com.example.moviecatalog.domain.state.LoginState
 import com.example.moviecatalog.domain.usecase.PostLoginUseCase
+import com.example.moviecatalog.presentation.router.AppRouter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 
-class LoginViewModel (private val context: Context) : ViewModel() { //AndroidViewModel
+class LoginViewModel (
+    private val context: Context,
+    private val router: AppRouter
+) : ViewModel() {
     private val emptyState = LoginState(
         Constants.EMPTY_STRING,
         Constants.EMPTY_STRING,
@@ -34,13 +38,20 @@ class LoginViewModel (private val context: Context) : ViewModel() { //AndroidVie
     fun processIntent(intent: LoginIntent) {
         when (intent) {
             is LoginIntent.Login -> {
-                performLogin(intent.loginState.login, intent.loginState.password, intent.afterLogin)
+                processIntent(LoginIntent.UpdateErrorText(null))
+                performLogin(_state.value.login, _state.value.password) { router.toMain() }
+            }
+            LoginIntent.GoBack -> {
+                processIntent(LoginIntent.UpdateErrorText(null))
+                router.toAuth()
             }
             is LoginIntent.UpdateLogin -> {
-                _state.value = state.value.copy(login = intent.login)
+                processIntent(LoginIntent.UpdateErrorText(null))
+                _state.value = state.value.copy(login = intent.login.trim())
             }
             is LoginIntent.UpdatePassword -> {
-                _state.value = state.value.copy(password = intent.password)
+                processIntent(LoginIntent.UpdateErrorText(null))
+                _state.value = state.value.copy(password = intent.password.trim())
             }
             is LoginIntent.UpdatePasswordVisibility -> {
                 _state.value = state.value.copy(isPasswordHide = !_state.value.isPasswordHide)
@@ -54,8 +65,9 @@ class LoginViewModel (private val context: Context) : ViewModel() { //AndroidVie
             LoginIntent.UpdateLoading -> {
                 _state.value = state.value.copy(isLoading = !_state.value.isLoading)
             }
-
-            else -> {}
+            LoginIntent.GoToRegistration -> {
+                router.toRegistration()
+            }
         }
     }
 

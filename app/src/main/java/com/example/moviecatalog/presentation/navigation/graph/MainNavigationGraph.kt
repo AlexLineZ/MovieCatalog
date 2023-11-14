@@ -19,6 +19,7 @@ import com.example.moviecatalog.presentation.screen.moviescreen.MovieScreen
 import com.example.moviecatalog.presentation.screen.moviescreen.MovieViewModel
 import com.example.moviecatalog.presentation.screen.profilescreen.ProfileScreen
 import com.example.moviecatalog.presentation.screen.profilescreen.ProfileViewModel
+import com.example.moviecatalog.presentation.screen.selectauthscreen.SelectAuthScreen
 
 const val MAIN_ROUTE = "main_root"
 
@@ -26,7 +27,7 @@ fun NavGraphBuilder.mainNavigationGraph(
     navController: NavHostController,
     profileViewModel: ProfileViewModel
 ) {
-    val mainViewModel = MainViewModel()
+    var mainViewModel = MainViewModel()
     val favoriteViewModel = FavoriteViewModel()
     val movieViewModel = MovieViewModel(LogoutRouter(navController))
 
@@ -54,5 +55,9 @@ fun NavGraphBuilder.mainNavigationGraph(
                 movieId = movieId ?: Constants.EMPTY_STRING
             )
         }
+    }
+    composable(Destinations.SELECT_AUTH_SCREEN) {
+        mainViewModel = MainViewModel()
+        SelectAuthScreen(router = AppRouter(navController))
     }
 }
