@@ -5,7 +5,7 @@ import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.data.localstorage.LocalStorage
 import com.example.moviecatalog.data.network.NetworkService
 
-class DeleteTokenFromLocalStorageUseCase (private val context: Context) {
+class DeleteTokenUseCase (private val context: Context) {
     private val localStorage = LocalStorage(context)
 
     fun invoke() {

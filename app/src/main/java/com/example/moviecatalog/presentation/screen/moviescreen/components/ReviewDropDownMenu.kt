@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,6 +33,7 @@ import com.example.moviecatalog.R
 import com.example.moviecatalog.presentation.ui.theme.ChipColor
 import com.example.moviecatalog.presentation.ui.theme.MenuGrayColor
 import com.example.moviecatalog.presentation.ui.theme.RedColor
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
 import com.example.moviecatalog.presentation.ui.theme.WhiteColor
 
 @Composable
@@ -47,19 +49,19 @@ fun ReviewDropDownMenu(
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { onDropClick() },
-            modifier = Modifier.background(
-                color = ChipColor,
-                shape = RoundedCornerShape(10.dp)
-            )
-                .width(IntrinsicSize.Min)
+            modifier = Modifier
+                .background(
+                    color = ChipColor,
+                    shape = RoundedCornerShape(10.dp)
+                )
         ) {
             DropdownMenuItem(
                 text = {
                     Text(
-                        text = "Редактировать",
+                        text = stringResource(id = R.string.edit),
                         color = WhiteColor,
                         fontSize = 14.sp,
-                        modifier = Modifier.padding(end = 16.dp)
+                        modifier = Modifier.padding(end = BasePadding)
                     )
                 },
                 trailingIcon =
@@ -81,10 +83,10 @@ fun ReviewDropDownMenu(
             DropdownMenuItem(
                 text = {
                     Text(
-                        text = "Удалить",
+                        text = stringResource(id = R.string.delete),
                         color = RedColor,
                         fontSize = 14.sp,
-                        modifier = Modifier.padding(end = 16.dp)
+                        modifier = Modifier.padding(end = BasePadding)
                     )
                 },
                 trailingIcon =

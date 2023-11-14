@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.common.Constants
+import com.example.moviecatalog.data.network.NetworkService
 import com.example.moviecatalog.domain.model.movie.MovieDetails
 import com.example.moviecatalog.domain.model.review.ReviewModify
 import com.example.moviecatalog.domain.state.MovieState
@@ -15,11 +16,14 @@ import com.example.moviecatalog.domain.usecase.GetProfileUseCase
 import com.example.moviecatalog.domain.usecase.PostAddFavoriteMovieUseCase
 import com.example.moviecatalog.domain.usecase.PostAddReviewUseCase
 import com.example.moviecatalog.domain.usecase.PutReviewUseCase
+import com.example.moviecatalog.presentation.router.AppRouter
+import com.example.moviecatalog.presentation.router.LogoutRouter
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class MovieViewModel : ViewModel() {
+class MovieViewModel(val router: LogoutRouter) : ViewModel() {
     private val getMovieDetailsUseCase = GetMovieDetailsUseCase()
     private val getFavoritesUseCase = GetFavoritesUseCase()
     private val postAddFavoriteMovieUseCase = PostAddFavoriteMovieUseCase()
@@ -93,6 +97,17 @@ class MovieViewModel : ViewModel() {
                 _state.value = state.value.copy(
                     isReviewDialogOpen = !_state.value.isReviewDialogOpen
                 )
+                if (_state.value.userReview != null) {
+                    _state.value = state.value.copy(
+                        isAnonymous = _state.value.userReview!!.isAnonymous
+                    )
+                    _state.value = state.value.copy(
+                        movieRating = _state.value.userReview!!.rating
+                    )
+                    _state.value = state.value.copy(
+                        reviewText = _state.value.userReview!!.reviewText!!
+                    )
+                }
             }
             is MovieIntent.ClickOnFavoriteButton -> {
                 if (state.value.isLiked) {
@@ -129,7 +144,6 @@ class MovieViewModel : ViewModel() {
                 }
             }
             is MovieIntent.DeleteReview -> {
-                Log.d("Delete", "yes")
                 deleteReview()
             }
             MovieIntent.ChangeDropDownMenuOpen -> {
@@ -146,8 +160,8 @@ class MovieViewModel : ViewModel() {
 
     fun performDetails(movieId: String) {
         resetStateToEmpty()
-        processIntent(MovieIntent.ChangeIsLoading)
         viewModelScope.launch {
+            processIntent(MovieIntent.ChangeIsLoading)
             val result = getMovieDetailsUseCase.invoke(movieId)
             if (result.isSuccess) {
                 val response = result.getOrNull()
@@ -156,6 +170,8 @@ class MovieViewModel : ViewModel() {
                     checkMovieIsLiked(it.id)
                     getProfile()
                 }
+            } else {
+                userOutLogin { router.toErrorAfterOut() }
             }
             processIntent(MovieIntent.ChangeIsLoading)
         }
@@ -184,6 +200,8 @@ class MovieViewModel : ViewModel() {
             val result = postAddFavoriteMovieUseCase.invoke(movieId)
             if (result.isSuccess){
                 processIntent(MovieIntent.ChangeLiked)
+            } else {
+                userOutLogin { router.toErrorAfterOut()  }
             }
         }
     }
@@ -193,25 +211,31 @@ class MovieViewModel : ViewModel() {
             val result = deleteFavoriteMovieUseCase.invoke(movieId)
             if (result.isSuccess){
                 processIntent(MovieIntent.ChangeLiked)
+            } else {
+                userOutLogin { router.toErrorAfterOut()  }
             }
         }
     }
 
-    private fun getProfile(){
+    private fun getProfile() {
         viewModelScope.launch {
             val result = getProfileUseCase.invoke()
-            if (result.isSuccess){
+            Log.d("RESULT", result.toString())
+            if (result.isSuccess) {
                 val response = result.getOrNull()
                 if (response != null) {
                     _state.value.userId = response.id
                     _state.value.movieDetails.reviews?.forEach { review ->
-                        if (review.author?.userId == response.id){
+                        if (review.author?.userId == response.id) {
                             processIntent(MovieIntent.ChangeUserReview(review))
                             processIntent(MovieIntent.ChangeReviewText(review.reviewText!!))
                             processIntent(MovieIntent.ChangeRating(review.rating))
+                            _state.value.isAnonymous = review.isAnonymous
                         }
                     }
                 }
+            } else {
+                userOutLogin { router.toErrorAfterOut()  }
             }
         }
     }
@@ -224,18 +248,33 @@ class MovieViewModel : ViewModel() {
         )
         Log.d("Review", review.toString())
         viewModelScope.launch {
-            val result = postAddReviewUseCase.invoke(state.value.movieDetails.id, review)
-            if (result.isSuccess) {
-                performDetails(state.value.movieDetails.id)
+            try {
+                val result = postAddReviewUseCase.invoke(state.value.movieDetails.id, review)
+                if (result.isSuccess) {
+                    performDetails(state.value.movieDetails.id)
+                } else if (result.isFailure){
+                    userOutLogin { router.toErrorAfterOut() }
+                }
+            } catch (e: Exception) {
+                userOutLogin { router.toErrorAfterOut() }
             }
         }
     }
 
     private fun deleteReview() {
         viewModelScope.launch {
-            val result = deleteReviewUseCase.invoke(state.value.movieDetails.id, state.value.userReview!!.id)
-            if (result.isSuccess){
-                processIntent(MovieIntent.ChangeUserReview(null))
+            try {
+                val result = deleteReviewUseCase.invoke(
+                    state.value.movieDetails.id,
+                    state.value.userReview!!.id
+                )
+                if (result.isSuccess){
+                    processIntent(MovieIntent.ChangeUserReview(null))
+                } else if (result.isFailure){
+                    userOutLogin { router.toErrorAfterOut()  }
+                }
+            } catch (e: Exception) {
+                userOutLogin { router.toErrorAfterOut()  }
             }
         }
     }
@@ -246,15 +285,27 @@ class MovieViewModel : ViewModel() {
             rating = state.value.movieRating,
             isAnonymous = state.value.isAnonymous
         )
+
         viewModelScope.launch {
-            val result = putReviewUseCase.invoke(
-                state.value.movieDetails.id,
-                state.value.userReview!!.id,
-                review
-            )
-            if (result.isSuccess){
-                performDetails(state.value.movieDetails.id)
+            try {
+                val result = putReviewUseCase.invoke(
+                    state.value.movieDetails.id,
+                    state.value.userReview!!.id,
+                    review
+                )
+                if (result.isSuccess){
+                    performDetails(state.value.movieDetails.id)
+                } else if (result.isFailure){
+                    userOutLogin { router.toErrorAfterOut() }
+                }
+            } catch (e: Exception) {
+                userOutLogin { router.toErrorAfterOut()  }
             }
         }
+    }
+
+    private fun userOutLogin(goTo: () -> Unit){
+        NetworkService.setAuthToken(Constants.EMPTY_STRING)
+        goTo()
     }
 }

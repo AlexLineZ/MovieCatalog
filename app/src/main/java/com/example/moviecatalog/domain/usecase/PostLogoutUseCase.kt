@@ -6,7 +6,7 @@ class PostLogoutUseCase {
     private val authenticationRepository = AuthenticationRepository()
 
     suspend fun invoke() : Result<Unit?> {
-        val response = authenticationRepository.postLogoutData()
+        val response = authenticationRepository.postLogout()
 
         return try {
             if (response.isSuccessful) {

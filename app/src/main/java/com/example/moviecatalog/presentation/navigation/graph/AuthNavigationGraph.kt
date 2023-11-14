@@ -1,9 +1,10 @@
-package com.example.moviecatalog.presentation.navigation
+package com.example.moviecatalog.presentation.navigation.graph
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.example.moviecatalog.presentation.navigation.Destinations
 import com.example.moviecatalog.presentation.router.AppRouter
 import com.example.moviecatalog.presentation.screen.loginscreen.LoginScreen
 import com.example.moviecatalog.presentation.screen.loginscreen.LoginViewModel
@@ -27,22 +28,22 @@ fun NavGraphBuilder.authNavigationGraph(
         route = AUTH_ROUTE
     ) {
         composable (Destinations.SPLASH_SCREEN){
-            SplashScreen(splashViewModel, AppRouter(navController))
+            SplashScreen(splashViewModel)
         }
         composable(Destinations.SELECT_AUTH_SCREEN) {
             SelectAuthScreen(AppRouter(navController))
         }
         composable(Destinations.LOGIN_SCREEN) {
-            LoginScreen(AppRouter(navController), loginViewModel)
+            LoginScreen(loginViewModel)
         }
         composable(Destinations.REGISTRATION_FIRST_SCREEN) {
-            RegistrationFirstScreen(AppRouter(navController), registrationViewModel)
+            RegistrationFirstScreen(registrationViewModel)
         }
         composable(Destinations.REGISTRATION_SECOND_SCREEN) {
-            RegistrationSecondScreen(AppRouter(navController), registrationViewModel)
+            RegistrationSecondScreen(registrationViewModel)
         }
     }
     composable (Destinations.SPLASH_SCREEN){
-        SplashScreen(splashViewModel, AppRouter(navController))
+        SplashScreen(splashViewModel)
     }
 }

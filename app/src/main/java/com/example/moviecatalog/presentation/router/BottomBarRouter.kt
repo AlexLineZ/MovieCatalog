@@ -1,16 +1,10 @@
 package com.example.moviecatalog.presentation.router
 
-import android.annotation.SuppressLint
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.moviecatalog.presentation.navigation.AUTH_ROUTE
 import com.example.moviecatalog.presentation.navigation.Destinations
-import com.example.moviecatalog.presentation.navigation.MAIN_ROUTE
+import com.example.moviecatalog.presentation.navigation.graph.MAIN_ROUTE
 import com.example.moviecatalog.presentation.navigation.bottombar.Routes
-import kotlinx.coroutines.flow.MutableStateFlow
 
 class BottomBarRouter (private val navController: NavHostController) {
     fun navigate(screen: Routes) {

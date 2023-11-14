@@ -49,12 +49,15 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.moviecatalog.R
 import com.example.moviecatalog.domain.state.MovieState
+import com.example.moviecatalog.presentation.screen.common.PairButtons
 import com.example.moviecatalog.presentation.screen.profilescreen.ProfileIntent
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
 import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
 import com.example.moviecatalog.presentation.ui.theme.Gray400Color
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 import com.example.moviecatalog.presentation.ui.theme.YellowStarColor
 
 @Composable
@@ -68,7 +71,9 @@ fun ReviewDialog(
     isButtonAvailable: Boolean
 ) {
     Dialog(
-        onDismissRequest = { onCancelClick() },
+        onDismissRequest = {
+            onCancelClick()
+        },
         properties = DialogProperties(
             usePlatformDefaultWidth = false
         ),
@@ -76,7 +81,7 @@ fun ReviewDialog(
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(BasePadding),
             shape = RoundedCornerShape(5.dp),
             color = MaterialTheme.colorScheme.background
         ) {
@@ -85,7 +90,7 @@ fun ReviewDialog(
                 verticalArrangement = Arrangement.Absolute.spacedBy(10.dp)
             ) {
                 Text(
-                    text = "Оставить отзыв",
+                    text = stringResource(id = R.string.leave_review),
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp,
@@ -129,7 +134,7 @@ fun ReviewDialog(
                     onValueChange = {
                         onReviewTextChanged(it)
                     },
-                    label = { Text("Напишите отзыв") },
+                    label = { Text(stringResource(id = R.string.write_review)) },
                     shape = RoundedCornerShape(5.dp),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -146,10 +151,10 @@ fun ReviewDialog(
                         onCheckedChange = null
                     )
 
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(MiddlePadding))
 
                     Text(
-                        text = "Анонимный отзыв",
+                        text = stringResource(id = R.string.anon_review),
                         style = TextStyle(
                             fontWeight = FontWeight.W500,
                             fontSize = 15.sp,
@@ -159,47 +164,14 @@ fun ReviewDialog(
                     )
                 }
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        Button(
-                            onClick = { onSaveClick() },
-                            shape = RoundedCornerShape(10.dp),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(IntrinsicSize.Min)
-                                .padding(top = 8.dp, bottom = 4.dp),
-                            colors = BaseButtonColor,
-                            enabled = isButtonAvailable
-                        ) {
-                            Text(
-                                text = stringResource(R.string.save)
-                            )
-                        }
-
-                        Button(
-                            onClick = { onCancelClick() },
-                            shape = RoundedCornerShape(10.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = SecondButtonColor,
-                                contentColor = AccentColor
-                            ),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(IntrinsicSize.Min)
-                                .padding(top = 8.dp, bottom = 4.dp)
-                        ) {
-                            Text(
-                                text = stringResource(R.string.cancel)
-                            )
-                        }
-                    }
-                }
+                PairButtons(
+                    firstLabel = stringResource(R.string.save),
+                    firstClick = { onSaveClick() },
+                    secondLabel = stringResource(R.string.cancel),
+                    secondClick = { onCancelClick() },
+                    modifier = Modifier.padding(top = 25.dp),
+                    firstEnabled = isButtonAvailable
+                )
             }
         }
     }

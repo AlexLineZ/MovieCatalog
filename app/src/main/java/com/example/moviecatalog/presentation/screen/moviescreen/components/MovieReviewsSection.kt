@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -28,6 +29,10 @@ import com.example.moviecatalog.domain.state.MovieState
 import com.example.moviecatalog.presentation.screen.moviescreen.components.items.MovieReviewCard
 import com.example.moviecatalog.presentation.screen.moviescreen.components.items.MovieReviewCurrentUserCard
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.LittlePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MoreSpaceBetweenObjects
+import com.example.moviecatalog.presentation.ui.theme.Values.SpaceBetweenObjects
 
 @Composable
 fun MovieReviewsSection(
@@ -58,21 +63,25 @@ fun MovieReviewsSection(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(
+                start = BasePadding,
+                end = BasePadding,
+                top = MoreSpaceBetweenObjects
+            )
     ) {
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 4.dp, bottom = 16.dp),
+                .padding(top = LittlePadding, bottom = SpaceBetweenObjects),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
 
             Text(
-                text = "Отзывы",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
+                text = stringResource(id = R.string.reviews),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.W700,
                 color = Color.White
             )
 

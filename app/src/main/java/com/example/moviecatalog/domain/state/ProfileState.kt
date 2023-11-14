@@ -11,7 +11,9 @@ data class ProfileState (
     val birthday: String,
 
     val emailError: Int?,
+    val nameError: Int?,
 
     val isDatePickerOpened: Boolean,
-    val changesInProfile: Boolean
+    val changesInProfile: Boolean,
+    var isLoading: Boolean
 )

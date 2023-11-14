@@ -1,17 +1,14 @@
 package com.example.moviecatalog.presentation.screen.registrationscreen
 
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,26 +20,25 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.domain.validator.EmailValidator
-import com.example.moviecatalog.presentation.router.AppRouter
+import com.example.moviecatalog.domain.validator.NameValidator
+import com.example.moviecatalog.presentation.screen.common.AdviceText
 import com.example.moviecatalog.presentation.screen.common.AppBar
 import com.example.moviecatalog.presentation.screen.common.DatePickerField
 import com.example.moviecatalog.presentation.screen.common.GenderSelectionButton
 import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
 import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
-import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
-import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.BigRound
+import com.example.moviecatalog.presentation.ui.theme.Values.MoreSpaceBetweenObjects
+import com.example.moviecatalog.presentation.ui.theme.Values.SpaceBetweenObjects
 
 @Composable
 fun RegistrationFirstScreen(
-    router: AppRouter,
     viewModel: RegistrationViewModel
 ) {
     val focusManager = LocalFocusManager.current
@@ -51,7 +47,7 @@ fun RegistrationFirstScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(BasePadding)
             .pointerInput(Unit) {
                 detectTapGestures(onTap = {
                     focusManager.clearFocus()
@@ -60,40 +56,54 @@ fun RegistrationFirstScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        AppBar{
-            router.toAuth()
+        AppBar {
+            viewModel.processIntent(RegistrationIntent.GoBackToAuth)
         }
 
         Text(
             text = stringResource(R.string.registration),
             style = TextStyle(
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
+                fontSize = 20.sp,
+                fontWeight = FontWeight.W700
             ),
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+            modifier = Modifier.padding(
+                top = MoreSpaceBetweenObjects,
+                bottom = SpaceBetweenObjects
+            )
         )
+        
         LazyColumn {
             item {
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.name),
                     value = registrationState.name,
-                    onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateName(it)) },
-                    error = null
+                    onValueChange = {
+                        viewModel.processIntent(RegistrationIntent.UpdateName(it))
+                        viewModel.processIntent(
+                            RegistrationIntent.UpdateErrorText(
+                                NameValidator(),
+                                it
+                            )
+                        )
+                    },
+                    error = registrationState.isErrorNameText,
+                    modifier = Modifier
                 )
 
                 GenderSelectionButton(
                     updateGender = { viewModel.processIntent(RegistrationIntent.UpdateGender(it)) },
-                    state = registrationState.gender
+                    state = registrationState.gender,
+                    modifier = Modifier.padding(top = SpaceBetweenObjects)
                 )
 
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.login),
                     value = registrationState.login,
                     onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateLogin(it)) },
-                    error = null
+                    error = null,
+                    modifier = Modifier.padding(top = SpaceBetweenObjects)
                 )
-
 
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.email),
@@ -108,7 +118,8 @@ fun RegistrationFirstScreen(
                         )
 
                     },
-                    error = registrationState.isErrorEmailText
+                    error = registrationState.isErrorEmailText,
+                    modifier = Modifier.padding(top = SpaceBetweenObjects)
                 )
 
                 DatePickerField(
@@ -117,49 +128,28 @@ fun RegistrationFirstScreen(
                 )
 
                 Button(
-                    onClick = { router.toPasswordRegistration() },
-                    shape = RoundedCornerShape(10.dp),
+                    onClick = { viewModel.processIntent(RegistrationIntent.GoToSecondScreen) },
+                    shape = RoundedCornerShape(BigRound),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 16.dp, bottom = 16.dp)
+                        .padding(top = MoreSpaceBetweenObjects)
                         .height(IntrinsicSize.Min),
                     enabled = viewModel.isContinueButtonAvailable(),
                     colors = BaseButtonColor
                 ) {
                     Text(
-                        text = stringResource(R.string.continue_)
+                        text = stringResource(R.string.continue_),
+                        style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.W600)
                     )
                 }
             }
         }
 
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .wrapContentSize(Alignment.BottomCenter)
-                .padding(16.dp),
-        ){
-            val highlightedText = buildAnnotatedString {
-                withStyle(style = spanStyleGray){
-                    append(stringResource(R.string.need_login) + " ")
-                }
-
-                withStyle(style = spanStyleAccent) {
-                    append(stringResource(R.string.need_login_clickable))
-                }
-            }
-
-            ClickableText(
-                onClick ={ offset ->
-                    if (offset >= 16){
-                        router.toLogin()
-                    }
-                },
-                text = highlightedText
-            )
-        }
-
+        AdviceText(
+            baseText = stringResource(R.string.need_login),
+            clickableText = stringResource(R.string.need_login_clickable),
+            onClick = { viewModel.processIntent(RegistrationIntent.GoToLogin) },
+            modifier = Modifier.weight(1f)
+        )
     }
 }

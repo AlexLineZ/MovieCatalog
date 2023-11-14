@@ -1,5 +1,5 @@
 package com.example.moviecatalog.domain.validator
-import com.example.moviecatalog.common.ErrorMapper
+import com.example.moviecatalog.R
 
 class EmailValidator : Validator {
     override fun validate(data: String, secondData: String) : Int?{
@@ -8,7 +8,7 @@ class EmailValidator : Validator {
         return if (data.isEmpty() || data == null) {
             null
         } else if (!emailPattern.matches(data)) {
-            ErrorMapper.EMAIL_ERROR
+            R.string.email_error
         } else null
     }
 }

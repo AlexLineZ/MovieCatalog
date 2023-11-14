@@ -18,8 +18,7 @@ sealed class RegistrationIntent {
     object UpdatePasswordVisibility : RegistrationIntent()
     object UpdateConfirmPasswordVisibility : RegistrationIntent()
     data class Registration(
-        val registrationState: RegistrationState,
-        val afterRegistration: () -> Unit
+        val registrationState: RegistrationState
     ): RegistrationIntent()
 
     data class UpdateErrorText(
@@ -29,4 +28,8 @@ sealed class RegistrationIntent {
     ): RegistrationIntent()
 
     object UpdateLoading: RegistrationIntent()
+    object GoToSecondScreen: RegistrationIntent()
+    object GoBackToAuth: RegistrationIntent()
+    object GoBackToFirst: RegistrationIntent()
+    object GoToLogin: RegistrationIntent()
 }

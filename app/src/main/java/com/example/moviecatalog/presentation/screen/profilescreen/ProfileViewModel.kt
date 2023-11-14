@@ -1,30 +1,36 @@
 package com.example.moviecatalog.presentation.screen.profilescreen
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.common.Constants
-import com.example.moviecatalog.common.formatDateToNormal
+import com.example.moviecatalog.common.Formatter.formatDateToNormal
+import com.example.moviecatalog.data.network.NetworkService
 import com.example.moviecatalog.domain.model.profile.Profile
 import com.example.moviecatalog.domain.state.ProfileState
 import com.example.moviecatalog.domain.usecase.DataValidateUseCase
-import com.example.moviecatalog.domain.usecase.DeleteTokenFromLocalStorageUseCase
+import com.example.moviecatalog.domain.usecase.DeleteTokenUseCase
 import com.example.moviecatalog.domain.usecase.GetProfileUseCase
 import com.example.moviecatalog.domain.usecase.PostLogoutUseCase
 import com.example.moviecatalog.domain.usecase.PutProfileDataUseCase
 import com.example.moviecatalog.domain.validator.EmailValidator
+import com.example.moviecatalog.domain.validator.NameValidator
+import com.example.moviecatalog.presentation.router.LogoutRouter
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class ProfileViewModel(val context: Context) : ViewModel() {
+class ProfileViewModel(
+    val context: Context,
+    val router: LogoutRouter
+) : ViewModel() {
     private val getProfileUseCase = GetProfileUseCase()
     private val putProfileDataUseCase = PutProfileDataUseCase()
     private val dataValidateUseCase = DataValidateUseCase()
     private val postLogoutUseCase = PostLogoutUseCase()
-    private val deleteTokenFromLocalStorageUseCase = DeleteTokenFromLocalStorageUseCase(context)
+    private val deleteTokenUseCase = DeleteTokenUseCase(context)
 
     private val emptyState = ProfileState (
         id = Constants.EMPTY_STRING,
@@ -36,8 +42,10 @@ class ProfileViewModel(val context: Context) : ViewModel() {
         date = Constants.EMPTY_STRING,
         birthday = Constants.EMPTY_STRING,
         emailError = null,
+        nameError = null,
         isDatePickerOpened = Constants.FALSE,
-        changesInProfile = Constants.FALSE
+        changesInProfile = Constants.FALSE,
+        isLoading = Constants.FALSE
     )
 
     private val initialProfileStateFlow = MutableStateFlow(emptyState)
@@ -54,7 +62,7 @@ class ProfileViewModel(val context: Context) : ViewModel() {
                 _state.value = state.value.copy(nickName = intent.nickName)
             }
             is ProfileIntent.UpdateEmail -> {
-                _state.value = state.value.copy(email = intent.email)
+                _state.value = state.value.copy(email = intent.email.trim())
                 processIntent(
                     ProfileIntent.UpdateEmailError(
                         dataValidateUseCase.invoke(EmailValidator(), intent.email)
@@ -63,11 +71,16 @@ class ProfileViewModel(val context: Context) : ViewModel() {
                 processIntent(ProfileIntent.UpdateChanges(isChange = true))
             }
             is ProfileIntent.UpdateAvatarLink -> {
-                _state.value = state.value.copy(avatarLink = intent.link)
+                _state.value = state.value.copy(avatarLink = intent.link?.trim())
                 processIntent(ProfileIntent.UpdateChanges(isChange = true))
             }
             is ProfileIntent.UpdateName -> {
                 _state.value = state.value.copy(name = intent.name)
+                processIntent(
+                    ProfileIntent.UpdateNameError(
+                        dataValidateUseCase.invoke(NameValidator(), intent.name)
+                    )
+                )
                 processIntent(ProfileIntent.UpdateChanges(isChange = true))
             }
             is ProfileIntent.UpdateGender -> {
@@ -86,6 +99,9 @@ class ProfileViewModel(val context: Context) : ViewModel() {
             is ProfileIntent.UpdateEmailError -> {
                 _state.value = state.value.copy(emailError = intent.error)
             }
+            is ProfileIntent.UpdateNameError -> {
+                _state.value = state.value.copy(nameError = intent.error)
+            }
             is ProfileIntent.SaveData -> {
                 changeData()
             }
@@ -98,11 +114,18 @@ class ProfileViewModel(val context: Context) : ViewModel() {
             is ProfileIntent.Logout -> {
                 logoutUser { intent.toAfterLogout() }
             }
+
+            ProfileIntent.UpdateLoading -> {
+                _state.value = state.value.copy(
+                    isLoading = !_state.value.isLoading
+                )
+            }
         }
     }
 
     private fun rollbackToInitialState() {
         _state.value = initialProfileStateFlow.value
+        _state.value.isLoading = Constants.FALSE
     }
 
     fun isDatePickerOpen() : Boolean {
@@ -112,6 +135,7 @@ class ProfileViewModel(val context: Context) : ViewModel() {
     fun isSaveButtonAvailable(): Boolean {
         return _state.value.changesInProfile
                 && _state.value.emailError == null
+                && _state.value.nameError == null
                 && _state.value.email.isNotEmpty()
                 && _state.value.name.isNotEmpty()
                 && _state.value.date.isNotEmpty()
@@ -138,6 +162,8 @@ class ProfileViewModel(val context: Context) : ViewModel() {
                     processIntent(ProfileIntent.UpdateChanges(isChange = false))
                     initialProfileStateFlow.value = _state.value
                 }
+            } else if (result.isFailure){
+                userOutLogin { router.toErrorAfterOut() }
             }
         }
     }
@@ -175,12 +201,23 @@ class ProfileViewModel(val context: Context) : ViewModel() {
 
     private fun logoutUser(toAfterLogout: () -> Unit) {
         viewModelScope.launch {
-            val result = postLogoutUseCase.invoke()
-            if (result.isSuccess) {
-                deleteTokenFromLocalStorageUseCase.invoke()
-                toAfterLogout()
+            try {
+                val result = postLogoutUseCase.invoke()
+                if (result.isSuccess) {
+                    deleteTokenUseCase.invoke()
+                    toAfterLogout()
+                } else {
+                    userOutLogin { router.toErrorAfterOut() }
+                }
+            } catch (e: Exception) {
+                userOutLogin { router.toErrorAfterOut() }
             }
         }
+    }
+
+    private fun userOutLogin(goTo: () -> Unit){
+        NetworkService.setAuthToken(Constants.EMPTY_STRING)
+        goTo()
     }
 }
 

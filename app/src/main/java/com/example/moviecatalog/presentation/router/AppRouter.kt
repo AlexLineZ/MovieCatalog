@@ -1,10 +1,7 @@
 package com.example.moviecatalog.presentation.router
 
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import com.example.moviecatalog.presentation.navigation.AUTH_ROUTE
 import com.example.moviecatalog.presentation.navigation.Destinations
-import com.example.moviecatalog.presentation.navigation.ROOT_ROUTE
 import com.example.moviecatalog.presentation.navigation.bottombar.Routes
 
 
@@ -25,7 +22,9 @@ class AppRouter(
 
     fun toAuth() {
         navController.navigate(Destinations.SELECT_AUTH_SCREEN) {
-            popUpTo(Destinations.SPLASH_SCREEN) { inclusive = true }
+            popUpTo(navController.graph.id){
+                inclusive = true
+            }
         }
     }
 
@@ -35,7 +34,7 @@ class AppRouter(
 
     fun toMain() {
         navController.navigate(Routes.HomeScreen.route) {
-            popUpTo(AUTH_ROUTE) {
+            popUpTo(navController.graph.id){
                 inclusive = true
             }
         }

@@ -2,7 +2,9 @@ package com.example.moviecatalog.presentation.screen.favouritescreen.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,13 +26,17 @@ import coil.compose.AsyncImage
 import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.domain.model.movie.MovieElement
+import com.example.moviecatalog.presentation.screen.common.MarkWithStar
+import com.example.moviecatalog.presentation.ui.theme.Values.MicroPadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 
 
 @Composable
 fun MovieCardFavourite(
     movie: MovieElement,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    mark: Int?
 ) {
     Column(
         modifier = modifier
@@ -39,21 +45,36 @@ fun MovieCardFavourite(
                 onClick()
             }
     ) {
-        AsyncImage(
-            model = movie.poster,
-            contentDescription = null,
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(205.dp)
-                .clip(RoundedCornerShape(3.dp)),
-            contentScale = ContentScale.Crop
-        )
+                .clip(RoundedCornerShape(3.dp))
+        ) {
+            AsyncImage(
+                model = movie.poster,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(3.dp)),
+                contentScale = ContentScale.Crop
+            )
+
+            if (mark != null) {
+                MarkWithStar(
+                    value = mark,
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(MicroPadding)
+                )
+            }
+        }
 
         Text(
             text = movie.name ?: Constants.EMPTY_STRING,
-            style = TextStyle(fontSize = 14.sp),
+            style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.W500),
             modifier = Modifier
-                .padding(top = 8.dp)
+                .padding(top = MiddlePadding)
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .align(Alignment.Start)
