@@ -30,11 +30,14 @@ class MainViewModel : ViewModel() {
 
     val movies = Pager(
         config = PagingConfig(
-            pageSize = 6,
-            initialLoadSize = 6
+            pageSize = 6
         )
     ) {
-        MoviePagingSource(getMovieListUseCase, getMovieDetailsUseCase, getProfileUseCase)
+        MoviePagingSource(
+            getMovieListUseCase,
+            getMovieDetailsUseCase,
+            getProfileUseCase
+        )
     }.flow.cachedIn(viewModelScope)
 
     fun changeState(reviewState: CurrentReview) {

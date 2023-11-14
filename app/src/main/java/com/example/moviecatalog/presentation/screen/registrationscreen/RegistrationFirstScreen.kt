@@ -25,13 +25,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.domain.validator.EmailValidator
-import com.example.moviecatalog.presentation.router.AppRouter
+import com.example.moviecatalog.domain.validator.NameValidator
 import com.example.moviecatalog.presentation.screen.common.AdviceText
 import com.example.moviecatalog.presentation.screen.common.AppBar
 import com.example.moviecatalog.presentation.screen.common.DatePickerField
 import com.example.moviecatalog.presentation.screen.common.GenderSelectionButton
 import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
-import com.example.moviecatalog.presentation.screen.loginscreen.LoginIntent
 import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
 import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
 import com.example.moviecatalog.presentation.ui.theme.Values.BigRound
@@ -79,8 +78,16 @@ fun RegistrationFirstScreen(
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.name),
                     value = registrationState.name,
-                    onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateName(it)) },
-                    error = null,
+                    onValueChange = {
+                        viewModel.processIntent(RegistrationIntent.UpdateName(it))
+                        viewModel.processIntent(
+                            RegistrationIntent.UpdateErrorText(
+                                NameValidator(),
+                                it
+                            )
+                        )
+                    },
+                    error = registrationState.isErrorNameText,
                     modifier = Modifier
                 )
 

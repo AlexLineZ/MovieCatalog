@@ -57,7 +57,7 @@ class MoviePagingSource(
                 LoadResult.Page(
                     data = updatedMovies,
                     prevKey = if (page > 1) page - 1 else null,
-                    nextKey = if (movies.isNotEmpty()) page + 1 else null
+                    nextKey = if (updatedMovies.isNotEmpty()) page + 1 else null
                 )
             } else {
                 LoadResult.Error(Exception("Failed to load data"))

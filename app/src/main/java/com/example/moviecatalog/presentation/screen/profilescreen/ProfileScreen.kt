@@ -40,7 +40,6 @@ import com.example.moviecatalog.presentation.screen.profilescreen.components.Dat
 import com.example.moviecatalog.presentation.screen.common.GenderSelectionButton
 import com.example.moviecatalog.presentation.screen.common.OutlinedTextFieldWithLabel
 import com.example.moviecatalog.presentation.screen.common.PairButtons
-import com.example.moviecatalog.presentation.screen.favouritescreen.FavoriteIntent
 import com.example.moviecatalog.presentation.screen.mainscreen.components.PullIndicator
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
@@ -174,6 +173,7 @@ fun ProfileItemsList(
                         label = stringResource(R.string.name),
                         value = state.name,
                         onValueChange = { viewModel.processIntent(ProfileIntent.UpdateName(it)) },
+                        error = state.nameError?.let { stringResource(it) },
                         modifier = Modifier.padding(top = SpaceBetweenObjects)
                     )
 

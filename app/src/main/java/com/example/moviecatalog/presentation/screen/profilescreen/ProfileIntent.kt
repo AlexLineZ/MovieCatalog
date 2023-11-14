@@ -14,6 +14,7 @@ sealed class ProfileIntent{
     object UpdateDatePickerVisibility : ProfileIntent()
 
     data class UpdateEmailError(val error: Int?): ProfileIntent()
+    data class UpdateNameError(val error: Int?): ProfileIntent()
 
     object SaveData: ProfileIntent()
     object Cancel: ProfileIntent()

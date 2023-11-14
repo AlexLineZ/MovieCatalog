@@ -29,12 +29,10 @@ class SplashViewModel(
             val result = getProfileUseCase.invoke()
             if (result.isSuccess){
                 launch {
-                    delay(800L)
                     router.toMain()
                 }
             } else {
                 launch {
-                    delay(800L)
                     router.toAuth()
                 }
             }

@@ -47,11 +47,11 @@ class LoginViewModel (
             }
             is LoginIntent.UpdateLogin -> {
                 processIntent(LoginIntent.UpdateErrorText(null))
-                _state.value = state.value.copy(login = intent.login)
+                _state.value = state.value.copy(login = intent.login.trim())
             }
             is LoginIntent.UpdatePassword -> {
                 processIntent(LoginIntent.UpdateErrorText(null))
-                _state.value = state.value.copy(password = intent.password)
+                _state.value = state.value.copy(password = intent.password.trim())
             }
             is LoginIntent.UpdatePasswordVisibility -> {
                 _state.value = state.value.copy(isPasswordHide = !_state.value.isPasswordHide)

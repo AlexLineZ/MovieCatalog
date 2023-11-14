@@ -118,7 +118,10 @@ fun RegistrationSecondScreen (
             shape = RoundedCornerShape(BigRound),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = BasePadding, bottom = BasePadding)
+                .padding(
+                    top = BasePadding,
+                    bottom = BasePadding
+                )
                 .height(IntrinsicSize.Min),
             enabled = viewModel.isRegisterButtonAvailable(),
             colors = BaseButtonColor

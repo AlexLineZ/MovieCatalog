@@ -13,6 +13,7 @@ import com.example.moviecatalog.domain.usecase.DataValidateUseCase
 import com.example.moviecatalog.domain.usecase.PostRegistrationUseCase
 import com.example.moviecatalog.domain.validator.ConfirmPasswordValidator
 import com.example.moviecatalog.domain.validator.EmailValidator
+import com.example.moviecatalog.domain.validator.NameValidator
 import com.example.moviecatalog.domain.validator.PasswordValidator
 import com.example.moviecatalog.presentation.router.AppRouter
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,7 +38,7 @@ class RegistrationViewModel (
         Constants.FALSE,
         Constants.FALSE,
         Constants.FALSE,
-        null, null, null,
+        null, null, null, null,
         Constants.FALSE
     )
 
@@ -59,19 +60,19 @@ class RegistrationViewModel (
                 )
             }
             is RegistrationIntent.UpdateEmail -> {
-                _state.value = state.value.copy(email = intent.email)
+                _state.value = state.value.copy(email = intent.email.trim())
             }
             is RegistrationIntent.UpdateGender -> {
                 _state.value = state.value.copy(gender = intent.gender)
             }
             is RegistrationIntent.UpdateLogin -> {
-                _state.value = state.value.copy(login = intent.login)
+                _state.value = state.value.copy(login = intent.login.trim())
             }
             is RegistrationIntent.UpdateName -> {
                 _state.value = state.value.copy(name = intent.name)
             }
             is RegistrationIntent.UpdateConfirmPassword -> {
-                _state.value = state.value.copy(confirmPassword = intent.confirmPassword)
+                _state.value = state.value.copy(confirmPassword = intent.confirmPassword.trim())
             }
             is RegistrationIntent.UpdateConfirmPasswordVisibility -> {
                 _state.value = state.value.copy(
@@ -79,7 +80,7 @@ class RegistrationViewModel (
                 )
             }
             is RegistrationIntent.UpdatePassword -> {
-                _state.value = state.value.copy(password = intent.password)
+                _state.value = state.value.copy(password = intent.password.trim())
             }
             is RegistrationIntent.UpdatePasswordVisibility -> {
                 _state.value = state.value.copy(
@@ -100,6 +101,9 @@ class RegistrationViewModel (
                     )
                     is ConfirmPasswordValidator -> _state.value = state.value.copy (
                         isErrorConfirmPasswordText = result?.let { context.getString(it) }
+                    )
+                    is NameValidator -> _state.value = state.value.copy(
+                        isErrorNameText = result?.let { context.getString(it) }
                     )
                 }
             }
@@ -136,7 +140,8 @@ class RegistrationViewModel (
                 state.value.login.isNotEmpty() &&
                 state.value.email.isNotEmpty() &&
                 state.value.date.isNotEmpty() &&
-                state.value.isErrorEmailText == null
+                state.value.isErrorEmailText == null &&
+                state.value.isErrorNameText == null
     }
 
     fun isRegisterButtonAvailable() : Boolean {
