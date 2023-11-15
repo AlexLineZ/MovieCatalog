@@ -46,6 +46,9 @@ class FavoriteViewModel: ViewModel() {
     }
 
     fun performData() {
+        if (_state.value.isLoading) {
+            _state.value.isLoading = Constants.FALSE
+        }
         viewModelScope.launch {
             getProfile()
             val result = getFavoritesUseCase.invoke()
@@ -61,6 +64,27 @@ class FavoriteViewModel: ViewModel() {
             } else {
                 _state.value.movieList = arrayListOf()
             }
+        }
+    }
+
+    fun refreshData() {
+        processIntent(FavoriteIntent.UpdateLoading)
+        viewModelScope.launch {
+            val result = getFavoritesUseCase.invoke()
+            if (result.isSuccess) {
+                val response = result.getOrNull()
+                response?.let {
+                    val movieUserMarks = it.movies.map { movie ->
+                        val userMark = getMovieUserMark(movie)
+                        MovieUserMark(movie, userMark)
+                    }
+                    _state.value.movieList = ArrayList(movieUserMarks)
+                }
+            } else {
+                _state.value.movieList = arrayListOf()
+            }
+            delay(500)
+            processIntent(FavoriteIntent.UpdateLoading)
         }
     }
 

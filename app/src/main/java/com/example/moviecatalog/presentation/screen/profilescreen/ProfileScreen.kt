@@ -86,16 +86,7 @@ fun ProfileItemsList(
     val focusManager = LocalFocusManager.current
     val state by viewModel.state.collectAsState()
 
-    val refreshScope = rememberCoroutineScope()
-
-    fun refresh() = refreshScope.launch {
-        viewModel.processIntent(ProfileIntent.UpdateLoading)
-        viewModel.performData()
-        delay(1500)
-        viewModel.processIntent(ProfileIntent.UpdateLoading)
-    }
-
-    val pullState = rememberPullRefreshState(state.isLoading, ::refresh)
+    val pullState = rememberPullRefreshState(state.isLoading, { viewModel.refreshData() })
     val rotation = animateFloatAsState(pullState.progress * 120)
 
     Box(

@@ -103,6 +103,7 @@ class ProfileViewModel(
                 _state.value = state.value.copy(nameError = intent.error)
             }
             is ProfileIntent.SaveData -> {
+                processIntent(ProfileIntent.UpdateName(state.value.name.trim()))
                 changeData()
             }
             is ProfileIntent.Cancel -> {
@@ -167,6 +168,37 @@ class ProfileViewModel(
             }
         }
     }
+
+    fun refreshData() {
+        processIntent(ProfileIntent.UpdateLoading)
+        viewModelScope.launch {
+            val result = getProfileUseCase.invoke()
+            if (result.isSuccess) {
+                val response = result.getOrNull()
+                if (response != null) {
+                    processIntent(ProfileIntent.ChangeId(response.id))
+                    processIntent(ProfileIntent.UpdateNickName(response.nickName))
+                    processIntent(ProfileIntent.UpdateEmail(response.email))
+                    processIntent(ProfileIntent.UpdateGender(response.gender))
+                    processIntent(ProfileIntent.UpdateAvatarLink(response.avatarLink))
+                    processIntent(ProfileIntent.UpdateName(response.name))
+                    processIntent(
+                        ProfileIntent.UpdateDate(
+                            formatDateToNormal(response.birthDate),
+                            response.birthDate
+                        )
+                    )
+                    processIntent(ProfileIntent.UpdateChanges(isChange = false))
+                    initialProfileStateFlow.value = _state.value
+                }
+            } else if (result.isFailure){
+                userOutLogin { router.toErrorAfterOut() }
+            }
+            delay(500)
+            processIntent(ProfileIntent.UpdateLoading)
+        }
+    }
+
 
     private fun changeData() {
         val newData = Profile(

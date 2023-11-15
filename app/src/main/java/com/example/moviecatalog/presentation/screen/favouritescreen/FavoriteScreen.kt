@@ -70,16 +70,11 @@ fun FavouriteScreen(viewModel: FavoriteViewModel, router: BottomBarRouter) {
 fun FavoriteMoviesList(viewModel: FavoriteViewModel, router: BottomBarRouter){
     val stateList = viewModel.state.collectAsState()
 
-    val refreshScope = rememberCoroutineScope()
+    val pullState = rememberPullRefreshState(
+        refreshing = stateList.value.isLoading,
+        onRefresh = { viewModel.refreshData() }
+    )
 
-    fun refresh() = refreshScope.launch {
-        viewModel.processIntent(FavoriteIntent.UpdateLoading)
-        viewModel.performData()
-        delay(1500)
-        viewModel.processIntent(FavoriteIntent.UpdateLoading)
-    }
-
-    val pullState = rememberPullRefreshState(stateList.value.isLoading, ::refresh)
     val rotation = animateFloatAsState(pullState.progress * 120)
 
     Box(

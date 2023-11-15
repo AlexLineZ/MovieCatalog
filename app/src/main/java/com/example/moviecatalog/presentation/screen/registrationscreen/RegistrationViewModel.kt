@@ -156,10 +156,10 @@ class RegistrationViewModel (
         afterRegistration: () -> Unit
     ) {
         val registration = Registration(
-            userName = registrationState.login,
-            name = registrationState.name,
-            password = registrationState.password,
-            email = registrationState.email,
+            userName = registrationState.login.trim(),
+            name = registrationState.name.trim(),
+            password = registrationState.password.trim(),
+            email = registrationState.email.trim(),
             birthDate = registrationState.birthday,
             gender = registrationState.gender
         )
