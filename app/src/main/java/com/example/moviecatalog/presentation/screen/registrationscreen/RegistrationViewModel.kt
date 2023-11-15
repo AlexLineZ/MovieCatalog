@@ -13,6 +13,7 @@ import com.example.moviecatalog.domain.usecase.DataValidateUseCase
 import com.example.moviecatalog.domain.usecase.PostRegistrationUseCase
 import com.example.moviecatalog.domain.validator.ConfirmPasswordValidator
 import com.example.moviecatalog.domain.validator.EmailValidator
+import com.example.moviecatalog.domain.validator.LoginValidator
 import com.example.moviecatalog.domain.validator.NameValidator
 import com.example.moviecatalog.domain.validator.PasswordValidator
 import com.example.moviecatalog.presentation.router.AppRouter
@@ -38,7 +39,11 @@ class RegistrationViewModel (
         Constants.FALSE,
         Constants.FALSE,
         Constants.FALSE,
-        null, null, null, null,
+        null,
+        null,
+        null,
+        null,
+        null,
         Constants.FALSE
     )
 
@@ -88,7 +93,10 @@ class RegistrationViewModel (
                 )
             }
             is RegistrationIntent.Registration -> {
-                performRegistration(state.value) { router.toMain() }
+                performRegistration(state.value) {
+                    router.toMain()
+                    clearData()
+                }
             }
             is RegistrationIntent.UpdateErrorText -> {
                 val result = dataValidateUseCase.invoke(intent.validator, intent.data, intent.secondData)
@@ -104,6 +112,9 @@ class RegistrationViewModel (
                     )
                     is NameValidator -> _state.value = state.value.copy(
                         isErrorNameText = result?.let { context.getString(it) }
+                    )
+                    is LoginValidator -> _state.value = state.value.copy (
+                        isErrorLoginText = result?.let { context.getString(it) }
                     )
                 }
             }
@@ -149,6 +160,17 @@ class RegistrationViewModel (
                 state.value.confirmPassword.isNotEmpty() &&
                 state.value.isErrorPasswordText == null &&
                 state.value.isErrorConfirmPasswordText == null
+    }
+
+    private fun clearData() {
+        processIntent(RegistrationIntent.UpdateLogin(Constants.EMPTY_STRING))
+        processIntent(RegistrationIntent.UpdateName(Constants.EMPTY_STRING))
+        processIntent(RegistrationIntent.UpdatePassword(Constants.EMPTY_STRING))
+        processIntent(RegistrationIntent.UpdateConfirmPassword(Constants.EMPTY_STRING))
+        processIntent(RegistrationIntent.UpdateBirthday(
+            Constants.EMPTY_STRING, Constants.EMPTY_STRING)
+        )
+        processIntent(RegistrationIntent.UpdateGender(Constants.ZERO))
     }
 
     private fun performRegistration(

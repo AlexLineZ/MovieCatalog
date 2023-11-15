@@ -40,6 +40,7 @@
     <string name="password_result3">Пароли не совпадают.</string>
     <string name="auth_error">Неправильный логин или пароль.</string>
     <string name="name_error">Имя не может быть пустым.</string>
+    <string name="login_str_error">Некорретный логин.</string>
 
     <string name="empty_favourite1">У вас пока нет любимых фильмов</string>
     <string name="empty_favourite2">Выберите понравившийся фильм в каталоге и добавьте его в любимые</string>

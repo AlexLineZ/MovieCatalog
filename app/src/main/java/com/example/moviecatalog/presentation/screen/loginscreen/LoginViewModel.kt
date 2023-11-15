@@ -39,7 +39,10 @@ class LoginViewModel (
         when (intent) {
             is LoginIntent.Login -> {
                 processIntent(LoginIntent.UpdateErrorText(null))
-                performLogin(_state.value.login, _state.value.password) { router.toMain() }
+                performLogin(_state.value.login, _state.value.password) {
+                    router.toMain()
+                    clearData()
+                }
             }
             LoginIntent.GoBack -> {
                 processIntent(LoginIntent.UpdateErrorText(null))
@@ -74,6 +77,11 @@ class LoginViewModel (
     fun isLoginButtonAvailable() : Boolean {
         return  state.value.password.isNotEmpty() &&
                 state.value.login.isNotEmpty()
+    }
+
+    private fun clearData() {
+        processIntent(LoginIntent.UpdateLogin(Constants.EMPTY_STRING))
+        processIntent(LoginIntent.UpdatePassword(Constants.EMPTY_STRING))
     }
 
     private fun performLogin(username: String, password: String, routeAfterLogin: () -> Unit) {

@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.domain.validator.EmailValidator
+import com.example.moviecatalog.domain.validator.LoginValidator
 import com.example.moviecatalog.domain.validator.NameValidator
 import com.example.moviecatalog.presentation.screen.common.AdviceText
 import com.example.moviecatalog.presentation.screen.common.AppBar
@@ -100,8 +101,16 @@ fun RegistrationFirstScreen(
                 OutlinedTextFieldWithLabel(
                     label = stringResource(R.string.login),
                     value = registrationState.login,
-                    onValueChange = { viewModel.processIntent(RegistrationIntent.UpdateLogin(it)) },
-                    error = null,
+                    onValueChange = {
+                        viewModel.processIntent(RegistrationIntent.UpdateLogin(it))
+                        viewModel.processIntent(
+                            RegistrationIntent.UpdateErrorText(
+                                LoginValidator(),
+                                it
+                            )
+                        )
+                    },
+                    error = registrationState.isErrorLoginText,
                     modifier = Modifier.padding(top = SpaceBetweenObjects)
                 )
 
