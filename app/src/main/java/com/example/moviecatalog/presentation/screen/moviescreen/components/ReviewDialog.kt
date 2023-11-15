@@ -1,11 +1,8 @@
 package com.example.moviecatalog.presentation.screen.moviescreen.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,29 +12,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -51,12 +35,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.example.moviecatalog.R
 import com.example.moviecatalog.domain.state.MovieState
 import com.example.moviecatalog.presentation.screen.common.PairButtons
-import com.example.moviecatalog.presentation.screen.profilescreen.ProfileIntent
-import com.example.moviecatalog.presentation.ui.theme.AccentColor
-import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
-import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
 import com.example.moviecatalog.presentation.ui.theme.Gray400Color
-import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
 import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
 import com.example.moviecatalog.presentation.ui.theme.Values.CenterPadding
 import com.example.moviecatalog.presentation.ui.theme.Values.LittleRound
@@ -123,7 +102,8 @@ fun ReviewDialog(
                                 else
                                     ImageVector.vectorResource(R.drawable.raiting_star_unfocused),
                                 contentDescription = null,
-                                tint = if (index < state.movieRating) YellowStarColor else Gray400Color
+                                tint = if (index < state.movieRating) YellowStarColor
+                                    else Gray400Color
                             )
                         }
                     }

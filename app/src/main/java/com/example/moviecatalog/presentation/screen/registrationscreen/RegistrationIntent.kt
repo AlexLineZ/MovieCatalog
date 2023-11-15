@@ -3,7 +3,6 @@ package com.example.moviecatalog.presentation.screen.registrationscreen
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.domain.state.RegistrationState
 import com.example.moviecatalog.domain.validator.Validator
-import com.example.moviecatalog.presentation.screen.loginscreen.LoginIntent
 
 sealed class RegistrationIntent {
     data class UpdateName(val name: String) : RegistrationIntent()

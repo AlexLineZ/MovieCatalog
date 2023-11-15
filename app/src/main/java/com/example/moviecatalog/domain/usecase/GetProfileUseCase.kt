@@ -1,6 +1,5 @@
 package com.example.moviecatalog.domain.usecase
 
-import android.util.Log
 import com.example.moviecatalog.data.repository.ProfileRepository
 import com.example.moviecatalog.domain.model.profile.Profile
 

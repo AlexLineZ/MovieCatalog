@@ -7,7 +7,6 @@ import com.example.moviecatalog.data.network.NetworkService
 import com.example.moviecatalog.domain.usecase.GetProfileUseCase
 import com.example.moviecatalog.domain.usecase.GetTokenUseCase
 import com.example.moviecatalog.presentation.router.AppRouter
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SplashViewModel(

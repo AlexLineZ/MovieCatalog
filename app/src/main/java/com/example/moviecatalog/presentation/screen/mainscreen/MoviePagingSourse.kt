@@ -1,6 +1,5 @@
 package com.example.moviecatalog.presentation.screen.mainscreen
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.moviecatalog.data.model.MovieUserMark

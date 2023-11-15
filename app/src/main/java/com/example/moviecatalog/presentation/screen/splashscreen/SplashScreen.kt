@@ -10,13 +10,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import com.example.moviecatalog.R
-import com.example.moviecatalog.presentation.router.AppRouter
 
 @Composable
 fun SplashScreen(splashViewModel: SplashViewModel) {
     val context = LocalContext.current
 
-    LaunchedEffect(key1 = true){
+    LaunchedEffect(true){
         splashViewModel.checkTokenToValid(
             context = context
         )

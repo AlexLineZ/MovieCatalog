@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,8 +47,6 @@ import com.example.moviecatalog.presentation.ui.theme.Values.MoreSpaceBetweenObj
 import com.example.moviecatalog.presentation.ui.theme.Values.SpaceBetweenObjects
 import eu.bambooapps.material3.pullrefresh.pullRefresh
 import eu.bambooapps.material3.pullrefresh.rememberPullRefreshState
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileScreen (
@@ -156,7 +153,9 @@ fun ProfileItemsList(
                     OutlinedTextFieldWithLabel(
                         label = stringResource(R.string.avatar_link),
                         value = state.avatarLink ?: Constants.EMPTY_STRING,
-                        onValueChange = {viewModel.processIntent(ProfileIntent.UpdateAvatarLink(it))},
+                        onValueChange = {
+                            viewModel.processIntent(ProfileIntent.UpdateAvatarLink(it))
+                        },
                         modifier = Modifier.padding(top = SpaceBetweenObjects)
                     )
 

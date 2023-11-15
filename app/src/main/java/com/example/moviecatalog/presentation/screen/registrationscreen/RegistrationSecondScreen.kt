@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -27,7 +26,6 @@ import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.domain.validator.ConfirmPasswordValidator
 import com.example.moviecatalog.domain.validator.PasswordValidator
-import com.example.moviecatalog.presentation.router.AppRouter
 import com.example.moviecatalog.presentation.screen.common.AdviceText
 import com.example.moviecatalog.presentation.screen.common.AppBar
 import com.example.moviecatalog.presentation.screen.common.loading.LoadingItem

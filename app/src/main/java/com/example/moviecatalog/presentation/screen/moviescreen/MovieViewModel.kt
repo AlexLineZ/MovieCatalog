@@ -16,9 +16,7 @@ import com.example.moviecatalog.domain.usecase.GetProfileUseCase
 import com.example.moviecatalog.domain.usecase.PostAddFavoriteMovieUseCase
 import com.example.moviecatalog.domain.usecase.PostAddReviewUseCase
 import com.example.moviecatalog.domain.usecase.PutReviewUseCase
-import com.example.moviecatalog.presentation.router.AppRouter
 import com.example.moviecatalog.presentation.router.LogoutRouter
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

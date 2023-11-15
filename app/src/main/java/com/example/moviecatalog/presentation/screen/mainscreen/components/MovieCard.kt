@@ -37,7 +37,6 @@ import com.example.moviecatalog.presentation.ui.theme.Values.LittleRound
 import com.example.moviecatalog.presentation.ui.theme.Values.MicroPadding
 import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 
-
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MovieCard(

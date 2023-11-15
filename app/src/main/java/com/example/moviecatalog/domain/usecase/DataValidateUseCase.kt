@@ -1,8 +1,6 @@
 package com.example.moviecatalog.domain.usecase
 
-import androidx.compose.ui.unit.Constraints
 import com.example.moviecatalog.common.Constants
-import com.example.moviecatalog.domain.validator.PasswordValidator
 import com.example.moviecatalog.domain.validator.Validator
 
 class DataValidateUseCase {

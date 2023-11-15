@@ -34,6 +34,7 @@ import com.example.moviecatalog.presentation.ui.theme.ChipColor
 import com.example.moviecatalog.presentation.ui.theme.MenuGrayColor
 import com.example.moviecatalog.presentation.ui.theme.RedColor
 import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.BigRound
 import com.example.moviecatalog.presentation.ui.theme.WhiteColor
 
 @Composable
@@ -52,7 +53,7 @@ fun ReviewDropDownMenu(
             modifier = Modifier
                 .background(
                     color = ChipColor,
-                    shape = RoundedCornerShape(10.dp)
+                    shape = RoundedCornerShape(BigRound)
                 )
         ) {
             DropdownMenuItem(
@@ -64,8 +65,7 @@ fun ReviewDropDownMenu(
                         modifier = Modifier.padding(end = BasePadding)
                     )
                 },
-                trailingIcon =
-                {
+                trailingIcon = {
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.pencil),
                         contentDescription = null,
@@ -89,8 +89,7 @@ fun ReviewDropDownMenu(
                         modifier = Modifier.padding(end = BasePadding)
                     )
                 },
-                trailingIcon =
-                {
+                trailingIcon = {
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.basket),
                         contentDescription = null,

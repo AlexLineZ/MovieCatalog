@@ -3,7 +3,6 @@ package com.example.moviecatalog.common
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
-import java.time.ZoneId
 import java.util.Date
 import java.util.Locale
 

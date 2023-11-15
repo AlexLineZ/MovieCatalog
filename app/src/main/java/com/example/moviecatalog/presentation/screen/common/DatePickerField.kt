@@ -97,7 +97,9 @@ fun DatePickerField(
                                     formatDateToISO8601(date),
                                     formatDate(date)
                                 ))
-                                viewModel.processIntent(RegistrationIntent.UpdateDatePickerVisibility)
+                                viewModel.processIntent(
+                                    RegistrationIntent.UpdateDatePickerVisibility
+                                )
                             }
                         ) {
                             Text(
@@ -108,7 +110,9 @@ fun DatePickerField(
                     dismissButton = {
                         TextButton(
                             onClick = {
-                                viewModel.processIntent(RegistrationIntent.UpdateDatePickerVisibility)
+                                viewModel.processIntent(
+                                    RegistrationIntent.UpdateDatePickerVisibility
+                                )
                             }
                         ) {
                             Text(

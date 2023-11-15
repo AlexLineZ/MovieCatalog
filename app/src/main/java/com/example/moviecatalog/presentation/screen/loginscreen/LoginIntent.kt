@@ -1,7 +1,5 @@
 package com.example.moviecatalog.presentation.screen.loginscreen
 
-import com.example.moviecatalog.domain.state.LoginState
-
 sealed class LoginIntent {
     object Login : LoginIntent()
     object GoBack: LoginIntent()

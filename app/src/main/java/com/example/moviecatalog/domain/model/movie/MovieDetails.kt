@@ -1,6 +1,5 @@
 package com.example.moviecatalog.domain.model.movie
 
-import com.example.moviecatalog.domain.model.movie.Genre
 import com.example.moviecatalog.domain.model.review.Review
 
 data class MovieDetails(

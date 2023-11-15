@@ -96,9 +96,3 @@ fun ShimmerMovieItem(brush: Brush) {
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun AnimatedShimmerForMainItemPreview() {
-    AnimatedShimmerForMainItem()
-}
