@@ -13,15 +13,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.common.MarkSelector
+import com.example.moviecatalog.presentation.ui.theme.Values.LittlePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MicroPadding
 
 @Composable
-fun MarkWithStar(value: Int){
+fun MarkWithStar(value: Int, modifier: Modifier = Modifier){
     Box(
-        modifier = Modifier
+        modifier = modifier
             .wrapContentSize()
             .background(
                 color = MarkSelector.setColorForMark(value.toFloat()),
@@ -30,20 +34,23 @@ fun MarkWithStar(value: Int){
     ){
         Row(
             modifier = Modifier
-                .padding(2.dp),
+                .padding(MicroPadding),
             verticalAlignment = Alignment.CenterVertically
         ){
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.star_mark),
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(start = 4.dp, end = 4.dp)
+                    .padding(
+                        start = LittlePadding,
+                        end = MicroPadding
+                    )
             )
             Text(
                 text = value.toString(),
-                fontSize = 16.sp,
+                style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.W500),
                 modifier = Modifier
-                    .padding(start = 2.dp, end = 4.dp)
+                    .padding(LittlePadding)
             )
         }
     }

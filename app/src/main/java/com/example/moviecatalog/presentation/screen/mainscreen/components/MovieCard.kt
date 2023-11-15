@@ -19,23 +19,38 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.moviecatalog.common.MarkSelector
+import com.example.moviecatalog.common.MarkSelector.setColorForMark
 import com.example.moviecatalog.domain.model.movie.MovieElement
+import com.example.moviecatalog.presentation.screen.common.MarkWithStar
+import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
 import com.example.moviecatalog.presentation.ui.theme.ChipColor
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.CenterPadding
+import com.example.moviecatalog.presentation.ui.theme.Values.LittlePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.LittleRound
+import com.example.moviecatalog.presentation.ui.theme.Values.MicroPadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun MovieCard(movie: MovieElement, onClick: () -> Unit) {
+fun MovieCard(
+    movie: MovieElement,
+    onClick: () -> Unit,
+    userMark: Int?,
+    anotherMark: Float? = null
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
-            .clickable (
+            .padding(start = BasePadding, end = BasePadding, top = 12.dp)
+            .clickable(
                 onClick = onClick
             )
     ) {
@@ -45,7 +60,7 @@ fun MovieCard(movie: MovieElement, onClick: () -> Unit) {
                 model = movie.poster,
                 contentDescription = null,
                 modifier = Modifier
-                    .clip(RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(3.dp))
                     .background(Color.Yellow),
                 contentScale = ContentScale.FillBounds
             )
@@ -56,21 +71,24 @@ fun MovieCard(movie: MovieElement, onClick: () -> Unit) {
                     modifier = Modifier
                         .wrapContentHeight()
                         .align(Alignment.TopStart)
-                        .padding(4.dp)
+                        .padding(MicroPadding)
                 ) {
                     Box(
                         modifier = Modifier
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(mark.color),
+                            .clip(RoundedCornerShape(LittleRound))
+                            .background(
+                                if (anotherMark != null) setColorForMark(anotherMark)
+                                else mark.color
+                            ),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = mark.mark,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Black,
+                            text = anotherMark?.toString() ?: mark.mark,
+                            style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.W700),
+                            color = BackgroundColor,
                             modifier = Modifier.padding(
-                                start = 8.dp,
-                                end = 8.dp,
+                                horizontal = MiddlePadding,
+                                vertical = MicroPadding
                             )
                         )
                     }
@@ -80,49 +98,41 @@ fun MovieCard(movie: MovieElement, onClick: () -> Unit) {
 
         Column(
             modifier = Modifier
-                .padding(start = 16.dp)
+                .padding(start = BasePadding)
                 .fillMaxWidth()
         ) {
-            movie.name?.let {
-                Text(
-                    text = it,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 4.dp)
-                )
+            Row {
+                movie.name?.let {
+                    Text(
+                        text = it,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.W700,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+
+                if (userMark != null) {
+                    MarkWithStar(
+                        value = userMark,
+                        modifier = Modifier
+                    )
+                }
             }
 
             Text(
                 text = movie.year.toString() + " • " + movie.country,
-                fontSize = 12.sp,
-                modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
+                style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.W400),
+                modifier = Modifier.padding(top = LittlePadding, bottom = CenterPadding)
             )
 
             FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.spacedBy(LittlePadding),
+                verticalArrangement = Arrangement.spacedBy(LittlePadding)
             ) {
                 movie.genres?.forEach { genre ->
                     genre.name?.let { Chip(text = it) }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Chip(text: String) {
-    Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(8.dp))
-            .background(ChipColor)
-    ) {
-        Text(
-            text = text,
-            color = Color.White,
-            fontSize = 13.sp,
-            modifier = Modifier
-                .padding(horizontal = 8.dp)
-        )
     }
 }

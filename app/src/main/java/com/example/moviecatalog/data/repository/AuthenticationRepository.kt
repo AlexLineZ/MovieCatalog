@@ -2,21 +2,21 @@ package com.example.moviecatalog.data.repository
 
 import com.example.moviecatalog.data.model.TokenResponse
 import com.example.moviecatalog.data.network.NetworkService
-import com.example.moviecatalog.domain.model.authorization.LoginData
-import com.example.moviecatalog.domain.model.authorization.RegistrationData
+import com.example.moviecatalog.domain.model.authorization.Login
+import com.example.moviecatalog.domain.model.authorization.Registration
 import retrofit2.Response
 
 class AuthenticationRepository {
 
-    suspend fun postLoginData(authorizationData: LoginData): Response<TokenResponse> {
-        return NetworkService.authenticationApiService.postLoginData(authorizationData)
+    suspend fun postLogin(authorizationData: Login): Response<TokenResponse> {
+        return NetworkService.authenticationApiService.postLogin(authorizationData)
     }
 
-    suspend fun postRegistrationData(registrationData: RegistrationData): Response<TokenResponse> {
-        return NetworkService.authenticationApiService.postRegistrationData(registrationData)
+    suspend fun postRegistration(registration: Registration): Response<TokenResponse> {
+        return NetworkService.authenticationApiService.postRegistration(registration)
     }
 
-    suspend fun postLogoutData() {
-        NetworkService.authenticationApiService.postLogoutData()
+    suspend fun postLogout(): Response<Unit> {
+        return NetworkService.authenticationApiService.postLogout()
     }
 }

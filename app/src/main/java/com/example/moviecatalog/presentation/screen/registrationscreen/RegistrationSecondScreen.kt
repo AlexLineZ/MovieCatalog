@@ -1,56 +1,45 @@
 package com.example.moviecatalog.presentation.screen.registrationscreen
 
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
 import com.example.moviecatalog.domain.validator.ConfirmPasswordValidator
 import com.example.moviecatalog.domain.validator.PasswordValidator
 import com.example.moviecatalog.presentation.router.AppRouter
+import com.example.moviecatalog.presentation.screen.common.AdviceText
 import com.example.moviecatalog.presentation.screen.common.AppBar
-import com.example.moviecatalog.presentation.screen.common.LoadingItem
-import com.example.moviecatalog.presentation.ui.theme.ErrorAccentColor
+import com.example.moviecatalog.presentation.screen.common.loading.LoadingItem
+import com.example.moviecatalog.presentation.screen.common.PasswordTextField
 import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
-import com.example.moviecatalog.presentation.ui.theme.spanStyleAccent
-import com.example.moviecatalog.presentation.ui.theme.spanStyleGray
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.BigRound
+import com.example.moviecatalog.presentation.ui.theme.Values.MoreSpaceBetweenObjects
+import com.example.moviecatalog.presentation.ui.theme.Values.SpaceBetweenObjects
 
 @Composable
 fun RegistrationSecondScreen (
-    router: AppRouter,
     viewModel: RegistrationViewModel
 ) {
     val focusManager = LocalFocusManager.current
@@ -59,7 +48,7 @@ fun RegistrationSecondScreen (
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(BasePadding)
             .pointerInput(Unit) {
                 detectTapGestures(onTap = {
                     focusManager.clearFocus()
@@ -69,158 +58,70 @@ fun RegistrationSecondScreen (
     ) {
 
         AppBar {
-            router.toRegistration()
+            viewModel.processIntent(RegistrationIntent.GoBackToFirst)
         }
 
         Text(
             text = stringResource(R.string.registration),
-            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
+            style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.W700),
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+            modifier = Modifier.padding(
+                top = MoreSpaceBetweenObjects,
+                bottom = SpaceBetweenObjects
+            )
         )
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, bottom = 8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.password),
-                    style = TextStyle(fontSize = 16.sp),
-                    color = Color.White
-
-                )
-                OutlinedTextField(
-                    value = state.password,
-                    onValueChange = {
-                        viewModel.processIntent(RegistrationIntent.UpdatePassword(it))
-                        viewModel.processIntent(
-                            RegistrationIntent.UpdateErrorText(
-                                PasswordValidator(),
-                                it
-                            )
-                        )
-                    },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                        .height(IntrinsicSize.Min),
-                    shape = RoundedCornerShape(10.dp),
-                    visualTransformation = if (state.isPasswordHide)
-                        VisualTransformation.None else PasswordVisualTransformation(),
-                    trailingIcon = {
-                        IconButton(
-                            onClick = {
-                                viewModel.processIntent(RegistrationIntent.UpdatePasswordVisibility)
-                            }
-                        ) {
-                            Icon(
-                                imageVector =
-                                    if (state.isPasswordHide)
-                                        Icons.Default.Visibility
-                                    else
-                                        Icons.Default.VisibilityOff,
-                                contentDescription = null
-                            )
-                        }
-                    }
-                )
-                state.isErrorPasswordText?.let {
-                    Text (
-                        text = it,
-                        modifier = Modifier
-                            .padding(top = 4.dp),
-                        color = ErrorAccentColor,
-                        fontSize = 14.sp
+        PasswordTextField(
+            label = stringResource(R.string.password),
+            value = state.password,
+            onValueChange = {
+                viewModel.processIntent(RegistrationIntent.UpdatePassword(it))
+                viewModel.processIntent(
+                    RegistrationIntent.UpdateErrorText(
+                        PasswordValidator(),
+                        it
                     )
-                }
-            }
-        }
-
-
-        Box(
+                )
+            },
+            transformationState = state.isPasswordHide,
+            onButtonClick = {viewModel.processIntent(RegistrationIntent.UpdatePasswordVisibility)},
+            errorText = state.isErrorPasswordText,
             modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, bottom = 8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.confirm_password),
-                    style = TextStyle(fontSize = 16.sp),
-                    color = Color.White
+        )
 
-                )
-                OutlinedTextField(
-                    value = state.confirmPassword,
-                    onValueChange = {
-                        viewModel.processIntent(RegistrationIntent.UpdateConfirmPassword(it))
-                        viewModel.processIntent(
-                            RegistrationIntent.UpdateErrorText(
-                                ConfirmPasswordValidator(),
-                                state.password,
-                                it
-                            )
-                        )
-                    },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                        .height(IntrinsicSize.Min),
-                    shape = RoundedCornerShape(10.dp),
-                    visualTransformation = if (state.isConfirmPasswordHide)
-                        VisualTransformation.None else PasswordVisualTransformation(),
-                    trailingIcon = {
-                        IconButton(
-                            onClick = {
-                                viewModel.processIntent(
-                                    RegistrationIntent.UpdateConfirmPasswordVisibility
-                                )
-                            }
-                        ) {
-                            Icon(
-                                imageVector =
-                                    if (state.isConfirmPasswordHide)
-                                        Icons.Default.Visibility
-                                    else
-                                        Icons.Default.VisibilityOff,
-                                contentDescription = null
-                            )
-                        }
-                    }
-                )
-                state.isErrorConfirmPasswordText?.let {
-                    Text (
-                        text = it,
-                        modifier = Modifier
-                            .padding(top = 4.dp),
-                        color = ErrorAccentColor,
-                        fontSize = 14.sp
+
+        PasswordTextField(
+            label = stringResource(R.string.confirm_password),
+            value = state.confirmPassword,
+            onValueChange = {
+                viewModel.processIntent(RegistrationIntent.UpdateConfirmPassword(it))
+                viewModel.processIntent(
+                    RegistrationIntent.UpdateErrorText(
+                        ConfirmPasswordValidator(),
+                        state.password,
+                        it
                     )
-                }
-            }
-        }
-
-        if (state.isLoading){
-            LoadingItem()
-        }
+                )
+            },
+            transformationState = state.isConfirmPasswordHide,
+            onButtonClick = {
+                viewModel.processIntent(RegistrationIntent.UpdateConfirmPasswordVisibility)
+            },
+            errorText = state.isErrorConfirmPasswordText,
+            modifier = Modifier.padding(top = SpaceBetweenObjects)
+        )
 
         Button(
             onClick = {
-                viewModel.processIntent(RegistrationIntent.Registration(state) { router.toMain() })
+                viewModel.processIntent(RegistrationIntent.Registration(state))
             },
-            shape = RoundedCornerShape(10.dp),
+            shape = RoundedCornerShape(BigRound),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp, bottom = 16.dp)
+                .padding(
+                    top = BasePadding,
+                    bottom = BasePadding
+                )
                 .height(IntrinsicSize.Min),
             enabled = viewModel.isRegisterButtonAvailable(),
             colors = BaseButtonColor
@@ -230,31 +131,20 @@ fun RegistrationSecondScreen (
             )
         }
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .wrapContentSize(Alignment.BottomCenter)
-                .padding(16.dp),
-        ){
-            val highlightedText = buildAnnotatedString {
-                withStyle(style = spanStyleGray){
-                    append(stringResource(R.string.need_login) + " ")
-                }
-
-                withStyle(style = spanStyleAccent) {
-                    append(stringResource(R.string.need_login_clickable))
-                }
-            }
-
-            ClickableText(
-                onClick ={ offset ->
-                    if (offset >= 16){
-                        router.toLogin()
-                    }
-                },
-                text = highlightedText
+        if (state.isLoading){
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = BasePadding)
             )
+            LoadingItem()
         }
+
+        AdviceText(
+            baseText = stringResource(R.string.need_login),
+            clickableText = stringResource(R.string.need_login_clickable),
+            onClick = { viewModel.processIntent(RegistrationIntent.GoToLogin) },
+            modifier = Modifier.weight(1f)
+        )
     }
 }

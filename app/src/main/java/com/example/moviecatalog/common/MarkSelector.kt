@@ -2,13 +2,15 @@ package com.example.moviecatalog.common
 
 import androidx.compose.ui.graphics.Color
 import com.example.moviecatalog.data.model.Mark
-import com.example.moviecatalog.domain.model.movie.Review
+import com.example.moviecatalog.domain.model.review.Review
+import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
 import com.example.moviecatalog.presentation.ui.theme.BadMarkColor
 import com.example.moviecatalog.presentation.ui.theme.GoodMarkColor
 import com.example.moviecatalog.presentation.ui.theme.MiddleMarkColor
 import com.example.moviecatalog.presentation.ui.theme.NormalMarkColor
 import com.example.moviecatalog.presentation.ui.theme.UnderMiddleMarkColor
 import com.example.moviecatalog.presentation.ui.theme.UpperBadMarkColor
+import com.example.moviecatalog.presentation.ui.theme.WhiteColor
 
 object MarkSelector {
     fun markCalculation(list: ArrayList<Review>) : Mark {
@@ -53,6 +55,22 @@ object MarkSelector {
 
             else -> {
                 BadMarkColor
+            }
+        }
+    }
+
+    fun setColorForText(mark: Float): Color {
+        return when {
+            mark in 9f..10f -> {
+                WhiteColor
+            }
+
+            mark >= 6f && mark < 9f -> {
+                BackgroundColor
+            }
+
+            else -> {
+                WhiteColor
             }
         }
     }

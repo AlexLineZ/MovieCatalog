@@ -1,23 +1,19 @@
 package com.example.moviecatalog.domain.usecase
 
 import android.util.Log
-import com.example.moviecatalog.data.model.MoviePageResponse
-import com.example.moviecatalog.data.model.TokenResponse
+import com.example.moviecatalog.domain.model.movie.MoviesPagedList
 import com.example.moviecatalog.data.repository.MovieRepository
-import com.example.moviecatalog.domain.model.movie.MovieElement
 
 class GetMovieListUseCase() {
     private val movieRepository = MovieRepository()
 
-    suspend fun invoke(moviesPage: Int): Result<MoviePageResponse?> {
+    suspend fun invoke(moviesPage: Int): Result<MoviesPagedList?> {
         return try {
             val response = movieRepository.getMovies(moviesPage)
             return if (response.isSuccessful) {
-                Log.d("YES", "I do it")
                 Result.success(response.body()!!)
             } else {
-                Log.d("NOOOO", "error: ${response.code()}")
-                Result.success(null)
+                Result.failure(Exception("Error: ${response.code()}"))
             }
         } catch (e: Exception) {
             Result.failure(e)

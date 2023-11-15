@@ -21,6 +21,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -48,28 +49,35 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.moviecatalog.R
+import com.example.moviecatalog.domain.state.MovieState
+import com.example.moviecatalog.presentation.screen.common.PairButtons
 import com.example.moviecatalog.presentation.screen.profilescreen.ProfileIntent
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
 import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
 import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
 import com.example.moviecatalog.presentation.ui.theme.Gray400Color
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.CenterPadding
+import com.example.moviecatalog.presentation.ui.theme.Values.LittleRound
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 import com.example.moviecatalog.presentation.ui.theme.YellowStarColor
 
 @Composable
 fun ReviewDialog(
+    state: MovieState,
     onRatingSelected: (Int) -> Unit,
     onReviewTextChanged: (String) -> Unit,
     onAnonymousCheckedChanged: (Boolean) -> Unit,
     onSaveClick: () -> Unit,
-    onCancelClick: () -> Unit
+    onCancelClick: () -> Unit,
+    isButtonAvailable: Boolean,
+    isCheckBoxAvailable: Boolean
 ) {
-    var rating by remember { mutableStateOf(0) }
-    var reviewText by remember { mutableStateOf("") }
-    var isAnonymous by remember { mutableStateOf(false) }
-
     Dialog(
-        onDismissRequest = { onCancelClick() },
+        onDismissRequest = {
+            onCancelClick()
+        },
         properties = DialogProperties(
             usePlatformDefaultWidth = false
         ),
@@ -77,16 +85,16 @@ fun ReviewDialog(
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            shape = RoundedCornerShape(5.dp),
+                .padding(BasePadding),
+            shape = RoundedCornerShape(LittleRound),
             color = MaterialTheme.colorScheme.background
         ) {
             Column(
-                modifier = Modifier.padding(10.dp),
-                verticalArrangement = Arrangement.Absolute.spacedBy(10.dp)
+                modifier = Modifier.padding(CenterPadding),
+                verticalArrangement = Arrangement.Absolute.spacedBy(CenterPadding)
             ) {
                 Text(
-                    text = "Оставить отзыв",
+                    text = stringResource(id = R.string.leave_review),
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp,
@@ -95,7 +103,7 @@ fun ReviewDialog(
                     ),
                 )
 
-                Spacer(modifier = Modifier.height(5.dp))
+                Spacer(modifier = Modifier.height(LittleRound))
 
                 Row(
                     modifier = Modifier
@@ -105,53 +113,57 @@ fun ReviewDialog(
                     repeat(10) { index ->
                         IconButton(
                             onClick = {
-                                rating = index + 1
-                                onRatingSelected(rating)
+                                onRatingSelected(index + 1)
                             },
                             modifier = Modifier.size(24.dp)
                         ) {
                             Icon(
-                                imageVector = if (index < rating)
+                                imageVector = if (index < state.movieRating)
                                     ImageVector.vectorResource(R.drawable.raiting_star_focused)
                                 else
                                     ImageVector.vectorResource(R.drawable.raiting_star_unfocused),
                                 contentDescription = null,
-                                tint = if (index < rating) YellowStarColor else Gray400Color
+                                tint = if (index < state.movieRating) YellowStarColor else Gray400Color
                             )
                         }
                     }
                 }
 
                 OutlinedTextField(
-                    value = reviewText,
+                    value = state.reviewText,
                     textStyle = TextStyle(
                         fontWeight = FontWeight.W400,
                         fontSize = 15.sp
                     ),
                     onValueChange = {
-                        reviewText = it
+                        onReviewTextChanged(it)
                     },
-                    label = { Text("Напишите отзыв") },
-                    shape = RoundedCornerShape(5.dp),
+                    label = { Text(stringResource(id = R.string.write_review)) },
+                    shape = RoundedCornerShape(LittleRound),
                     modifier = Modifier
                         .fillMaxWidth()
                         .heightIn(min = 98.dp)
                 )
                 Row(
-                    modifier = Modifier.clickable {
-                        isAnonymous = !isAnonymous
+                    modifier = if (isCheckBoxAvailable) {
+                        Modifier.clickable {
+                            onAnonymousCheckedChanged(!state.isAnonymous)
+                        }
+                    } else {
+                        Modifier
                     },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Checkbox(
-                        checked = isAnonymous,
-                        onCheckedChange = null
+                        checked = state.isAnonymous,
+                        onCheckedChange = null,
+                        enabled = isCheckBoxAvailable
                     )
 
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(MiddlePadding))
 
                     Text(
-                        text = "Анонимный отзыв",
+                        text = stringResource(id = R.string.anon_review),
                         style = TextStyle(
                             fontWeight = FontWeight.W500,
                             fontSize = 15.sp,
@@ -161,46 +173,14 @@ fun ReviewDialog(
                     )
                 }
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        Button(
-                            onClick = {  },
-                            shape = RoundedCornerShape(10.dp),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(IntrinsicSize.Min)
-                                .padding(top = 8.dp, bottom = 4.dp),
-                            colors = BaseButtonColor
-                        ) {
-                            Text(
-                                text = stringResource(R.string.save)
-                            )
-                        }
-
-                        Button(
-                            onClick = { onCancelClick() },
-                            shape = RoundedCornerShape(10.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = SecondButtonColor,
-                                contentColor = AccentColor
-                            ),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(IntrinsicSize.Min)
-                                .padding(top = 8.dp, bottom = 4.dp)
-                        ) {
-                            Text(
-                                text = stringResource(R.string.cancel)
-                            )
-                        }
-                    }
-                }
+                PairButtons(
+                    firstLabel = stringResource(R.string.save),
+                    firstClick = { onSaveClick() },
+                    secondLabel = stringResource(R.string.cancel),
+                    secondClick = { onCancelClick() },
+                    modifier = Modifier.padding(top = 25.dp),
+                    firstEnabled = isButtonAvailable
+                )
             }
         }
     }

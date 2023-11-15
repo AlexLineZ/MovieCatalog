@@ -3,7 +3,9 @@ package com.example.moviecatalog.presentation.screen.loginscreen
 import com.example.moviecatalog.domain.state.LoginState
 
 sealed class LoginIntent {
-    data class Login(val loginState: LoginState, val afterLogin: () -> Unit) : LoginIntent()
+    object Login : LoginIntent()
+    object GoBack: LoginIntent()
+    object GoToRegistration: LoginIntent()
     data class UpdateLogin(val login: String) : LoginIntent()
     data class UpdatePassword(val password: String) : LoginIntent()
     object UpdatePasswordVisibility : LoginIntent()

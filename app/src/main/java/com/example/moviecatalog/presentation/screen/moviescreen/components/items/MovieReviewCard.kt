@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -22,10 +24,12 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.moviecatalog.R
 import com.example.moviecatalog.common.Constants
-import com.example.moviecatalog.common.formatDateToNormal
-import com.example.moviecatalog.domain.model.movie.Review
+import com.example.moviecatalog.common.Formatter.formatDateToNormal
+import com.example.moviecatalog.domain.model.review.Review
 import com.example.moviecatalog.presentation.screen.common.MarkWithStar
 import com.example.moviecatalog.presentation.ui.theme.Gray400Color
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 
 @Composable
 fun MovieReviewCard(review: Review){
@@ -33,7 +37,7 @@ fun MovieReviewCard(review: Review){
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(bottom = 16.dp)
+            .padding(bottom = BasePadding)
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -41,7 +45,7 @@ fun MovieReviewCard(review: Review){
         ) {
 
             AsyncImage(
-                model = if (review.author?.avatar == null) R.drawable.anonymus
+                model = if (review.author?.avatar == null || review.isAnonymous) R.drawable.anonymus
                         else review.author?.avatar,
                 contentDescription = null,
                 modifier = Modifier
@@ -51,14 +55,14 @@ fun MovieReviewCard(review: Review){
             )
 
             Text(
-                text = review.author?.nickName
-                    ?: Constants.EMPTY_STRING,
+                text = if (review.author?.nickName == null || review.isAnonymous)
+                    stringResource(id = R.string.anonymous) else review.author?.nickName!!,
                 fontSize = 14.sp,
                 color = Color.White,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.W500,
                 modifier = Modifier
                     .weight(1f)
-                    .padding(start = 8.dp)
+                    .padding(start = 10.dp)
             )
 
             MarkWithStar(review.rating)
@@ -66,20 +70,21 @@ fun MovieReviewCard(review: Review){
 
 
         Column(
-            modifier = Modifier.padding(top = 8.dp)
+            modifier = Modifier.padding(top = MiddlePadding)
         ) {
             Text(
                 text = review.reviewText ?: Constants.EMPTY_STRING,
-                fontSize = 14.sp,
+                style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.W400),
                 color = Color.White,
                 textAlign = TextAlign.Start
             )
 
             Text(
                 text = formatDateToNormal(review.createDateTime),
-                fontSize = 12.sp,
+                style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.W500),
                 color = Gray400Color,
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
+                modifier = Modifier.padding(top = 5.dp)
             )
         }
     }

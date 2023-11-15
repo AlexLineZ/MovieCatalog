@@ -1,5 +1,10 @@
 package com.example.moviecatalog.data.network
 
+import com.example.moviecatalog.data.network.api.AuthenticationApiService
+import com.example.moviecatalog.data.network.api.FavoriteApiService
+import com.example.moviecatalog.data.network.api.MovieApiService
+import com.example.moviecatalog.data.network.api.ProfileApiService
+import com.example.moviecatalog.data.network.api.ReviewApiService
 import com.example.moviecatalog.data.network.interceptor.AuthInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -40,4 +45,7 @@ object NetworkService {
 
     val favoriteApiService: FavoriteApiService =
         retrofit.create(FavoriteApiService::class.java)
+
+    val reviewApiService: ReviewApiService =
+        retrofit.create(ReviewApiService::class.java)
 }

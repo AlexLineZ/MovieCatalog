@@ -14,89 +14,128 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviecatalog.R
-import com.example.moviecatalog.domain.model.movie.Review
+import com.example.moviecatalog.domain.model.review.Review
+import com.example.moviecatalog.domain.state.MovieState
 import com.example.moviecatalog.presentation.screen.moviescreen.components.items.MovieReviewCard
+import com.example.moviecatalog.presentation.screen.moviescreen.components.items.MovieReviewCurrentUserCard
 import com.example.moviecatalog.presentation.ui.theme.AccentColor
+import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.LittlePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MoreSpaceBetweenObjects
+import com.example.moviecatalog.presentation.ui.theme.Values.SpaceBetweenObjects
 
 @Composable
 fun MovieReviewsSection(
     list: ArrayList<Review>?,
-    isDialogOpen: Boolean,
-    onClick: () -> Unit
+    state: MovieState,
+    onClickDialog: () -> Unit,
+    onSaveClick: () -> Unit,
+    onRatingSelected: (Int) -> Unit,
+    onAnonymousCheckedChanged: (Boolean) -> Unit,
+    onReviewTextChanged: (String) -> Unit,
+    onDeleteClick: () -> Unit,
+    onDropClick: () -> Unit,
+    isButtonAvailable: Boolean,
+    isCheckBoxAvailable: Boolean
 ) {
 
-    if (isDialogOpen) {
+    if (state.isReviewDialogOpen) {
         ReviewDialog(
-            onRatingSelected = { },
-            onReviewTextChanged = { },
-            onAnonymousCheckedChanged = {  },
-            onSaveClick = {  },
-            onCancelClick = { onClick() }
+            state = state,
+            onRatingSelected = { onRatingSelected(it)},
+            onReviewTextChanged = {onReviewTextChanged(it) },
+            onAnonymousCheckedChanged = { onAnonymousCheckedChanged(it) },
+            onSaveClick = { onSaveClick() },
+            onCancelClick = { onClickDialog() },
+            isButtonAvailable = isButtonAvailable,
+            isCheckBoxAvailable = isCheckBoxAvailable
         )
     }
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(
+                start = BasePadding,
+                end = BasePadding,
+                top = MoreSpaceBetweenObjects
+            )
     ) {
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 4.dp, bottom = 16.dp),
+                .padding(top = LittlePadding, bottom = SpaceBetweenObjects),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
 
             Text(
-                text = "Отзывы",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
+                text = stringResource(id = R.string.reviews),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.W700,
                 color = Color.White
             )
 
-            Box(
-                modifier = Modifier
-                    .background(
-                        color = AccentColor,
-                        shape = CircleShape
-                    )
-                    .wrapContentSize()
-            ) {
-                IconButton(
-                    onClick = {
-                        onClick()
-                    },
+            if (state.userReview == null) {
+                Box(
                     modifier = Modifier
-                        .size(34.dp),
-                    content = {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.plus),
-                            contentDescription = null,
-                            tint = Color.White
+                        .background(
+                            color = AccentColor,
+                            shape = CircleShape
                         )
-                    }
-                )
+                        .wrapContentSize()
+                ) {
+                    IconButton(
+                        onClick = {
+                            onClickDialog()
+                        },
+                        modifier = Modifier
+                            .size(34.dp),
+                        content = {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.plus),
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                        }
+                    )
+                }
             }
         }
 
+        if (state.userReview != null){
+            MovieReviewCurrentUserCard(
+                state = state,
+                review = state.userReview!!,
+                onSaveClick = { onSaveClick() },
+                onDeleteClick = { onDeleteClick() },
+                onDropClick = { onDropClick() },
+                onRatingSelected = { onRatingSelected(it) },
+                onAnonymousCheckedChanged = { onAnonymousCheckedChanged(it) },
+                onReviewTextChanged = { onReviewTextChanged(it) },
+                onClickDialog = { onClickDialog() },
+                isButtonAvailable = isButtonAvailable,
+                isCheckBoxAvailable = isCheckBoxAvailable
+            )
+        }
+
         list?.forEach { review ->
-            MovieReviewCard(review)
+            if (review != state.userReview &&
+                review.author?.userId != state.userId
+            ){
+                MovieReviewCard(review)
+            }
         }
     }
 }

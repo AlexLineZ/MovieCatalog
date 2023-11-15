@@ -43,7 +43,7 @@ val Typography = Typography(
 val spanStyleGray = SpanStyle (
     color = GrayColor,
     fontFamily = FontFamily.Default,
-    fontWeight = FontWeight.Normal,
+    fontWeight = FontWeight.W500,
     fontSize = 14.sp,
     letterSpacing = 0.5.sp
 )
@@ -51,7 +51,7 @@ val spanStyleGray = SpanStyle (
 val spanStyleAccent = SpanStyle (
     color = AccentColor,
     fontFamily = FontFamily.Default,
-    fontWeight = FontWeight.Normal,
+    fontWeight = FontWeight.W500,
     fontSize = 14.sp,
     letterSpacing = 0.5.sp
 )

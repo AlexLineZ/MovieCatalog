@@ -1,25 +1,30 @@
 package com.example.moviecatalog.presentation.screen.registrationscreen
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalog.common.Constants
 import com.example.moviecatalog.data.localstorage.LocalStorage
 import com.example.moviecatalog.data.network.NetworkService
-import com.example.moviecatalog.domain.model.authorization.RegistrationData
+import com.example.moviecatalog.domain.model.authorization.Registration
 import com.example.moviecatalog.domain.state.RegistrationState
 import com.example.moviecatalog.domain.usecase.DataValidateUseCase
-import com.example.moviecatalog.domain.usecase.PostRegistrationDataUseCase
+import com.example.moviecatalog.domain.usecase.PostRegistrationUseCase
 import com.example.moviecatalog.domain.validator.ConfirmPasswordValidator
 import com.example.moviecatalog.domain.validator.EmailValidator
+import com.example.moviecatalog.domain.validator.LoginValidator
+import com.example.moviecatalog.domain.validator.NameValidator
 import com.example.moviecatalog.domain.validator.PasswordValidator
+import com.example.moviecatalog.presentation.router.AppRouter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class RegistrationViewModel (private val context: Context) : ViewModel() {
+class RegistrationViewModel (
+    private val context: Context,
+    private val router: AppRouter
+) : ViewModel() {
     private val emptyState = RegistrationState(
         Constants.EMPTY_STRING,
         Constants.ZERO,
@@ -34,14 +39,18 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
         Constants.FALSE,
         Constants.FALSE,
         Constants.FALSE,
-        null, null, null,
+        null,
+        null,
+        null,
+        null,
+        null,
         Constants.FALSE
     )
 
     private val _state = MutableStateFlow(emptyState)
     val state: StateFlow<RegistrationState> get() = _state
 
-    private val postRegistrationDataUseCase = PostRegistrationDataUseCase()
+    private val postRegistrationUseCase = PostRegistrationUseCase()
     private val dataValidateUseCase = DataValidateUseCase()
 
     fun processIntent(intent: RegistrationIntent) {
@@ -56,19 +65,19 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                 )
             }
             is RegistrationIntent.UpdateEmail -> {
-                _state.value = state.value.copy(email = intent.email)
+                _state.value = state.value.copy(email = intent.email.trim())
             }
             is RegistrationIntent.UpdateGender -> {
                 _state.value = state.value.copy(gender = intent.gender)
             }
             is RegistrationIntent.UpdateLogin -> {
-                _state.value = state.value.copy(login = intent.login)
+                _state.value = state.value.copy(login = intent.login.trim())
             }
             is RegistrationIntent.UpdateName -> {
                 _state.value = state.value.copy(name = intent.name)
             }
             is RegistrationIntent.UpdateConfirmPassword -> {
-                _state.value = state.value.copy(confirmPassword = intent.confirmPassword)
+                _state.value = state.value.copy(confirmPassword = intent.confirmPassword.trim())
             }
             is RegistrationIntent.UpdateConfirmPasswordVisibility -> {
                 _state.value = state.value.copy(
@@ -76,7 +85,7 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                 )
             }
             is RegistrationIntent.UpdatePassword -> {
-                _state.value = state.value.copy(password = intent.password)
+                _state.value = state.value.copy(password = intent.password.trim())
             }
             is RegistrationIntent.UpdatePasswordVisibility -> {
                 _state.value = state.value.copy(
@@ -84,10 +93,13 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                 )
             }
             is RegistrationIntent.Registration -> {
-                performRegistration(state.value, intent.afterRegistration)
+                performRegistration(state.value) {
+                    router.toMain()
+                    clearData()
+                }
             }
             is RegistrationIntent.UpdateErrorText -> {
-                var result = dataValidateUseCase.invoke(intent.validator, intent.data, intent.secondData)
+                val result = dataValidateUseCase.invoke(intent.validator, intent.data, intent.secondData)
                 when (intent.validator) {
                     is EmailValidator -> _state.value = state.value.copy (
                         isErrorEmailText = result?.let { context.getString(it) }
@@ -98,13 +110,34 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                     is ConfirmPasswordValidator -> _state.value = state.value.copy (
                         isErrorConfirmPasswordText = result?.let { context.getString(it) }
                     )
+                    is NameValidator -> _state.value = state.value.copy(
+                        isErrorNameText = result?.let { context.getString(it) }
+                    )
+                    is LoginValidator -> _state.value = state.value.copy (
+                        isErrorLoginText = result?.let { context.getString(it) }
+                    )
                 }
             }
-
             RegistrationIntent.UpdateLoading -> {
                 _state.value = state.value.copy(
                     isLoading = !_state.value.isLoading
                 )
+            }
+
+            RegistrationIntent.GoToSecondScreen -> {
+                router.toPasswordRegistration()
+            }
+
+            RegistrationIntent.GoBackToAuth -> {
+                router.toAuth()
+            }
+
+            RegistrationIntent.GoBackToFirst -> {
+                router.toRegistration()
+            }
+
+            RegistrationIntent.GoToLogin -> {
+                router.toLogin()
             }
         }
     }
@@ -118,7 +151,8 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                 state.value.login.isNotEmpty() &&
                 state.value.email.isNotEmpty() &&
                 state.value.date.isNotEmpty() &&
-                state.value.isErrorEmailText == null
+                state.value.isErrorEmailText == null &&
+                state.value.isErrorNameText == null
     }
 
     fun isRegisterButtonAvailable() : Boolean {
@@ -128,29 +162,38 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                 state.value.isErrorConfirmPasswordText == null
     }
 
+    private fun clearData() {
+        processIntent(RegistrationIntent.UpdateLogin(Constants.EMPTY_STRING))
+        processIntent(RegistrationIntent.UpdateName(Constants.EMPTY_STRING))
+        processIntent(RegistrationIntent.UpdatePassword(Constants.EMPTY_STRING))
+        processIntent(RegistrationIntent.UpdateConfirmPassword(Constants.EMPTY_STRING))
+        processIntent(RegistrationIntent.UpdateBirthday(
+            Constants.EMPTY_STRING, Constants.EMPTY_STRING)
+        )
+        processIntent(RegistrationIntent.UpdateGender(Constants.ZERO))
+    }
+
     private fun performRegistration(
         registrationState: RegistrationState,
         afterRegistration: () -> Unit
     ) {
-        val registrationData = RegistrationData(
-            userName = registrationState.login,
-            name = registrationState.name,
-            password = registrationState.password,
-            email = registrationState.email,
+        val registration = Registration(
+            userName = registrationState.login.trim(),
+            name = registrationState.name.trim(),
+            password = registrationState.password.trim(),
+            email = registrationState.email.trim(),
             birthDate = registrationState.birthday,
             gender = registrationState.gender
         )
 
-        Log.d("RegistrationDebug", registrationData.toString())
         processIntent(RegistrationIntent.UpdateLoading)
         viewModelScope.launch {
             try {
-                val result = postRegistrationDataUseCase.invoke(registrationData)
+                val result = postRegistrationUseCase.invoke(registration)
                 if (result.isSuccess) {
                     val tokenResponse = result.getOrNull()
                     LocalStorage(context).saveToken(tokenResponse!!)
                     NetworkService.setAuthToken(tokenResponse.token)
-                    Log.d("register", tokenResponse.token)
                     afterRegistration()
                 } else {
                     Toast.makeText(
@@ -160,7 +203,11 @@ class RegistrationViewModel (private val context: Context) : ViewModel() {
                     ).show()
                 }
             } catch (e: Exception) {
-                Log.d("ERROR", e.message.toString())
+                Toast.makeText(
+                    context,
+                    "Ошибка соединения с сервером",
+                    Toast.LENGTH_SHORT
+                ).show()
             } finally {
                 processIntent(RegistrationIntent.UpdateLoading)
             }
