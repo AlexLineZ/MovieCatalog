@@ -107,6 +107,16 @@ class MovieViewModel(val router: LogoutRouter) : ViewModel() {
                     _state.value = state.value.copy(
                         reviewText = _state.value.userReview!!.reviewText!!
                     )
+                } else {
+                    _state.value = state.value.copy(
+                        isAnonymous = Constants.FALSE
+                    )
+                    _state.value = state.value.copy(
+                        movieRating = 1
+                    )
+                    _state.value = state.value.copy(
+                        reviewText = Constants.EMPTY_STRING
+                    )
                 }
             }
             is MovieIntent.ClickOnFavoriteButton -> {
@@ -173,12 +183,17 @@ class MovieViewModel(val router: LogoutRouter) : ViewModel() {
             } else {
                 userOutLogin { router.toErrorAfterOut() }
             }
+            Log.d("TEST", _state.value.userReview.toString())
             processIntent(MovieIntent.ChangeIsLoading)
         }
     }
 
     fun isButtonAvailable() : Boolean {
         return state.value.reviewText.isNotEmpty()
+    }
+
+    fun isAnonymousNotAvailable(): Boolean {
+        return state.value.userReview != null && !state.value.isAnonymous
     }
 
     private fun checkMovieIsLiked(movieId: String) {
@@ -220,7 +235,6 @@ class MovieViewModel(val router: LogoutRouter) : ViewModel() {
     private fun getProfile() {
         viewModelScope.launch {
             val result = getProfileUseCase.invoke()
-            Log.d("RESULT", result.toString())
             if (result.isSuccess) {
                 val response = result.getOrNull()
                 if (response != null) {
@@ -246,7 +260,7 @@ class MovieViewModel(val router: LogoutRouter) : ViewModel() {
             rating = state.value.movieRating,
             isAnonymous = state.value.isAnonymous
         )
-        Log.d("Review", review.toString())
+
         viewModelScope.launch {
             try {
                 val result = postAddReviewUseCase.invoke(state.value.movieDetails.id, review)

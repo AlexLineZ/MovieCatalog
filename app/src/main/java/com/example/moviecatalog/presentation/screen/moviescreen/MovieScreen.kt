@@ -58,6 +58,8 @@ fun MovieScreen(
     movieId: String
 ) {
     val state = viewModel.state.collectAsState()
+    val showName = remember { mutableStateOf(false) }
+
     BackHandler {
         navController.popBackStack()
         navController.currentBackStackEntry
@@ -69,8 +71,6 @@ fun MovieScreen(
                     state.value.movieDetails.reviews ?: arrayListOf()).mark
             ))
     }
-
-    val showName = remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -221,7 +221,8 @@ fun MovieScreen(
                             onDropClick = {
                                 viewModel.processIntent(MovieIntent.ChangeDropDownMenuOpen)
                             },
-                            isButtonAvailable = viewModel.isButtonAvailable()
+                            isButtonAvailable = viewModel.isButtonAvailable(),
+                            isCheckBoxAvailable = !viewModel.isAnonymousNotAvailable()
                         )
                     }
                 }

@@ -56,7 +56,8 @@ fun MovieReviewCurrentUserCard(
     onAnonymousCheckedChanged: (Boolean) -> Unit,
     onReviewTextChanged: (String) -> Unit,
     onClickDialog: () -> Unit,
-    isButtonAvailable: Boolean
+    isButtonAvailable: Boolean,
+    isCheckBoxAvailable: Boolean
 ){
 
     if (state.isReviewDialogOpen) {
@@ -67,7 +68,8 @@ fun MovieReviewCurrentUserCard(
             onAnonymousCheckedChanged = { onAnonymousCheckedChanged(it) },
             onSaveClick = { onSaveClick() },
             onCancelClick = { onClickDialog() },
-            isButtonAvailable = isButtonAvailable
+            isButtonAvailable = isButtonAvailable,
+            isCheckBoxAvailable = isCheckBoxAvailable
         )
     }
 

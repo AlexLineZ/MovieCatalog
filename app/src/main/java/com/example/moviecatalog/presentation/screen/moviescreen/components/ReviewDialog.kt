@@ -21,6 +21,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -57,6 +58,8 @@ import com.example.moviecatalog.presentation.ui.theme.BaseButtonColor
 import com.example.moviecatalog.presentation.ui.theme.Gray400Color
 import com.example.moviecatalog.presentation.ui.theme.SecondButtonColor
 import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.CenterPadding
+import com.example.moviecatalog.presentation.ui.theme.Values.LittleRound
 import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 import com.example.moviecatalog.presentation.ui.theme.YellowStarColor
 
@@ -68,7 +71,8 @@ fun ReviewDialog(
     onAnonymousCheckedChanged: (Boolean) -> Unit,
     onSaveClick: () -> Unit,
     onCancelClick: () -> Unit,
-    isButtonAvailable: Boolean
+    isButtonAvailable: Boolean,
+    isCheckBoxAvailable: Boolean
 ) {
     Dialog(
         onDismissRequest = {
@@ -82,12 +86,12 @@ fun ReviewDialog(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(BasePadding),
-            shape = RoundedCornerShape(5.dp),
+            shape = RoundedCornerShape(LittleRound),
             color = MaterialTheme.colorScheme.background
         ) {
             Column(
-                modifier = Modifier.padding(10.dp),
-                verticalArrangement = Arrangement.Absolute.spacedBy(10.dp)
+                modifier = Modifier.padding(CenterPadding),
+                verticalArrangement = Arrangement.Absolute.spacedBy(CenterPadding)
             ) {
                 Text(
                     text = stringResource(id = R.string.leave_review),
@@ -99,7 +103,7 @@ fun ReviewDialog(
                     ),
                 )
 
-                Spacer(modifier = Modifier.height(5.dp))
+                Spacer(modifier = Modifier.height(LittleRound))
 
                 Row(
                     modifier = Modifier
@@ -135,20 +139,25 @@ fun ReviewDialog(
                         onReviewTextChanged(it)
                     },
                     label = { Text(stringResource(id = R.string.write_review)) },
-                    shape = RoundedCornerShape(5.dp),
+                    shape = RoundedCornerShape(LittleRound),
                     modifier = Modifier
                         .fillMaxWidth()
                         .heightIn(min = 98.dp)
                 )
                 Row(
-                    modifier = Modifier.clickable {
-                        onAnonymousCheckedChanged(!state.isAnonymous)
+                    modifier = if (isCheckBoxAvailable) {
+                        Modifier.clickable {
+                            onAnonymousCheckedChanged(!state.isAnonymous)
+                        }
+                    } else {
+                        Modifier
                     },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Checkbox(
                         checked = state.isAnonymous,
-                        onCheckedChange = null
+                        onCheckedChange = null,
+                        enabled = isCheckBoxAvailable
                     )
 
                     Spacer(modifier = Modifier.width(MiddlePadding))
