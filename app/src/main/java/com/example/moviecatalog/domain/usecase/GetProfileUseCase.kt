@@ -11,10 +11,8 @@ class GetProfileUseCase {
         return try {
             val response = profileRepository.getProfileData()
             return if (response.isSuccessful) {
-                Log.d("ProfileSuccessful", response.code().toString())
                 Result.success(response.body()!!)
             } else {
-                Log.d("ProfileElse", response.code().toString())
                 Result.failure(Exception("Error: ${response.code()}"))
             }
         } catch (e: Exception) {

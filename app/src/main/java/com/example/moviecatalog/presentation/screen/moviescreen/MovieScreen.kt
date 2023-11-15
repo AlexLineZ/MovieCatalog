@@ -100,7 +100,9 @@ fun MovieScreen(
                                 isLiked = state.value.isLiked,
                                 onClickToLikeButton = {
                                     viewModel.processIntent(
-                                        MovieIntent.ClickOnFavoriteButton(state.value.movieDetails.id)
+                                        MovieIntent.ClickOnFavoriteButton(
+                                            state.value.movieDetails.id
+                                        )
                                     )
                                 }
                             )

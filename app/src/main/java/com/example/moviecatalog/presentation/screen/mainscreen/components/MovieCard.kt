@@ -28,8 +28,14 @@ import com.example.moviecatalog.common.MarkSelector
 import com.example.moviecatalog.common.MarkSelector.setColorForMark
 import com.example.moviecatalog.domain.model.movie.MovieElement
 import com.example.moviecatalog.presentation.screen.common.MarkWithStar
+import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
 import com.example.moviecatalog.presentation.ui.theme.ChipColor
 import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.CenterPadding
+import com.example.moviecatalog.presentation.ui.theme.Values.LittlePadding
+import com.example.moviecatalog.presentation.ui.theme.Values.LittleRound
+import com.example.moviecatalog.presentation.ui.theme.Values.MicroPadding
+import com.example.moviecatalog.presentation.ui.theme.Values.MiddlePadding
 
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -65,11 +71,11 @@ fun MovieCard(
                     modifier = Modifier
                         .wrapContentHeight()
                         .align(Alignment.TopStart)
-                        .padding(2.dp)
+                        .padding(MicroPadding)
                 ) {
                     Box(
                         modifier = Modifier
-                            .clip(RoundedCornerShape(5.dp))
+                            .clip(RoundedCornerShape(LittleRound))
                             .background(
                                 if (anotherMark != null) setColorForMark(anotherMark)
                                 else mark.color
@@ -79,10 +85,10 @@ fun MovieCard(
                         Text(
                             text = anotherMark?.toString() ?: mark.mark,
                             style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.W700),
-                            color = Color.Black,
+                            color = BackgroundColor,
                             modifier = Modifier.padding(
-                                horizontal = 8.dp,
-                                vertical = 2.dp
+                                horizontal = MiddlePadding,
+                                vertical = MicroPadding
                             )
                         )
                     }
@@ -116,12 +122,12 @@ fun MovieCard(
             Text(
                 text = movie.year.toString() + " • " + movie.country,
                 style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.W400),
-                modifier = Modifier.padding(top = 4.dp, bottom = 10.dp)
+                modifier = Modifier.padding(top = LittlePadding, bottom = CenterPadding)
             )
 
             FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.spacedBy(LittlePadding),
+                verticalArrangement = Arrangement.spacedBy(LittlePadding)
             ) {
                 movie.genres?.forEach { genre ->
                     genre.name?.let { Chip(text = it) }

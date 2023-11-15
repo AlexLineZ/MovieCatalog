@@ -17,7 +17,6 @@ class GetMovieDetailsUseCase() {
             if (response.isSuccessful) {
                 Result.success(response.body())
             } else {
-                Log.d("Movie", response.code().toString())
                 Result.failure(Exception("Error: ${response.code()}"))
             }
         } catch (e: Exception) {

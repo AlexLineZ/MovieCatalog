@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.moviecatalog.common.MarkSelector.setColorForText
 import com.example.moviecatalog.data.model.Mark
 import com.example.moviecatalog.presentation.ui.theme.BackgroundColor
 import com.example.moviecatalog.presentation.ui.theme.Values.BasePadding
@@ -52,7 +53,7 @@ fun LabelWithButtonAndMark(
             Text(
                 text = mark.mark,
                 style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.W500),
-                color = BackgroundColor,
+                color = setColorForText(mark.mark.toFloat()),
                 modifier = Modifier.padding(
                     horizontal = 14.dp,
                     vertical = LittlePadding
